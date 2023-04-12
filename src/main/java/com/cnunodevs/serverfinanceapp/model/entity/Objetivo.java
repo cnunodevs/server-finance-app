@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="objetivos")
 public class Objetivo {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

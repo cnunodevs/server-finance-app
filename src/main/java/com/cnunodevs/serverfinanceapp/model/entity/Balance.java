@@ -22,11 +22,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="balance")
 public class Balance {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    
     private BigDecimal balance;
+
     @OneToOne
     @JoinColumn(name = "usuario_fk")
     private Usuario usuario;
+
 }

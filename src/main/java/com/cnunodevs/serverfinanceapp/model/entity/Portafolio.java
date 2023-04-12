@@ -66,4 +66,5 @@ public class Portafolio {
         inverseJoinColumns = @JoinColumn(name = "objetivos_fk")
     )
     private List<Objetivo> objetivos;
+    
 }

@@ -28,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="ahorros")
 public class Ahorro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -50,4 +51,5 @@ public class Ahorro {
     @OneToOne
     @JoinColumn(name = "condicion_fk")
     private Condicion condicion;
+    
 }

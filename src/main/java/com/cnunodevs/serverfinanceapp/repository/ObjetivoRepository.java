@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cnunodevs.serverfinanceapp.model.entity.Activos;
+import com.cnunodevs.serverfinanceapp.model.entity.Activo;
 
-public interface ObjetivoRepository extends JpaRepository<Activos, UUID> {
+public interface ObjetivoRepository extends JpaRepository<Activo, UUID> {
     
 }

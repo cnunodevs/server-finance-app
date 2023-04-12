@@ -50,4 +50,5 @@ public class Movimiento {
 
     @UpdateTimestamp
     private LocalDateTime lastModified;
+    
 }

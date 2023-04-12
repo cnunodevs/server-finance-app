@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="ahorros")
 public class Condicion {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

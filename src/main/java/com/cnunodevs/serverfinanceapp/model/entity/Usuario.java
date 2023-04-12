@@ -74,4 +74,5 @@ public class Usuario {
      * los objetivos, los movimientos y los portafolios
      * 
      */
+    
 }

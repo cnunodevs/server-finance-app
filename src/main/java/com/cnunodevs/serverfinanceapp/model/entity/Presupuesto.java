@@ -61,4 +61,5 @@ public class Presupuesto {
         inverseJoinColumns = @JoinColumn(name = "movimiento_fk")
     )
     private List<Movimiento> movimientos;
+    
 }

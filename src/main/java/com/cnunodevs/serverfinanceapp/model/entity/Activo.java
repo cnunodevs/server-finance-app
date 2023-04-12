@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="activos")
-public class Activos {
+public class Activo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
