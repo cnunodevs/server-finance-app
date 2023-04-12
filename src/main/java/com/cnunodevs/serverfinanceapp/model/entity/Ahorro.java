@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
