@@ -1,6 +1,5 @@
 package com.cnunodevs.serverfinanceapp.model.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -8,9 +7,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cnunodevs.serverfinanceapp.model.entity.enums.PerfilRiesgo;
+import com.cnunodevs.serverfinanceapp.model.entity.enums.PlazoInversion;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,31 +37,30 @@ public class Inversion {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private BigDecimal rentabilidad;
+    @Column(length = 100)
+    @Enumerated(EnumType.STRING)
+    private PlazoInversion plazo;
 
-    // to change
+    private String tasaInteres;
+
     @Column(length = 50)
-    private String plazo;
-    // to change
-    @Column(length = 10)
-    private String periodicidad;
-
-    @Column(length = 25)
     private PerfilRiesgo perfilRiesgo;
 
     private boolean simulada;
 
+    
+    @ManyToOne
+    @JoinColumn(name = "portafolio_fk")
+    private Portafolio portafolio;
+    
+    @OneToOne
+    @JoinColumn(name = "portafolio_fk")
+    private Activo activo;
+    
     @CreationTimestamp
     private LocalDateTime creationDateTime;
     
     @UpdateTimestamp
     private LocalDateTime lastModified;
 
-    @ManyToOne
-    @JoinColumn(name = "portafolio_fk")
-    private Portafolio portafolio;
-
-    @OneToOne
-    @JoinColumn(name = "portafolio_fk")
-    private Activos activo;
 }
