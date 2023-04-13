@@ -1,24 +1,23 @@
 package com.cnunodevs.serverfinanceapp.model.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cnunodevs.serverfinanceapp.model.entity.enums.PerfilRiesgo;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,39 +31,36 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="portafolio")
 public class Portafolio {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
     private UUID id;
-    @Column(length = 50)
+
+    @Column(length = 150, nullable = false)
     private String nombre;
     
     @Column(length = 255)
     private String descripcion;
 
-    private BigDecimal valorTotal;
+    @OneToMany(mappedBy="portafolio_fk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Inversion> inversiones;
 
-    private BigDecimal rentabilidadPromedio;
-
-    @Column(length = 25)
-    private PerfilRiesgo perfilRiesgo;
-
-    @CreationTimestamp
-    private LocalDateTime creationDateTime;
-    
-    @UpdateTimestamp
-    private LocalDateTime lastModified;
-
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_fk")
     private Usuario usuario;
 
-    @ManyToMany
-    @JoinTable(
-        name = "portafolio_objetivos",
-        joinColumns =  @JoinColumn(name = "portafolio_fk"),
-        inverseJoinColumns = @JoinColumn(name = "objetivos_fk")
-    )
-    private List<Objetivo> objetivos;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "objetivo_fk")
+    private Objetivo objetivo;
+
+    
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime fechaCreacion;
+    
+    @UpdateTimestamp
+    private LocalDateTime ultimaActualizacion;
     
 }
+

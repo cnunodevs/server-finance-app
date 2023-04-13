@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cnunodevs.serverfinanceapp.model.entity.Activo;
+import com.cnunodevs.serverfinanceapp.model.entity.Inversion;
 
-public interface PortafolioRepository extends JpaRepository<Activo, UUID> {
+public interface InversionesRepository extends JpaRepository<Inversion, UUID> {
     
 }

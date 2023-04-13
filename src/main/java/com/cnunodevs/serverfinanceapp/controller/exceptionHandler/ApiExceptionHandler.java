@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(BindException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public void bindExceptionHandler(BindException exception){
+        logger.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(value=HttpStatus.NOT_FOUND)
+    public void entityNotFoundExceptionHandler(EntityNotFoundException exception){
         logger.error(exception.getMessage());
     }
 

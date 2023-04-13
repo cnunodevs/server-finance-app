@@ -50,12 +50,13 @@ public class Activo {
     private SectorActivo sector;
 
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime fechaCreacion;
 
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime ultimaActualizacion;
 
     @OneToMany
     @JoinColumn(name = "movimientos_fk")
     private Movimiento movimiento;
 }
+

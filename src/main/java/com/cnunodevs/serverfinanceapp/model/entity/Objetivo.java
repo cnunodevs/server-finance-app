@@ -1,5 +1,6 @@
 package com.cnunodevs.serverfinanceapp.model.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -38,12 +39,14 @@ public class Objetivo {
     private String descripcion;
     
     private LocalDateTime fechaEstimada;
+
+    private BigDecimal monto;
     
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime fechaCreacion;
     
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime ultimaActualizacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_fk")

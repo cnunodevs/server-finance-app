@@ -45,10 +45,10 @@ public class Presupuesto {
     private String periodo;
     
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime fechaCreacion;
     
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime ultimaActualizacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_fk")
