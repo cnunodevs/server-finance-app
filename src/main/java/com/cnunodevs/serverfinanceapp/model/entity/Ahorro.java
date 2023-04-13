@@ -8,6 +8,8 @@ import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,11 +36,12 @@ public class Ahorro {
     private UUID id;
     
     @Column(length = 50)
+    @Enumerated(EnumType.STRING)
     private TipoAhorro tipo;
 
     private BigDecimal importe;
 
-    private BigDecimal automatico;
+    private boolean automatico;
 
     @ManyToMany
     @JoinTable(
@@ -48,8 +51,7 @@ public class Ahorro {
     )
     private List<Objetivo> objetivos;
 
-    @OneToOne
-    @JoinColumn(name = "condicion_fk")
+    @OneToOne(mappedBy = "ahorro_fk")
     private Condicion condicion;
     
 }

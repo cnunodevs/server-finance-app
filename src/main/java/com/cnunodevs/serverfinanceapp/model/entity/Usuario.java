@@ -57,10 +57,10 @@ public class Usuario {
     private Boolean accountNonExpired;
 
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime fechaCreacion;
 
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime ultimaActualizacion;
    
 
     /*

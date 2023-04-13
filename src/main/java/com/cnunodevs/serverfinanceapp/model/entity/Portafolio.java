@@ -50,10 +50,10 @@ public class Portafolio {
     private PerfilRiesgo perfilRiesgo;
 
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    private LocalDateTime fechaCreacion;
     
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime ultimaActualizacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_fk")
