@@ -1,12 +1,7 @@
 package com.cnunodevs.serverfinanceapp.model.dto;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
-import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
-import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
-import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +18,7 @@ public class AhorroDTO {
 
     private boolean automatico;
 
-    private List<ObjetivoDTO> objetivos;
+    private ObjetivoDTO objetivo;
 
     private CondicionDTO condicion;
 

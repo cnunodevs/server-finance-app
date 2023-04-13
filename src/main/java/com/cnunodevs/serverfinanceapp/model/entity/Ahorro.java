@@ -1,7 +1,6 @@
 package com.cnunodevs.serverfinanceapp.model.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
@@ -49,7 +48,7 @@ public class Ahorro {
         joinColumns = @JoinColumn(name = "ahorro_fk"),
         inverseJoinColumns = @JoinColumn(name = "objetivo_fk")
     )
-    private List<Objetivo> objetivos;
+    private Objetivo objetivo;
 
     @OneToOne(mappedBy = "ahorro_fk")
     private Condicion condicion;
