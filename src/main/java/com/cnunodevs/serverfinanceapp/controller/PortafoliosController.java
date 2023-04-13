@@ -50,7 +50,7 @@ public class PortafoliosController {
     public ResponseEntity<MetricaPortafolio> handleGetMetricaPortafolio(@PathVariable UUID idPortafolio)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
-            throw new EntityNotFoundException("Portafolio do not exist. UUID: + " + idPortafolio);
+            throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
         }
         List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
         MetricaPortafolio metrica = portafoliosService
@@ -90,7 +90,7 @@ public class PortafoliosController {
     public ResponseEntity<PortafolioDTO> handleGetPortafolioById(@PathVariable UUID idPortafolio)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
-            throw new EntityNotFoundException("Portafolio do not exist. UUID: + " + idPortafolio);
+            throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
         }
         Portafolio portafolio = portafoliosService.getPortafolioById(idPortafolio).get();
         PortafolioDTO portafolioDTO = portafolioMapper.pojoToDto(portafolio);
@@ -112,7 +112,7 @@ public class PortafoliosController {
     public ResponseEntity<HttpStatus> handleGetUpdatePortafolioById(@RequestBody PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(portafolioDTO.getId())) {
-            throw new EntityNotFoundException("Portafolio do not exist. UUID: + " + portafolioDTO.getId());
+            throw new EntityNotFoundException("Portafolio do not exist. UUID: " + portafolioDTO.getId());
         }
         Portafolio portafolio = portafolioMapper.dtoToPojo(portafolioDTO);
         portafoliosService.updatePortafolio(portafolio);
@@ -123,7 +123,7 @@ public class PortafoliosController {
     public ResponseEntity<HttpStatus> handleDeletePortafolioById(@RequestBody PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(portafolioDTO.getId())) {
-            throw new EntityNotFoundException("Portafolio do not exist. UUID: + " + portafolioDTO.getId());
+            throw new EntityNotFoundException("Portafolio do not exist. UUID: " + portafolioDTO.getId());
         }
         portafoliosService.deletePortafolioById(portafolioDTO.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
