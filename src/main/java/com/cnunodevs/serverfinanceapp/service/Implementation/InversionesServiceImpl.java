@@ -75,4 +75,16 @@ public class InversionesServiceImpl implements InversionesService {
         inversionesRepository.save(inversion);
     }
 
+    @Override
+    public Boolean alreadyExistOnPortafolio(UUID idPortafolio, String nombre) {
+        Example<Inversion> example = Example
+                .of(Inversion.builder().nombre(nombre).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+        return inversionesRepository.findOne(example).isPresent();
+    }
+
+    @Override
+    public void createInversion(Inversion inversion) {
+        inversionesRepository.save(inversion);
+    }
+
 }

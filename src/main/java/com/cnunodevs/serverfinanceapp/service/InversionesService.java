@@ -15,6 +15,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.Inversion;
 public interface InversionesService {
 
     List<Inversion> findInversionesByPortafolioId(UUID idPortafolio);
+    Boolean alreadyExistOnPortafolio(UUID idPortafolio, String nombre);
     boolean inversionAlreadyExist(UUID idInversion);
     Optional<Inversion> getInversionById(UUID idInversion);
     MetricaInversion getMetricaInversion(Inversion inversion);
@@ -23,5 +24,6 @@ public interface InversionesService {
     List<MetricaInversion> getMetricasInversiones(Set<Inversion> inversiones);
     Page<Inversion> getInversionesPaginateByPortafolio(Pageable paging, Example<Inversion> example);
     void updateInversion(Inversion inversion);
+    void createInversion(Inversion inversion);
     
 }
