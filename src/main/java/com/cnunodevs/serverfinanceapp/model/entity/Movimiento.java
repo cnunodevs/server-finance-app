@@ -9,11 +9,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,20 +34,28 @@ public class Movimiento {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
+    @Column(nullable = false, precision = 2)
     private BigDecimal importe;
 
-    @Column(length = 16)
-    private String fuente;
-
-    @Column(length = 58)
+    @Column(length = 50, nullable = false)
     private TipoMovimiento tipo;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String concepto;
 
-    private boolean contabilizar;
+    @Column(length = 50)
+    private String logoConcepto;
+
+    @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_fk", nullable = true)
+    private Usuario usuario;
+
+    @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "presupuesto_fk", nullable = true)
+    private Presupuesto presupuesto;
 
     @CreationTimestamp
     private LocalDateTime fechaCreacion;

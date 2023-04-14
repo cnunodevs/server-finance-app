@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.cnunodevs.serverfinanceapp.model.dto.MovimientoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 import com.cnunodevs.serverfinanceapp.model.entity.Presupuesto;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 
 @Service
@@ -17,6 +18,7 @@ public class MovimientoMapper implements GenericMapper<Movimiento, MovimientoDTO
         Movimiento movimiento = Movimiento.builder()
                 .importe(BigDecimal.valueOf(dto.getImporte()))
                 .tipo(TipoMovimiento.valueOf(dto.getTipo()))
+                .usuario(Usuario.builder().id(dto.getIdUsuario()).build())
                 .concepto(dto.getConcepto())
                 .logoConcepto(dto.getLogoConcepto())
                 .build();
