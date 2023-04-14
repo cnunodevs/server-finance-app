@@ -43,7 +43,7 @@ public class Portafolio {
     @Column(length = 255)
     private String descripcion;
 
-    @OneToMany(mappedBy="portafolio_fk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="portafolio_fk", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Inversion> inversiones;
 
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
