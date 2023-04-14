@@ -27,6 +27,7 @@ public class PortafolioDTO {
     @JsonProperty("descripcion")
     private String descripcion;
 
+    @JsonProperty("inversiones")
     private List<InversionDTO> inversiones;
 
     @NotEmpty
