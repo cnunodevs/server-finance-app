@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cnunodevs.serverfinanceapp.model.entity.Activo;
+import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 
-public interface MovimientoRepository extends JpaRepository<Activo, UUID> {
+public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
     
 }
