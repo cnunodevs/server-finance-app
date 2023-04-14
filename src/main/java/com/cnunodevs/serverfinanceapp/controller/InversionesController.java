@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaInversion;
 import com.cnunodevs.serverfinanceapp.model.dto.InversionDTO;
@@ -34,16 +35,19 @@ import com.cnunodevs.serverfinanceapp.service.InversionesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("api/v1/inversiones")
-@RequiredArgsConstructor
 @Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/v1/inversiones")
 public class InversionesController {
+
+    //Missing: Liquidar inversión -> Registra movimiento ingreso -> Suma balance
 
     private final InversionesService inversionesService;
     private final InversionMapper inversionMapper;
 
     @GetMapping("/metricas/{idInversion}")
-    public ResponseEntity<?> handleGetMetricasInversion(@PathVariable UUID idInversion) throws EntityNotFoundException {
+    public ResponseEntity<MetricaInversion> handleGetMetricasInversion(@PathVariable UUID idInversion) throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(idInversion)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idInversion);
         }
@@ -53,7 +57,7 @@ public class InversionesController {
     }
 
     @GetMapping("/metricas")
-    public ResponseEntity<?> handleGetMetricasInversiones(@RequestParam UUID idPortafolio) {
+    public ResponseEntity<List<MetricaInversion>> handleGetMetricasInversiones(@RequestParam UUID idPortafolio) {
         List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
         List<MetricaInversion> metricas = inversionesService
                 .getMetricasInversiones(new HashSet<Inversion>(inversiones));
@@ -61,7 +65,7 @@ public class InversionesController {
     }
 
     @GetMapping
-    public ResponseEntity<?> handleGetInversiones(
+    public ResponseEntity<Page<InversionDTO>> handleGetInversiones(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "9") Integer size,
             @RequestParam UUID idPortafolio) {
@@ -75,7 +79,7 @@ public class InversionesController {
     }
 
     @GetMapping("/{idInversion}")
-    public ResponseEntity<?> handleGetInversionById(@PathVariable UUID idInversion) {
+    public ResponseEntity<InversionDTO> handleGetInversionById(@PathVariable UUID idInversion) {
         if (!inversionesService.inversionAlreadyExist(idInversion)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idInversion);
         }
@@ -107,7 +111,7 @@ public class InversionesController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> handleDeleteInversionById(@RequestBody InversionDTO inversionDTO)
+    public ResponseEntity<HttpStatus> handleDeleteInversionById(@RequestBody InversionDTO inversionDTO)
             throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(inversionDTO.getId())) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + inversionDTO.getId());
@@ -117,7 +121,7 @@ public class InversionesController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> handleDeleteListOfInversionByIds(@RequestBody List<UUID> IdInversiones) {
+    public ResponseEntity<HttpStatus> handleDeleteListOfInversionByIds(@RequestBody List<UUID> IdInversiones) {
         inversionesService.deleteAllInversionesById(IdInversiones);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
