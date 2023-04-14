@@ -2,6 +2,8 @@ package com.cnunodevs.serverfinanceapp.model.mapper;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import com.cnunodevs.serverfinanceapp.model.dto.InversionDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Inversion;
 import com.cnunodevs.serverfinanceapp.model.entity.Portafolio;
@@ -10,6 +12,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.enums.PlazoInversion;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.SectorActivo;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoActivo;
 
+@Service
 public class InversionMapper implements GenericMapper<Inversion, InversionDTO> {
 
     @Override
