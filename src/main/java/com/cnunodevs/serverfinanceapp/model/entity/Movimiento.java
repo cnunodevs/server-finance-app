@@ -57,6 +57,9 @@ public class Movimiento {
     @JoinColumn(name = "presupuesto_fk", nullable = true)
     private Presupuesto presupuesto;
 
+    @Column(nullable = false)
+    private boolean contabilizable;
+
     @CreationTimestamp
     private LocalDateTime fechaCreacion;
 

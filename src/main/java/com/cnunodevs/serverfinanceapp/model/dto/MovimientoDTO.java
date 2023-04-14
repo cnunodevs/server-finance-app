@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id" , "importe", "tipo", "concepto", "idUsuario","idPresupuesto","logoConcepto"})
+@JsonPropertyOrder({"id" , "importe", "tipo", "concepto", "idUsuario","idPresupuesto", "contabilizable","logoConcepto"})
 public class MovimientoDTO {
 
     @JsonProperty("id")
@@ -35,6 +35,10 @@ public class MovimientoDTO {
 
     @JsonProperty("idPresupuesto")
     private UUID idPresupuesto;
+
+    @NotEmpty
+    @JsonProperty("contabilizable")
+    private Boolean contabilizable;
 
     @NotEmpty
     @JsonProperty("logoConcepto")

@@ -20,6 +20,7 @@ public class MovimientoMapper implements GenericMapper<Movimiento, MovimientoDTO
                 .tipo(TipoMovimiento.valueOf(dto.getTipo()))
                 .usuario(Usuario.builder().id(dto.getIdUsuario()).build())
                 .concepto(dto.getConcepto())
+                .contabilizable(dto.getContabilizable())
                 .logoConcepto(dto.getLogoConcepto())
                 .build();
         if (dto.getId() != null) {
@@ -37,6 +38,7 @@ public class MovimientoMapper implements GenericMapper<Movimiento, MovimientoDTO
                 .id(pojo.getId())
                 .importe(pojo.getImporte().doubleValue())
                 .tipo(pojo.getTipo().toString())
+                .idUsuario(pojo.getUsuario().getId())
                 .concepto(pojo.getConcepto())
                 .logoConcepto(pojo.getLogoConcepto())
                 .build();
