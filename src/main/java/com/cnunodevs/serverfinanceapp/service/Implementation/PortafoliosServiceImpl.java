@@ -58,8 +58,7 @@ public class PortafoliosServiceImpl implements PortafoliosService {
     public Boolean similarAlreadyExist(String nombre, UUID idUsuario) {
         Example<Portafolio> example = Example
                 .of(Portafolio.builder().nombre(nombre).usuario(Usuario.builder().id(idUsuario).build()).build());
-        Optional<Portafolio> optional = portafoliosRepository.findAll(example).stream().findFirst();
-        return optional.isPresent();
+        return portafoliosRepository.findOne(example).isPresent();
     }
 
     @Override
