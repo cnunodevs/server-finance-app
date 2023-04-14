@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaPortafolio;
 import com.cnunodevs.serverfinanceapp.model.dto.PortafolioDTO;
@@ -36,9 +37,10 @@ import com.cnunodevs.serverfinanceapp.service.UsuariosService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("api/v1/portafolios")
-@RequiredArgsConstructor
 @Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/v1/portafolios")
 public class PortafoliosController {
 
     private final PortafoliosService portafoliosService;
