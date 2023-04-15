@@ -3,7 +3,7 @@ package com.cnunodevs.serverfinanceapp.service;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 
-
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,5 +17,7 @@ public interface AhorrosService {
     Page<Ahorro> getAllAhorrosPaginated(Pageable pageable);
     void updateBolsilloAhorro(Ahorro ahorro);
     void deleteBolsilloAhorro(UUID ahorroID);
+    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID);
+    Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
     MetricaAhorros getMetricaAhorro(Set<Ahorro> ahorros);
 }

@@ -2,6 +2,7 @@ package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -56,4 +57,19 @@ public class AhorroServiceImpl implements AhorrosService {
     public Page<Ahorro> getAllAhorrosPaginated(Pageable pageable) {
         return ahorroRepository.findAll(pageable);
     }
+
+    @Override
+    public Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID) {
+        return ahorroRepository.findAhorrosAutomaticosByUsuarioId(ahorroID);
+    }
+
+    @Override
+    public Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID) {
+        return ahorroRepository.findAhorrosAutomaticosByUsuarioId(ahorroID)
+                    .stream()
+                    .findFirst()
+                    .get();
+    }
+
+    
 }
