@@ -136,5 +136,13 @@ public class MovimientosServiceImpl implements MovimientosService {
         balanceService.disminuirBalanceByUsuario(importe, idUsuario);
         movimientosRepository.save(movimiento);
     }
+
+    @Override
+    public void createMovimientoDescuentoACuentaEspecifica(Movimiento movimiento, UUID idCuentaAhorroEspecifica) {
+        movimientosRepository.save(movimiento);
+        Movimiento movimientoConDescuento = condicionesService.applyCondicionToSpecificAhorro(movimiento, idCuentaAhorroEspecifica);
+        double importeDescuento = movimiento.getImporte().doubleValue() - movimientoConDescuento.getImporte().doubleValue();
+        crearMovimientoDesdeDisponible(BigDecimal.valueOf(importeDescuento), movimiento.getUsuario().getId(), "ahorro", "logo_ahorro");
+    }
     
 }

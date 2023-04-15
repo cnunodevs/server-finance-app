@@ -28,6 +28,7 @@ import com.cnunodevs.serverfinanceapp.model.dto.MovimientoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 import com.cnunodevs.serverfinanceapp.model.entity.Presupuesto;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
+import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 import com.cnunodevs.serverfinanceapp.model.mapper.MovimientoMapper;
 import com.cnunodevs.serverfinanceapp.service.MovimientosService;
 
@@ -89,10 +90,17 @@ public class MovimientosController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> handleCreateMovimiento(@RequestBody final MovimientoDTO movimientoDTO)
+    public ResponseEntity<HttpStatus> handleCreateMovimiento(
+            @RequestBody final MovimientoDTO movimientoDTO, 
+            @RequestParam Boolean aplicaDescuentoEspecifico,
+            @RequestParam(required = false) UUID idCuentaAhorroEspecifica)
             throws IllegalStateException {
         final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
-        movimientosService.createMovimiento(movimiento);
+        if (aplicaDescuentoEspecifico && movimiento.getTipo().equals(TipoMovimiento.INGRESO)){
+            movimientosService.createMovimientoDescuentoACuentaEspecifica(movimiento, idCuentaAhorroEspecifica);
+        }else {
+            movimientosService.createMovimiento(movimiento);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
