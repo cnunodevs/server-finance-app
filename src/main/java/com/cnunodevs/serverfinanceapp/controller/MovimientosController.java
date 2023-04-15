@@ -45,8 +45,7 @@ public class MovimientosController {
     private final MovimientoMapper movimientoMapper;
 
     @GetMapping("/metrica/{idUsuario}")
-    public ResponseEntity<MetricaBalance> handleGetMetricasBalance(@PathVariable final UUID idUsuario)
-            throws EntityNotFoundException {
+    public ResponseEntity<MetricaBalance> handleGetMetricasBalance(@PathVariable final UUID idUsuario) {
         final MetricaBalance metrica = movimientosService.getMetricaBalanceByUsuario(idUsuario);
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
@@ -89,12 +88,24 @@ public class MovimientosController {
         return ResponseEntity.status(HttpStatus.OK).body(movimientoDTO);
     }
 
+    @PostMapping("/presupuesto")
+    public ResponseEntity<HttpStatus> handleCreateMovimientoOfPresupuesto(
+            @RequestBody final MovimientoDTO movimientoDTO)
+            throws IllegalStateException {
+        final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
+        if (movimientoDTO.getContabilizable().equals(true) || movimientoDTO.getIdPresupuesto() == null) {
+            throw new IllegalStateException(
+                    "Can not save this movimiento. UUID: " + movimientoDTO.getId() + " must not be contabilizable");
+        }
+        movimientosService.createMovimientoOfPresupuesto(movimiento);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     @PostMapping
     public ResponseEntity<HttpStatus> handleCreateMovimiento(
             @RequestBody final MovimientoDTO movimientoDTO, 
             @RequestParam Boolean aplicaDescuentoEspecifico,
-            @RequestParam(required = false) UUID idCuentaAhorroEspecifica)
-            throws IllegalStateException {
+            @RequestParam(required = false) UUID idCuentaAhorroEspecifica) {
         final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
         if (aplicaDescuentoEspecifico && movimiento.getTipo().equals(TipoMovimiento.INGRESO)){
             movimientosService.createMovimientoDescuentoACuentaEspecifica(movimiento, idCuentaAhorroEspecifica);

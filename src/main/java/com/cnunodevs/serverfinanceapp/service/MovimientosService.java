@@ -38,5 +38,7 @@ public interface MovimientosService {
     void crearMovimientoDesdeDisponible(BigDecimal importe, UUID idUsuario, String concepto, String logoConcepto);
 
     void createMovimientoDescuentoACuentaEspecifica(Movimiento movimiento, UUID idCuentaAhorroEspecifica);
+
+    void createMovimientoOfPresupuesto(Movimiento movimiento);
     
 }

@@ -144,5 +144,10 @@ public class MovimientosServiceImpl implements MovimientosService {
         double importeDescuento = movimiento.getImporte().doubleValue() - movimientoConDescuento.getImporte().doubleValue();
         crearMovimientoDesdeDisponible(BigDecimal.valueOf(importeDescuento), movimiento.getUsuario().getId(), "ahorro", "logo_ahorro");
     }
+
+    @Override
+    public void createMovimientoOfPresupuesto(Movimiento movimiento) {
+        movimientosRepository.save(movimiento);
+    }
     
 }
