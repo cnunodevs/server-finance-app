@@ -1,5 +1,7 @@
 package com.cnunodevs.serverfinanceapp.model.domain;
 
+import java.util.UUID;
+
 import com.cnunodevs.serverfinanceapp.model.entity.Inversion;
 
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.Data;
 @Data
 public class MetricaInversion {
 
+    private UUID idInversion;
     private Double gananciaEsperada;
     private Double valorTotal;
     private String plazo;
@@ -14,6 +17,7 @@ public class MetricaInversion {
 
     public MetricaInversion(Inversion inversion) {
 
+        this.idInversion = inversion.getId();
         this.valorTotal = inversion.getCantidad() * inversion.getPrecio().doubleValue();
         this.gananciaEsperada = (inversion.getCantidad() * inversion.getPrecio().doubleValue())
                 * inversion.getRentabilidadEsperada().doubleValue() - inversion.getPrecio().doubleValue();
