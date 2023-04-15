@@ -40,6 +40,7 @@ public class MovimientoMapper implements GenericMapper<Movimiento, MovimientoDTO
                 .tipo(pojo.getTipo().toString())
                 .idUsuario(pojo.getUsuario().getId())
                 .concepto(pojo.getConcepto())
+                .contabilizable(pojo.getContabilizable())
                 .logoConcepto(pojo.getLogoConcepto())
                 .build();
         if (pojo.getPresupuesto() != null) {

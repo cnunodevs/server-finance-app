@@ -58,7 +58,7 @@ public class Movimiento {
     private Presupuesto presupuesto;
 
     @Column(nullable = false)
-    private boolean contabilizable;
+    private Boolean contabilizable;
 
     @CreationTimestamp
     private LocalDateTime fechaCreacion;
