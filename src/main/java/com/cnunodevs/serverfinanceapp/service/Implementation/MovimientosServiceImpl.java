@@ -149,5 +149,15 @@ public class MovimientosServiceImpl implements MovimientosService {
     public void createMovimientoOfPresupuesto(Movimiento movimiento) {
         movimientosRepository.save(movimiento);
     }
+
+    @Override
+    public void crearMovimientoHaciaDisponibleDesdeAhorro(BigDecimal importe, UUID idUsuario) {
+        crearMovimientoHaciaDisponible(importe, idUsuario, "ahorro", "logo_ahorro");
+    }
+
+    @Override
+    public void crearMovimientoDesdeDisponibleParaAhorrro(BigDecimal importe, UUID idUsuario) {
+       crearMovimientoDesdeDisponible(importe, idUsuario, "ahorro", "logo_ahorro");
+    }
     
 }
