@@ -92,7 +92,7 @@ public class MovimientosServiceImpl implements MovimientosService {
 
         double importeDescuento = 0.0;
         if (movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
-            Movimiento movimientoConDescuento = condicionesService.applyConditionIfExist(movimiento);
+            Movimiento movimientoConDescuento = condicionesService.applyCondicionIfExist(movimiento);
             importeDescuento = movimiento.getImporte().doubleValue() - movimientoConDescuento.getImporte().doubleValue();
         } 
         movimientosRepository.save(movimiento);
