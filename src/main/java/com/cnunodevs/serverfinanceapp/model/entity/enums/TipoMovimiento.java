@@ -3,6 +3,6 @@ package com.cnunodevs.serverfinanceapp.model.entity.enums;
 public enum TipoMovimiento {
     INGRESO,
     EGRESO,
-    TRANSFERENCIA_AHORRO,
-    TRANSFERENCIA_DISPONIBLE
+    TRANSFERENCIA_HACIA_DISPONIBLE,
+    TRANSFERENCIA_DESDE_DISPONIBLE
 }
