@@ -42,6 +42,13 @@ public class ApiExceptionHandler {
         logger.error(exception.getMessage());
     }
 
+    @ExceptionHandler(IllegalCallerException.class)
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    public void illegalCallerExceptionHandler(BindException exception){
+        logger.error(exception.getMessage());
+    }
+
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
     public void principalExceptionHandler(Exception exception){
