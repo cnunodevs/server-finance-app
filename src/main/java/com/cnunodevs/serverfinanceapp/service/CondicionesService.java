@@ -9,5 +9,6 @@ public interface CondicionesService {
     void createCondicion(Condicion condicion);
     void editCondicion(Condicion condicion);
     void unableCondicion(UUID condicionID);
-    Movimiento applyConditionIfExist(Movimiento movimiento);
+    Movimiento applyCondicionIfExist(Movimiento movimiento);
+    Movimiento applyCondicionToSpecificAhorro(Movimiento moviento, UUID ahorroID);
 }

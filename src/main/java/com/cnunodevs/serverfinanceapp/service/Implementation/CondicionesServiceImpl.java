@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.domain.ConditionHandler;
+import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 import com.cnunodevs.serverfinanceapp.repository.CondicionRepository;
@@ -42,7 +43,7 @@ public class CondicionesServiceImpl implements CondicionesService {
     }
 
     @Override
-    public Movimiento applyConditionIfExist(Movimiento movimiento) {
+    public Movimiento applyCondicionIfExist(Movimiento movimiento) {
         if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
             ahorroService
                     .findAhorroAutomaticoDefaultByUsuarioId(movimiento
@@ -52,9 +53,24 @@ public class CondicionesServiceImpl implements CondicionesService {
         {
             movimiento.setImporte(BigDecimal.valueOf(0.0));
         }else{
-            conditionHandler.buildConditionBasedOn(movimiento);
+            movimiento.setImporte(conditionHandler.buildConditionBasedOn(movimiento.getImporte(),
+            ahorroService.findAhorroAutomaticoDefaultByUsuarioId(movimiento.getUsuario().getId())));
         }
         return movimiento;
     }
+
+    @Override
+    public Movimiento applyCondicionToSpecificAhorro(Movimiento movimiento, UUID ahorroID) {
+        Ahorro ahorro = ahorroService.findAhorroById(ahorroID).get();
+        if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
+                 ahorro.getCondicion())) 
+        {
+            movimiento.setImporte(BigDecimal.valueOf(0.0));
+        }else{
+            movimiento.setImporte(conditionHandler.buildConditionBasedOn(movimiento.getImporte(), ahorro));
+        }
+        return movimiento;
+    }
+    
     
 }

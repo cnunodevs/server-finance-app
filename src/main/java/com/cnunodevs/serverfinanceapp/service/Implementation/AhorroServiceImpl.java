@@ -71,5 +71,10 @@ public class AhorroServiceImpl implements AhorrosService {
                     .get();
     }
 
+    @Override
+    public Optional<Ahorro> findAhorroById(UUID ahorroID) {
+        return ahorroRepository.findById(ahorroID);
+    }
+
     
 }

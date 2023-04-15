@@ -19,11 +19,10 @@ public class ConditionHandler {
     
     private final AhorrosService ahorrosService;
 
-    public Movimiento buildConditionBasedOn(Movimiento movimiento) {
+    public BigDecimal buildConditionBasedOn(BigDecimal importe, Ahorro ahorro) {
                                         //cambiar nombre metodo
-        Ahorro ahorro = ahorrosService.findAhorroAutomaticoDefaultByUsuarioId(movimiento.getUsuario().getId());
         Condicion condicion = ahorro.getCondicion();
-        Double ingreso = movimiento.getImporte().doubleValue();
+        Double ingreso = importe.doubleValue();
         Double ingresoLuegoDescuento = 0.0;
         if(condicion.getTipoImporte().equals(TipoImporte.EFECTIVO)) {
             ahorro.setImporte(BigDecimal.valueOf(ahorro.getImporte().doubleValue() + condicion.getCantidadDescontar().doubleValue()));
@@ -34,8 +33,7 @@ public class ConditionHandler {
             ahorro.setImporte(ahorro.getImporte().add(percentajeDiscounter));
             ingresoLuegoDescuento = ingreso - percentajeDiscounter.doubleValue();
         }
-        movimiento.setImporte(BigDecimal.valueOf(ingresoLuegoDescuento));
-        return movimiento;
+        return BigDecimal.valueOf(ingresoLuegoDescuento);
     }
 
     public boolean fullfitCondition(BigDecimal importe, Condicion condicion) {

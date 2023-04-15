@@ -20,4 +20,5 @@ public interface AhorrosService {
     Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
     MetricaAhorros getMetricaAhorro(Set<Ahorro> ahorros);
+    Optional<Ahorro> findAhorroById(UUID ahorroID);
 }
