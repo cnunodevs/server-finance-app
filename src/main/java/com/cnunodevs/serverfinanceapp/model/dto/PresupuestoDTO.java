@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -13,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id" , "nombre", "descripcion", "periodo", "idUsuario", "movimientos"})
+@JsonPropertyOrder({"id" , "nombre", "descripcion", "periodo", "idUsuario"})
 public class PresupuestoDTO {
 
     @JsonProperty("id")
@@ -35,7 +36,7 @@ public class PresupuestoDTO {
     @JsonProperty("idUsuario")
     private UUID idUsuario;
     
-    @JsonProperty("movimientos")
+    @JsonIgnore
     private List<Movimiento> movimientos;
     
 }
