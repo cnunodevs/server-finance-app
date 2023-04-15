@@ -48,6 +48,12 @@ public class PortafoliosController {
     private final UsuariosService usuariosService;
     private final PortafolioMapper portafolioMapper;
 
+    /**
+    Obtiene la métrica de un portafolio a partir de su ID.
+    @param idPortafolio El UUID del portafolio del cual se desea obtener la métrica.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación, y el objeto MetricaPortafolio que representa la métrica del portafolio.
+    @throws EntityNotFoundException si no existe ningún portafolio con el ID especificado.
+    */
     @GetMapping("/metricas/{idPortafolio}")
     public ResponseEntity<MetricaPortafolio> handleGetMetricaPortafolio(@PathVariable final UUID idPortafolio)
             throws EntityNotFoundException {
@@ -60,6 +66,11 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
+    /**
+    Obtiene las métricas de todos los portafolios de un usuario.
+    @param username El nombre de usuario del usuario del que se quieren obtener las métricas.
+    @return Un objeto ResponseEntity que contiene una lista de las métricas de los portafolios del usuario.
+    */
     @GetMapping("/metricas")
     public ResponseEntity<List<MetricaPortafolio>> handleGetMetricasPortafolios(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
@@ -69,6 +80,11 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 
+    /**
+    Obtiene una lista de objetos DTO de los portafolios pertenecientes a un usuario dado.
+    @param username El nombre de usuario del usuario propietario de los portafolios.
+    @return Un objeto ResponseEntity que contiene una lista de objetos PortafolioDTO y un código de estado HTTP que indica el resultado de la operación.
+    */
     @GetMapping
     public ResponseEntity<List<PortafolioDTO>> handleGetListPortafolios(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
@@ -77,6 +93,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(portafoliosDTO);
     }
 
+    /**
+    Obtiene una página de PortafolioDTOs de la base de datos, según los parámetros de paginación especificados.
+    @param page El número de página a obtener (comenzando en 0). Valor predeterminado es 0.
+    @param size El tamaño de la página a obtener. Valor predeterminado es 9.
+    @return Un objeto ResponseEntity con una página de PortafolioDTOs y un código de estado HTTP que indica el resultado de la operación.
+    */
     @GetMapping
     public ResponseEntity<Page<PortafolioDTO>> handleGetPortafoliosPaginate(
             @RequestParam(defaultValue = "0") final Integer page,
@@ -88,6 +110,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(pagePortafoliosDTO);
     }
 
+    /**
+    Retorna un objeto ResponseEntity con el PortafolioDTO asociado al id proporcionado en el path.
+    @param idPortafolio El UUID del Portafolio a buscar.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y el objeto PortafolioDTO.
+    @throws EntityNotFoundException si no existe ningún Portafolio con el ID especificado.
+    */
     @GetMapping("/{idPortafolio}")
     public ResponseEntity<PortafolioDTO> handleGetPortafolioById(@PathVariable final UUID idPortafolio)
             throws EntityNotFoundException {
@@ -99,6 +127,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(portafolioDTO);
     }
 
+    /**
+    Crea un nuevo Portafolio con la información proporcionada en el cuerpo de la solicitud.
+    @param portafolioDTO El objeto PortafolioDTO con la información del Portafolio a crear.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws IllegalStateException si ya existe un Portafolio con un nombre similar para el usuario especificado.
+    */
     @PostMapping
     public ResponseEntity<HttpStatus> handleCreatePortafolio(@RequestBody final PortafolioDTO portafolioDTO)
             throws IllegalStateException {
@@ -110,6 +144,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+    Actualiza un objeto Portafolio en la base de datos y retorna un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @param portafolioDTO El objeto PortafolioDTO con la información actualizada del Portafolio.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws EntityNotFoundException si no existe ningún Portafolio con el ID especificado en el PortafolioDTO.
+    */
     @PutMapping
     public ResponseEntity<HttpStatus> handleGetUpdatePortafolioById(@RequestBody final PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
@@ -121,7 +161,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // Missing: hasAnyInversion endpoint
+    /**
+    Retorna un objeto ResponseEntity con un valor booleano que indica si el Portafolio con el ID proporcionado tiene o no alguna inversión asociada.
+    @param idPortafolio El UUID del Portafolio a buscar.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y un valor booleano que indica si el Portafolio tiene o no alguna inversión asociada.
+    @throws EntityNotFoundException si no existe ningún Portafolio con el ID especificado.
+    */
     @GetMapping("/has-any-inversion/{idPortafolio}")
     public ResponseEntity<Boolean> handleHasAnyInversionByPortafolioId(@PathVariable final UUID idPortafolio)
             throws EntityNotFoundException {
@@ -132,8 +177,13 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyInversion);
     }
 
-    // NOTA: Según logica de negocio el portafolio no se deberia poder eliminar si
-    // tiene inversiones
+    /**
+    Elimina un Portafolio según su ID.
+    @param portafolioDTO El objeto PortafolioDTO que contiene el UUID del Portafolio a eliminar.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws EntityNotFoundException si no existe ningún Portafolio con el ID especificado.
+    @throws IllegalCallerException si el Portafolio a eliminar tiene alguna Inversión asociada.
+    */
     @DeleteMapping
     public ResponseEntity<HttpStatus> handleDeletePortafolioById(@RequestBody final PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
