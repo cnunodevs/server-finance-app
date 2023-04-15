@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CondicionesServiceImpl implements CondicionesService {
 
-    private final CondicionRepository condicionesRepository;
     private final ConditionHandler conditionHandler;
     private final AhorrosService ahorroService;
 
