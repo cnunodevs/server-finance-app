@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -13,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id" , "nombre", "descripcion", "inversiones", "idUsuario", "idObjectivo"})
+@JsonPropertyOrder({"id" , "nombre", "descripcion", "idUsuario", "idObjectivo"})
 public class PortafolioDTO {
 
     @JsonProperty("id")
@@ -27,7 +28,7 @@ public class PortafolioDTO {
     @JsonProperty("descripcion")
     private String descripcion;
 
-    @JsonProperty("inversiones")
+    @JsonIgnore
     private List<InversionDTO> inversiones;
 
     @NotEmpty

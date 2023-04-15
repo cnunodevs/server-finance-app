@@ -49,90 +49,104 @@ public class PortafoliosController {
     private final PortafolioMapper portafolioMapper;
 
     @GetMapping("/metricas/{idPortafolio}")
-    public ResponseEntity<MetricaPortafolio> handleGetMetricaPortafolio(@PathVariable UUID idPortafolio)
+    public ResponseEntity<MetricaPortafolio> handleGetMetricaPortafolio(@PathVariable final UUID idPortafolio)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
         }
-        List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
-        MetricaPortafolio metrica = portafoliosService
+        final List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
+        final MetricaPortafolio metrica = portafoliosService
                 .getMetricaPortafolioByInversiones(new HashSet<Inversion>(inversiones));
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
     @GetMapping("/metricas")
-    public ResponseEntity<List<MetricaPortafolio>> handleGetMetricasPortafolios(@RequestParam String username) {
-        Usuario usuario = usuariosService.findByUsername(username).get();
-        List<Portafolio> portafolios = portafoliosService.getPortafoliosByUsuario(usuario);
-        List<MetricaPortafolio> metricas = portafoliosService
+    public ResponseEntity<List<MetricaPortafolio>> handleGetMetricasPortafolios(@RequestParam final String username) {
+        final Usuario usuario = usuariosService.findByUsername(username).get();
+        final List<Portafolio> portafolios = portafoliosService.getPortafoliosByUsuario(usuario);
+        final List<MetricaPortafolio> metricas = portafoliosService
                 .getMetricasPortafolios(new HashSet<Portafolio>(portafolios));
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 
     @GetMapping
-    public ResponseEntity<List<PortafolioDTO>> handleGetListPortafolios(@RequestParam String username) {
-        Usuario usuario = usuariosService.findByUsername(username).get();
-        List<Portafolio> portafolios = portafoliosService.getPortafoliosByUsuario(usuario);
-        List<PortafolioDTO> portafoliosDTO = portafolios.stream().map(portafolioMapper::pojoToDto).toList();
+    public ResponseEntity<List<PortafolioDTO>> handleGetListPortafolios(@RequestParam final String username) {
+        final Usuario usuario = usuariosService.findByUsername(username).get();
+        final List<Portafolio> portafolios = portafoliosService.getPortafoliosByUsuario(usuario);
+        final List<PortafolioDTO> portafoliosDTO = portafolios.stream().map(portafolioMapper::pojoToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(portafoliosDTO);
     }
 
     @GetMapping
     public ResponseEntity<Page<PortafolioDTO>> handleGetPortafoliosPaginate(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "9") Integer size) {
-        Pageable paging = PageRequest.of(page, size);
-        Page<Portafolio> pagePortafolios = portafoliosService.getPortafoliosPaginate(paging);
-        Page<PortafolioDTO> pagePortafoliosDTO = new PageImpl<PortafolioDTO>(
+            @RequestParam(defaultValue = "0") final Integer page,
+            @RequestParam(defaultValue = "9") final Integer size) {
+        final Pageable paging = PageRequest.of(page, size);
+        final Page<Portafolio> pagePortafolios = portafoliosService.getPortafoliosPaginate(paging);
+        final Page<PortafolioDTO> pagePortafoliosDTO = new PageImpl<PortafolioDTO>(
                 pagePortafolios.map(portafolioMapper::pojoToDto).toList());
         return ResponseEntity.status(HttpStatus.OK).body(pagePortafoliosDTO);
     }
 
     @GetMapping("/{idPortafolio}")
-    public ResponseEntity<PortafolioDTO> handleGetPortafolioById(@PathVariable UUID idPortafolio)
+    public ResponseEntity<PortafolioDTO> handleGetPortafolioById(@PathVariable final UUID idPortafolio)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
         }
-        Portafolio portafolio = portafoliosService.getPortafolioById(idPortafolio).get();
-        PortafolioDTO portafolioDTO = portafolioMapper.pojoToDto(portafolio);
+        final Portafolio portafolio = portafoliosService.getPortafolioById(idPortafolio).get();
+        final PortafolioDTO portafolioDTO = portafolioMapper.pojoToDto(portafolio);
         return ResponseEntity.status(HttpStatus.OK).body(portafolioDTO);
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> handleCreatePortafolio(@RequestBody PortafolioDTO portafolioDTO)
+    public ResponseEntity<HttpStatus> handleCreatePortafolio(@RequestBody final PortafolioDTO portafolioDTO)
             throws IllegalStateException {
         if (portafoliosService.similarAlreadyExist(portafolioDTO.getNombre(), portafolioDTO.getIdUsuario())) {
             throw new IllegalStateException("Similar portafolio already exist");
         }
-        Portafolio portafolio = portafolioMapper.dtoToPojo(portafolioDTO);
+        final Portafolio portafolio = portafolioMapper.dtoToPojo(portafolioDTO);
         portafoliosService.createPortafolio(portafolio);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> handleGetUpdatePortafolioById(@RequestBody PortafolioDTO portafolioDTO)
+    public ResponseEntity<HttpStatus> handleGetUpdatePortafolioById(@RequestBody final PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(portafolioDTO.getId())) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + portafolioDTO.getId());
         }
-        Portafolio portafolio = portafolioMapper.dtoToPojo(portafolioDTO);
+        final Portafolio portafolio = portafolioMapper.dtoToPojo(portafolioDTO);
         portafoliosService.updatePortafolio(portafolio);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    //Missing: hasAnyInversion endpoint
+    @GetMapping("/has-any-inversion/{idPortafolio}")
+    public ResponseEntity<Boolean> handleHasAnyInversionByPortafolioId(@PathVariable final UUID idPortafolio) throws EntityNotFoundException {
+        if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
+            throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
+        }
+        final Boolean hasAnyInversion = portafoliosService.hasAnyInversion(idPortafolio);
+        return ResponseEntity.status(HttpStatus.OK).body(hasAnyInversion);
+    }
+
+    //NOTA: Según logica de negocio el portafolio no se deberia poder eliminar si tiene inversiones
     @DeleteMapping
-    public ResponseEntity<HttpStatus> handleDeletePortafolioById(@RequestBody PortafolioDTO portafolioDTO)
+    public ResponseEntity<HttpStatus> handleDeletePortafolioById(@RequestBody final PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(portafolioDTO.getId())) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + portafolioDTO.getId());
+        } else if (portafoliosService.hasAnyInversion(portafolioDTO.getId())){
+            throw new IllegalCallerException(
+                        "Can not delete this portafolio. UUID: " + portafolioDTO.getId() + " has inversiones");
         }
         portafoliosService.deletePortafolioById(portafolioDTO.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    public void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 

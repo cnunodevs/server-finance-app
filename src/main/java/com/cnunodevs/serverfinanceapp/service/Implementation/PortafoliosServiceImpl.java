@@ -16,6 +16,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.Inversion;
 import com.cnunodevs.serverfinanceapp.model.entity.Portafolio;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.PortafoliosRepository;
+import com.cnunodevs.serverfinanceapp.service.InversionesService;
 import com.cnunodevs.serverfinanceapp.service.PortafoliosService;
 
 import jakarta.transaction.Transactional;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class PortafoliosServiceImpl implements PortafoliosService {
 
     private final PortafoliosRepository portafoliosRepository;
+    private final InversionesService inversionesService;
 
     @Override
     public MetricaPortafolio getMetricaPortafolioByInversiones(Set<Inversion> inversiones) {
@@ -79,6 +81,11 @@ public class PortafoliosServiceImpl implements PortafoliosService {
     @Override
     public Optional<Portafolio> getPortafolioById(UUID idPortafolio) {
         return portafoliosRepository.findById(idPortafolio);
+    }
+
+    @Override
+    public boolean hasAnyInversion(UUID id) {
+        return inversionesService.portafolioHasAnyInversion(id);
     }
     
 }
