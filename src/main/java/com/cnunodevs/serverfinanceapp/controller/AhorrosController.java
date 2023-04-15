@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("api/v1/ahorros")
 @RequiredArgsConstructor
+@Validated
 public class AhorrosController {
     
     private final AhorrosService ahorrosService;
