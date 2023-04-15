@@ -48,6 +48,12 @@ public class PresupuestosController {
     private final UsuariosService usuariosService;
     private final PresupuestoMapper presupuestoMapper;
 
+    /**
+    Retorna un objeto ResponseEntity con la MetricaPresupuesto asociada al ID de Presupuesto proporcionado en el path.
+    @param idPresupuesto El UUID del presupuesto para buscar la métrica.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y el objeto MetricaPresupuesto.
+    @throws EntityNotFoundException si no existe ningún presupuesto con el ID especificado.
+    */
     @GetMapping("/metricas/{idPresupuesto}")
     public ResponseEntity<MetricaPresupuesto> handleGetMetricaPresupuesto(@PathVariable final UUID idPresupuesto)
             throws EntityNotFoundException {
@@ -60,6 +66,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
+    /**
+    Retorna un objeto ResponseEntity con una lista de objetos MetricaPresupuesto asociados al usuario con el nombre de usuario proporcionado como parámetro.
+    @param username El nombre de usuario del usuario del cual se quieren obtener las métricas de los presupuestos.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y una lista de objetos MetricaPresupuesto.
+    @throws NoSuchElementException si no existe ningún Usuario con el nombre de usuario proporcionado.
+    */
     @GetMapping("/metricas")
     public ResponseEntity<List<MetricaPresupuesto>> handleGetMetricasPresupuestos(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
@@ -69,6 +81,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 
+    /**
+    Retorna un objeto ResponseEntity con una lista de objetos PresupuestoDTO asociados al nombre de usuario proporcionado.
+    @param username El nombre de usuario cuyos presupuestos se buscan.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y una lista de objetos PresupuestoDTO.
+    @throws NoSuchElementException si no existe ningún usuario con el nombre de usuario especificado.
+    */
     @GetMapping
     public ResponseEntity<List<PresupuestoDTO>> handleGetListPresupuestos(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
@@ -77,6 +95,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).body(portafoliosDTO);
     }
 
+    /**
+    Retorna un objeto ResponseEntity con una página de objetos PresupuestoDTO paginados.
+    @param page El número de página deseado. Por defecto, el valor es 0.
+    @param size El tamaño de la página deseada. Por defecto, el valor es 9.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y una página de objetos PresupuestoDTO.
+    */
     @GetMapping
     public ResponseEntity<Page<PresupuestoDTO>> handleGetPresupuestosPaginate(
             @RequestParam(defaultValue = "0") final Integer page,
@@ -88,6 +112,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).body(pagePresupuestosDTO);
     }
 
+    /**
+    Retorna un objeto ResponseEntity con un objeto PresupuestoDTO que corresponde al presupuesto con el id proporcionado como parámetro.
+    @param idPresupuesto El UUID del presupuesto del cual se quiere obtener la información.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y un objeto PresupuestoDTO.
+    @throws EntityNotFoundException si no existe ningún Presupuesto con el UUID proporcionado.
+    */
     @GetMapping("/{idPresupuesto}")
     public ResponseEntity<PresupuestoDTO> handleGetPresupuestoById(@PathVariable final UUID idPresupuesto)
             throws EntityNotFoundException {
@@ -99,6 +129,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).body(presupuestoDTO);
     }
 
+    /**
+    Crea un nuevo presupuesto con la información proporcionada en el cuerpo de la solicitud.
+    @param presupuestoDTO El objeto PresupuestoDTO con la información del presupuesto a crear.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws IllegalStateException si ya existe un presupuesto similar al que se está tratando de crear.
+    */
     @PostMapping
     public ResponseEntity<HttpStatus> handleCreatePresupuesto(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws IllegalStateException {
@@ -110,6 +146,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+    Actualiza un objeto Presupuesto con los valores proporcionados en el objeto PresupuestoDTO pasado como parámetro.
+    @param presupuestoDTO El objeto PresupuestoDTO con los nuevos valores del Presupuesto a actualizar.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws EntityNotFoundException si no existe ningún Presupuesto con el UUID proporcionado en el objeto PresupuestoDTO.
+    */
     @PutMapping
     public ResponseEntity<HttpStatus> handleGetUpdatePresupuestoById(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws EntityNotFoundException {
@@ -121,6 +163,12 @@ public class PresupuestosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+    Elimina el Presupuesto correspondiente al identificador proporcionado en el cuerpo de la petición.
+    @param presupuestoDTO El objeto PresupuestoDTO que contiene el identificador del presupuesto a eliminar.
+    @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
+    @throws EntityNotFoundException si no existe ningún Presupuesto con el identificador proporcionado.
+    */
     @DeleteMapping
     public ResponseEntity<HttpStatus> handleDeletePresupuestoById(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws EntityNotFoundException {
