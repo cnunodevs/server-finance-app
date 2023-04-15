@@ -24,27 +24,19 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
         Optional<Usuario> usuario = usuariosService.findByUsername(username);
-
         if (!usuario.isPresent()) {
             throw new UsernameNotFoundException("User details not found: " + username);
         }
-
         return  userDetailsMapper.pojoToDto(usuario.get());
     }
 
     public Usuario loadUsuarioByUsername(String username) throws UsernameNotFoundException {
-        
         Optional<Usuario> customerOptional = usuariosService.findByUsername(username);
-
         if (!customerOptional.isPresent()) {
             throw new UsernameNotFoundException("User details not found: " + username);
         }
-
         return  customerOptional.get();
     }
-
-
     
 }
