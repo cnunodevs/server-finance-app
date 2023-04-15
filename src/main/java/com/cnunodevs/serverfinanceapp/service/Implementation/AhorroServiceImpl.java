@@ -1,6 +1,7 @@
 package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
+import com.cnunodevs.serverfinanceapp.service.MovimientosService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class AhorroServiceImpl implements AhorrosService {
     
     private final AhorroRepository ahorroRepository;
+    private final MovimientosService movimientosService;
 
     @Override
     public void createBolsilloAhorro(Ahorro ahorro) {
@@ -74,6 +77,20 @@ public class AhorroServiceImpl implements AhorrosService {
     @Override
     public Optional<Ahorro> findAhorroById(UUID ahorroID) {
         return ahorroRepository.findById(ahorroID);
+    }
+
+    @Override
+    public void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer) {
+        ahorro.setImporte(ahorro.getImporte().subtract(ImporteToTransfer));
+        ahorroRepository.save(ahorro);
+        movimientosService.crearMovimientoHaciaDisponibleDesdeAhorro(ImporteToTransfer, ahorro.getUsuario().getId());
+    }
+
+    @Override
+    public void transferDisponibleToAhorro(Ahorro ahorro, BigDecimal ImporteToTransfer) {
+        ahorro.setImporte(ahorro.getImporte().add(ImporteToTransfer));
+        ahorroRepository.save(ahorro);
+        movimientosService.crearMovimientoDesdeDisponibleParaAhorrro(ImporteToTransfer, ahorro.getUsuario().getId());
     }
 
     

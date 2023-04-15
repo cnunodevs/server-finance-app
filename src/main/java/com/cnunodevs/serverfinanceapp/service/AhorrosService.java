@@ -3,6 +3,7 @@ package com.cnunodevs.serverfinanceapp.service;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -21,4 +22,6 @@ public interface AhorrosService {
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
     MetricaAhorros getMetricaAhorro(Set<Ahorro> ahorros);
     Optional<Ahorro> findAhorroById(UUID ahorroID);
+    void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
+    void transferDisponibleToAhorro(Ahorro ahorro, BigDecimal ImporteToTransfer);
 }
