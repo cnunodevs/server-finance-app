@@ -55,7 +55,7 @@ public class Presupuesto {
     @JoinColumn(name = "usuario_fk")
     private Usuario usuario;
     
-    @OneToMany(mappedBy="presupuesto_fk", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="presupuesto_fk", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Movimiento> movimientos;
     
     @CreationTimestamp
