@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id" , "idPortafolio", "nombre", "descripcion", "precio", "cantidad", "plazo", "perfilRiesgo", "tipo", "sector", "rentabilidadEsperada"})
+@JsonPropertyOrder({"id" , "idPortafolio", "nombre", "descripcion", "precio", "cantidad", "plazo", "perfilRiesgo", "tipo", "sector", "rentabilidadEsperada", "simulada"})
 public class InversionDTO {
 
     private UUID id;
@@ -55,5 +55,9 @@ public class InversionDTO {
     @NotEmpty
     @JsonProperty("rentabilidadEsperada")
     private Double rentabilidadEsperada;
+
+    @NotEmpty
+    @JsonProperty("simulada")
+    private Boolean simulada;
     
 }

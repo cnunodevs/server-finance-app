@@ -73,6 +73,9 @@ public class Inversion {
     
     @Column(nullable = false, precision = 2)
     private BigDecimal rentabilidadEsperada;
+
+    @Column(nullable = false)
+    private Boolean simulada;
     
     @CreationTimestamp
     private LocalDateTime fechaCreacion;

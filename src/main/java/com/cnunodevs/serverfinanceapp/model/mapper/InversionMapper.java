@@ -28,6 +28,7 @@ public class InversionMapper implements GenericMapper<Inversion, InversionDTO> {
                 .tipo(TipoActivo.valueOf(dto.getTipo()))
                 .sector(SectorActivo.valueOf(dto.getSector()))
                 .rentabilidadEsperada(BigDecimal.valueOf(dto.getRentabilidadEsperada()))
+                .simulada(dto.getSimulada())
                 .build();
         if (dto.getId() != null) {
             inversion.setId(dto.getId());
@@ -49,6 +50,7 @@ public class InversionMapper implements GenericMapper<Inversion, InversionDTO> {
                 .tipo(pojo.getTipo().toString())
                 .sector(pojo.getSector().toString())
                 .rentabilidadEsperada(pojo.getRentabilidadEsperada().doubleValue())
+                .simulada(pojo.getSimulada())
                 .build();
         return inversionDTO;
     }

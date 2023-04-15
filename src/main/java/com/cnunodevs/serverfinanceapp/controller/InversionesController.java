@@ -14,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,8 +40,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/inversiones")
 public class InversionesController {
-
-    //Missing: Liquidar inversión -> Registra movimiento ingreso -> Suma balance
 
     private final InversionesService inversionesService;
     private final InversionMapper inversionMapper;
@@ -110,19 +108,16 @@ public class InversionesController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> handleDeleteInversionById(@RequestBody InversionDTO inversionDTO)
+    // NOTA: Según logica de negocio, las inversiones no se deberían poder eliminar, solo liquidar
+    //Se agrega una transferencia hacia disponible
+    @PatchMapping("/liquidar/{idInversion}")
+    public ResponseEntity<HttpStatus> handleDeleteInversionById(@PathVariable InversionDTO inversionDTO)
             throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(inversionDTO.getId())) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + inversionDTO.getId());
         }
-        inversionesService.deleteInversionById(inversionDTO.getId());
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> handleDeleteListOfInversionByIds(@RequestBody List<UUID> IdInversiones) {
-        inversionesService.deleteAllInversionesById(IdInversiones);
+        Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
+        inversionesService.liquidarInversion(inversion);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

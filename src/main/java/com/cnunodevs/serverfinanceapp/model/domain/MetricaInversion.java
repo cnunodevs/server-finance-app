@@ -26,8 +26,9 @@ public class MetricaInversion {
     }
 
     private double gananciaEsperada(Inversion inversion) {
-        return valorTotal(inversion)
-                * inversion.getRentabilidadEsperada().doubleValue() - inversion.getPrecio().doubleValue();
+        double rentabilidadEsperada = inversion.getRentabilidadEsperada().doubleValue();
+        double valorTotalInversion = inversion.getCantidad()*inversion.getPrecio().doubleValue();
+        return MetricaInversion.calcularGananciaEsperada(rentabilidadEsperada, valorTotalInversion);
     }
 
     private String nivelRiesgo(Inversion inversion) {
@@ -44,6 +45,10 @@ public class MetricaInversion {
 
     private UUID idInversion(Inversion inversion) {
         return inversion.getId();
+    }
+
+    public static double calcularGananciaEsperada(double rentabilidadEsperada, double valorTotalInversion){
+        return valorTotalInversion + ((rentabilidadEsperada/100)*valorTotalInversion);
     }
 
 }
