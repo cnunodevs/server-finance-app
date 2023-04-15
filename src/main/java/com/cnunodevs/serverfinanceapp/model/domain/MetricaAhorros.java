@@ -5,14 +5,14 @@ import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import lombok.Data;
 
 @Data
-public class MetricaAhorro {
+public class MetricaAhorros {
     
     private Double ahorroTotal;
     private String ahorroAutomatico;
     private Double promedioAhorro;
     private Double nivelCumplimientoPromedio;
 
-    public MetricaAhorro(Set<Ahorro> ahorros) {
+    public MetricaAhorros(Set<Ahorro> ahorros) {
         this.ahorroTotal = getAhorroTotalOperation(ahorros);
         this.ahorroAutomatico = getAhorroAutomaticoOperation(ahorros);
         this.promedioAhorro = getPromedioAhorroOperation(ahorros);
