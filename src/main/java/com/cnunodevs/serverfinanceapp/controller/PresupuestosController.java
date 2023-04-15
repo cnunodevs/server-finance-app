@@ -49,80 +49,80 @@ public class PresupuestosController {
     private final PresupuestoMapper presupuestoMapper;
 
     @GetMapping("/metricas/{idPresupuesto}")
-    public ResponseEntity<MetricaPresupuesto> handleGetMetricaPresupuesto(@PathVariable UUID idPresupuesto)
+    public ResponseEntity<MetricaPresupuesto> handleGetMetricaPresupuesto(@PathVariable final UUID idPresupuesto)
             throws EntityNotFoundException {
         if (!presupuestosService.presupuestoAlreadyExist(idPresupuesto)) {
             throw new EntityNotFoundException("Presupuesto do not exist. UUID: " + idPresupuesto);
         }
-        List<Movimiento> movimientos = movimientosService.findMovimientosByPresupuestoId(idPresupuesto);
-        MetricaPresupuesto metrica = presupuestosService
+        final List<Movimiento> movimientos = movimientosService.findMovimientosByPresupuestoId(idPresupuesto);
+        final MetricaPresupuesto metrica = presupuestosService
                 .getMetricaPresupuestoByMovimientos(new HashSet<Movimiento>(movimientos));
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
     @GetMapping("/metricas")
-    public ResponseEntity<List<MetricaPresupuesto>> handleGetMetricasPresupuestos(@RequestParam String username) {
-        Usuario usuario = usuariosService.findByUsername(username).get();
-        List<Presupuesto> presupuestos = presupuestosService.getPresupuestosByUsuario(usuario);
-        List<MetricaPresupuesto> metricas = presupuestosService
+    public ResponseEntity<List<MetricaPresupuesto>> handleGetMetricasPresupuestos(@RequestParam final String username) {
+        final Usuario usuario = usuariosService.findByUsername(username).get();
+        final List<Presupuesto> presupuestos = presupuestosService.getPresupuestosByUsuario(usuario);
+        final List<MetricaPresupuesto> metricas = presupuestosService
                 .getMetricasPresupuestos(new HashSet<Presupuesto>(presupuestos));
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 
     @GetMapping
-    public ResponseEntity<List<PresupuestoDTO>> handleGetListPresupuestos(@RequestParam String username) {
-        Usuario usuario = usuariosService.findByUsername(username).get();
-        List<Presupuesto> presupuestos = presupuestosService.getPresupuestosByUsuario(usuario);
-        List<PresupuestoDTO> portafoliosDTO = presupuestos.stream().map(presupuestoMapper::pojoToDto).toList();
+    public ResponseEntity<List<PresupuestoDTO>> handleGetListPresupuestos(@RequestParam final String username) {
+        final Usuario usuario = usuariosService.findByUsername(username).get();
+        final List<Presupuesto> presupuestos = presupuestosService.getPresupuestosByUsuario(usuario);
+        final List<PresupuestoDTO> portafoliosDTO = presupuestos.stream().map(presupuestoMapper::pojoToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(portafoliosDTO);
     }
 
     @GetMapping
     public ResponseEntity<Page<PresupuestoDTO>> handleGetPresupuestosPaginate(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "9") Integer size) {
-        Pageable paging = PageRequest.of(page, size);
-        Page<Presupuesto> pagePresupuestos = presupuestosService.getPresupuestosPaginate(paging);
-        Page<PresupuestoDTO> pagePresupuestosDTO = new PageImpl<PresupuestoDTO>(
+            @RequestParam(defaultValue = "0") final Integer page,
+            @RequestParam(defaultValue = "9") final Integer size) {
+        final Pageable paging = PageRequest.of(page, size);
+        final Page<Presupuesto> pagePresupuestos = presupuestosService.getPresupuestosPaginate(paging);
+        final Page<PresupuestoDTO> pagePresupuestosDTO = new PageImpl<PresupuestoDTO>(
                 pagePresupuestos.map(presupuestoMapper::pojoToDto).toList());
         return ResponseEntity.status(HttpStatus.OK).body(pagePresupuestosDTO);
     }
 
     @GetMapping("/{idPresupuesto}")
-    public ResponseEntity<PresupuestoDTO> handleGetPresupuestoById(@PathVariable UUID idPresupuesto)
+    public ResponseEntity<PresupuestoDTO> handleGetPresupuestoById(@PathVariable final UUID idPresupuesto)
             throws EntityNotFoundException {
         if (!presupuestosService.presupuestoAlreadyExist(idPresupuesto)) {
             throw new EntityNotFoundException("Presupuesto do not exist. UUID: " + idPresupuesto);
         }
-        Presupuesto presupuesto = presupuestosService.getPresupuestoById(idPresupuesto).get();
-        PresupuestoDTO presupuestoDTO = presupuestoMapper.pojoToDto(presupuesto);
+        final Presupuesto presupuesto = presupuestosService.getPresupuestoById(idPresupuesto).get();
+        final PresupuestoDTO presupuestoDTO = presupuestoMapper.pojoToDto(presupuesto);
         return ResponseEntity.status(HttpStatus.OK).body(presupuestoDTO);
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> handleCreatePresupuesto(@RequestBody PresupuestoDTO presupuestoDTO)
+    public ResponseEntity<HttpStatus> handleCreatePresupuesto(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws IllegalStateException {
         if (presupuestosService.similarAlreadyExist(presupuestoDTO.getNombre(), presupuestoDTO.getIdUsuario())) {
             throw new IllegalStateException("Similar presupuesto already exist");
         }
-        Presupuesto presupuesto = presupuestoMapper.dtoToPojo(presupuestoDTO);
+        final Presupuesto presupuesto = presupuestoMapper.dtoToPojo(presupuestoDTO);
         presupuestosService.createPresupuesto(presupuesto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> handleGetUpdatePresupuestoById(@RequestBody PresupuestoDTO presupuestoDTO)
+    public ResponseEntity<HttpStatus> handleGetUpdatePresupuestoById(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws EntityNotFoundException {
         if (!presupuestosService.presupuestoAlreadyExist(presupuestoDTO.getId())) {
             throw new EntityNotFoundException("Presupuesto do not exist. UUID: " + presupuestoDTO.getId());
         }
-        Presupuesto presupuesto = presupuestoMapper.dtoToPojo(presupuestoDTO);
+        final Presupuesto presupuesto = presupuestoMapper.dtoToPojo(presupuestoDTO);
         presupuestosService.updatePresupuesto(presupuesto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> handleDeletePresupuestoById(@RequestBody PresupuestoDTO presupuestoDTO)
+    public ResponseEntity<HttpStatus> handleDeletePresupuestoById(@RequestBody final PresupuestoDTO presupuestoDTO)
             throws EntityNotFoundException {
         if (!presupuestosService.presupuestoAlreadyExist(presupuestoDTO.getId())) {
             throw new EntityNotFoundException("Presupuesto do not exist. UUID: " + presupuestoDTO.getId());
@@ -132,7 +132,7 @@ public class PresupuestosController {
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    public void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 

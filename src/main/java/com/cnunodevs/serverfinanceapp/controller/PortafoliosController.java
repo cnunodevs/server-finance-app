@@ -121,9 +121,10 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //Missing: hasAnyInversion endpoint
+    // Missing: hasAnyInversion endpoint
     @GetMapping("/has-any-inversion/{idPortafolio}")
-    public ResponseEntity<Boolean> handleHasAnyInversionByPortafolioId(@PathVariable final UUID idPortafolio) throws EntityNotFoundException {
+    public ResponseEntity<Boolean> handleHasAnyInversionByPortafolioId(@PathVariable final UUID idPortafolio)
+            throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(idPortafolio)) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + idPortafolio);
         }
@@ -131,15 +132,16 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyInversion);
     }
 
-    //NOTA: Según logica de negocio el portafolio no se deberia poder eliminar si tiene inversiones
+    // NOTA: Según logica de negocio el portafolio no se deberia poder eliminar si
+    // tiene inversiones
     @DeleteMapping
     public ResponseEntity<HttpStatus> handleDeletePortafolioById(@RequestBody final PortafolioDTO portafolioDTO)
             throws EntityNotFoundException {
         if (!portafoliosService.portafolioAlreadyExist(portafolioDTO.getId())) {
             throw new EntityNotFoundException("Portafolio do not exist. UUID: " + portafolioDTO.getId());
-        } else if (portafoliosService.hasAnyInversion(portafolioDTO.getId())){
+        } else if (portafoliosService.hasAnyInversion(portafolioDTO.getId())) {
             throw new IllegalCallerException(
-                        "Can not delete this portafolio. UUID: " + portafolioDTO.getId() + " has inversiones");
+                    "Can not delete this portafolio. UUID: " + portafolioDTO.getId() + " has inversiones");
         }
         portafoliosService.deletePortafolioById(portafolioDTO.getId());
         return ResponseEntity.status(HttpStatus.OK).build();

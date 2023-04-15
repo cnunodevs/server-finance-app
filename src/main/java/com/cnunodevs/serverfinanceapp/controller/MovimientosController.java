@@ -103,13 +103,13 @@ public class MovimientosController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> handleCreateMovimiento(
-            @RequestBody final MovimientoDTO movimientoDTO, 
-            @RequestParam Boolean aplicaDescuentoEspecifico,
-            @RequestParam(required = false) UUID idCuentaAhorroEspecifica) {
+            @RequestBody final MovimientoDTO movimientoDTO,
+            @RequestParam final Boolean aplicaDescuentoEspecifico,
+            @RequestParam(required = false) final UUID idCuentaAhorroEspecifica) {
         final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
-        if (aplicaDescuentoEspecifico && movimiento.getTipo().equals(TipoMovimiento.INGRESO)){
+        if (aplicaDescuentoEspecifico && movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
             movimientosService.createMovimientoDescuentoACuentaEspecifica(movimiento, idCuentaAhorroEspecifica);
-        }else {
+        } else {
             movimientosService.createMovimiento(movimiento);
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();

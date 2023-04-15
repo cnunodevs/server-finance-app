@@ -45,84 +45,86 @@ public class InversionesController {
     private final InversionMapper inversionMapper;
 
     @GetMapping("/metricas/{idInversion}")
-    public ResponseEntity<MetricaInversion> handleGetMetricasInversion(@PathVariable UUID idInversion) throws EntityNotFoundException {
+    public ResponseEntity<MetricaInversion> handleGetMetricasInversion(@PathVariable final UUID idInversion)
+            throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(idInversion)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idInversion);
         }
-        Inversion inversion = inversionesService.getInversionById(idInversion).get();
-        MetricaInversion metrica = inversionesService.getMetricaInversion(inversion);
+        final Inversion inversion = inversionesService.getInversionById(idInversion).get();
+        final MetricaInversion metrica = inversionesService.getMetricaInversion(inversion);
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
     @GetMapping("/metricas")
-    public ResponseEntity<List<MetricaInversion>> handleGetMetricasInversiones(@RequestParam UUID idPortafolio) {
-        List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
-        List<MetricaInversion> metricas = inversionesService
+    public ResponseEntity<List<MetricaInversion>> handleGetMetricasInversiones(@RequestParam final UUID idPortafolio) {
+        final List<Inversion> inversiones = inversionesService.findInversionesByPortafolioId(idPortafolio);
+        final List<MetricaInversion> metricas = inversionesService
                 .getMetricasInversiones(new HashSet<Inversion>(inversiones));
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 
     @GetMapping
     public ResponseEntity<Page<InversionDTO>> handleGetInversiones(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "9") Integer size,
-            @RequestParam UUID idPortafolio) {
-        Pageable paging = PageRequest.of(page, size);
-        Example<Inversion> example = Example
+            @RequestParam(defaultValue = "0") final Integer page,
+            @RequestParam(defaultValue = "9") final Integer size,
+            @RequestParam final UUID idPortafolio) {
+        final Pageable paging = PageRequest.of(page, size);
+        final Example<Inversion> example = Example
                 .of(Inversion.builder().portafolio(Portafolio.builder().id(idPortafolio).build()).build());
-        Page<Inversion> pageInversiones = inversionesService.getInversionesPaginateByPortafolio(paging, example);
-        Page<InversionDTO> pageInversionesDTO = new PageImpl<InversionDTO>(
+        final Page<Inversion> pageInversiones = inversionesService.getInversionesPaginateByPortafolio(paging, example);
+        final Page<InversionDTO> pageInversionesDTO = new PageImpl<InversionDTO>(
                 pageInversiones.map(inversionMapper::pojoToDto).toList());
         return ResponseEntity.status(HttpStatus.OK).body(pageInversionesDTO);
     }
 
     @GetMapping("/{idInversion}")
-    public ResponseEntity<InversionDTO> handleGetInversionById(@PathVariable UUID idInversion) {
+    public ResponseEntity<InversionDTO> handleGetInversionById(@PathVariable final UUID idInversion) {
         if (!inversionesService.inversionAlreadyExist(idInversion)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idInversion);
         }
-        Inversion inversion = inversionesService.getInversionById(idInversion).get();
-        InversionDTO inversionDTO = inversionMapper.pojoToDto(inversion);
+        final Inversion inversion = inversionesService.getInversionById(idInversion).get();
+        final InversionDTO inversionDTO = inversionMapper.pojoToDto(inversion);
         return ResponseEntity.status(HttpStatus.OK).body(inversionDTO);
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> handleCreateInversion(@RequestBody InversionDTO inversionDTO)
+    public ResponseEntity<HttpStatus> handleCreateInversion(@RequestBody final InversionDTO inversionDTO)
             throws IllegalStateException {
         if (inversionesService.alreadyExistOnPortafolio(inversionDTO.getIdPortafolio(), inversionDTO.getNombre())) {
             throw new IllegalStateException("Similar portafolio already exist");
         }
-        Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
+        final Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
         inversionesService.createInversion(inversion);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> handleUpdateInversion(@RequestBody InversionDTO inversionDTO)
+    public ResponseEntity<HttpStatus> handleUpdateInversion(@RequestBody final InversionDTO inversionDTO)
             throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(inversionDTO.getId())) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + inversionDTO.getId());
         }
-        Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
+        final Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
         inversionesService.updateInversion(inversion);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // NOTA: Según logica de negocio, las inversiones no se deberían poder eliminar, solo liquidar
-    //Se agrega una transferencia hacia disponible
+    // NOTA: Según logica de negocio, las inversiones no se deberían poder eliminar,
+    // solo liquidar
+    // Se agrega una transferencia hacia disponible
     @PatchMapping("/liquidar/{idInversion}")
-    public ResponseEntity<HttpStatus> handleDeleteInversionById(@PathVariable InversionDTO inversionDTO)
+    public ResponseEntity<HttpStatus> handleDeleteInversionById(@PathVariable final InversionDTO inversionDTO)
             throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(inversionDTO.getId())) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + inversionDTO.getId());
         }
-        Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
+        final Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
         inversionesService.liquidarInversion(inversion);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    public void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
