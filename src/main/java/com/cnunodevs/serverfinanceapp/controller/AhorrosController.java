@@ -3,14 +3,19 @@ package com.cnunodevs.serverfinanceapp.controller;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.UUID;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,4 +95,18 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     
+    @GetMapping("/ahorros-automaticos")
+    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam UUID idUsuario) {
+        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(idUsuario);
+        Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
+                                                      .map(ahorroMapper::pojoToDto)
+                                                      .filter(ahorro -> ahorro.isAutomatico())
+                                                      .toList());
+        return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
+    }
+
+    @InitBinder
+    public void initBinder(final WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
 }
