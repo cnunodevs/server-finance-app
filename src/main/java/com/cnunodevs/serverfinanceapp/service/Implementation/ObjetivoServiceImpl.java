@@ -1,10 +1,13 @@
 package com.cnunodevs.serverfinanceapp.service.Implementation;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.ObjetivoRepository;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 
@@ -34,6 +37,22 @@ public class ObjetivoServiceImpl implements ObjetivoService {
     @Override
     public void updateObjetivo(Objetivo objetivo) {
         objetivoRepository.save(objetivo);
+    }
+
+    @Override
+    public List<Objetivo> findObjetivosBasedOnUserId(UUID usuarioId) {
+        return objetivoRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public Boolean similarObjetivoExist(String name, UUID usuarioId) {
+        Example<Objetivo> exampleObjetivos = Example.of(Objetivo.builder()
+                                                                .nombre(name)
+                                                                .usuario(Usuario.builder()
+                                                                                .id(usuarioId)
+                                                                                .build())
+                                                                .build());
+        return objetivoRepository.findOne(exampleObjetivos).isPresent();
     }
     
 }
