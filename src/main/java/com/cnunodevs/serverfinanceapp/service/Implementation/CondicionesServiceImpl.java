@@ -3,6 +3,7 @@ package com.cnunodevs.serverfinanceapp.service.Implementation;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.domain.ConditionHandler;
@@ -20,25 +21,13 @@ import lombok.RequiredArgsConstructor;
 public class CondicionesServiceImpl implements CondicionesService {
 
     private final ConditionHandler conditionHandler;
+    private final CondicionRepository conditionRepository;
     private final AhorrosService ahorroService;
 
 
     @Override
-    public void createCondicion(Condicion condicion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createCondicion'");
-    }
-
-    @Override
-    public void editCondicion(Condicion condicion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'editCondicion'");
-    }
-
-    @Override
-    public void unableCondicion(UUID condicionID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unableCondicion'");
+    public void save(Condicion condicion) {
+        conditionRepository.save(condicion);
     }
 
     @Override
@@ -70,6 +59,18 @@ public class CondicionesServiceImpl implements CondicionesService {
         }
         return movimiento;
     }
+
+    @Override
+    public void deleteCondicion(UUID ahorroID) {
+        Example<Condicion> exampleCondicion = Example.of(Condicion.builder()
+                                                                  .ahorro(Ahorro.builder()
+                                                                                .id(ahorroID)
+                                                                                .build())
+                                                                  .build());
+        conditionRepository.delete(conditionRepository.findOne(exampleCondicion).get());
+    }
+
+    
     
     
 }

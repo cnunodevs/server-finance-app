@@ -27,7 +27,7 @@ public class AhorroDTO {
 
     @NotEmpty
     private UUID idObjetivo;
-    //pendiente
-    private UUID idCondicion;
+
+    private CondicionDTO condicionDTO;
 
 }

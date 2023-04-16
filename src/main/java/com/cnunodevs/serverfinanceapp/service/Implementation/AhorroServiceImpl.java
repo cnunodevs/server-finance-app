@@ -93,5 +93,10 @@ public class AhorroServiceImpl implements AhorrosService {
         movimientosService.crearMovimientoDesdeDisponibleParaAhorrro(ImporteToTransfer, ahorro.getUsuario().getId());
     }
 
+    @Override
+    public boolean hasCondition(UUID ahorroID) {
+        Ahorro ahorro = ahorroRepository.findById(ahorroID).get();
+        return ahorro.getCondicion() != null;
+    }
     
 }

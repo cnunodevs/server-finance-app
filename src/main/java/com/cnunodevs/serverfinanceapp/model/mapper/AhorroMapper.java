@@ -6,12 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
-import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
+
+    private final CondicionMapper condicionMapper;
+
     @Override
     public Ahorro dtoToPojo(AhorroDTO dto) {
         Ahorro ahorro = Ahorro.builder()
@@ -19,7 +24,7 @@ public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
                             .importe(BigDecimal.valueOf(dto.getImporte()))
                             .automatico(dto.isAutomatico())
                             .objetivo(Objetivo.builder().id(dto.getIdObjetivo()).build())
-                            .condicion(Condicion.builder().id(dto.getIdCondicion()).build())
+                            .condicion(condicionMapper.dtoToPojo(dto.getCondicionDTO()))
                             .build();
 
         if(dto.getId() != null){
@@ -36,7 +41,7 @@ public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
                             .importe(pojo.getImporte().doubleValue())
                             .automatico(pojo.isAutomatico())
                             .idObjetivo(pojo.getObjetivo().getId())
-                            .idCondicion(pojo.getCondicion().getId())
+                            .condicionDTO(condicionMapper.pojoToDto(pojo.getCondicion()))
                             .build();
         return ahorroDTO;
     }

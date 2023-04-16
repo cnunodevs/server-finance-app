@@ -16,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
-import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
-import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
+import com.cnunodevs.serverfinanceapp.service.CondicionesService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ import lombok.RequiredArgsConstructor;
 public class AhorrosController {
     
     private final AhorrosService ahorrosService;
-    private final ObjetivoService objetivoService;
+    private final CondicionesService condicionesService;
     private final AhorroMapper ahorroMapper;
 
     @GetMapping
@@ -84,13 +85,7 @@ public class AhorrosController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createAhorro(@RequestBody AhorroDTO ahorroDTO) throws IllegalStateException {
-        //mejorar, mala comparacion ya que el dto no viene con id
-        if(ahorrosService.ahorroExist(ahorroDTO.getId())) {
-            throw new IllegalStateException("Similar bolsillo de ahorro already exist");
-        }
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
-        Objetivo objetivo = objetivoService.saveObjetivo(ahorro.getObjetivo());
-        ahorro.setObjetivo(objetivo);
         ahorrosService.createBolsilloAhorro(ahorro);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -103,6 +98,24 @@ public class AhorrosController {
                                                       .filter(ahorro -> ahorro.isAutomatico())
                                                       .toList());
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
+    }
+
+    @PatchMapping("/delete-condicion")
+    public ResponseEntity<HttpStatus> deleteCondicion(@RequestBody AhorroDTO ahorroDTO) {
+        if(!ahorrosService.ahorroExist(ahorroDTO.getId())) {
+            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
+        }
+        condicionesService.deleteCondicion(ahorroDTO.getId());
+        ahorrosService.createBolsilloAhorro(ahorroMapper.dtoToPojo(ahorroDTO));
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/{idAhorro}")
+    public ResponseEntity<Boolean> hasCondicion(@PathVariable UUID idAhorro){
+        if(!ahorrosService.ahorroExist(idAhorro)) {
+            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.hasCondition(idAhorro));
     }
 
     @InitBinder

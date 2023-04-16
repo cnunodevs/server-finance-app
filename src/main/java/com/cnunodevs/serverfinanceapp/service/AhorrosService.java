@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 
 public interface AhorrosService {
     boolean ahorroExist(UUID ahorroID);
+    boolean hasCondition(UUID ahorroID);
     void createBolsilloAhorro(Ahorro ahorro);
     Set<Ahorro> getAllAhorros();
     Page<Ahorro> getAllAhorrosPaginated(Pageable pageable);

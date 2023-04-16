@@ -13,6 +13,10 @@ public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
     @Override
     public Condicion dtoToPojo(CondicionDTO dto) {
         
+        if (dto == null) {
+            return null;
+        }
+
         Condicion condicion = Condicion.builder()
                                             .expresion(Expresion.valueOf(dto.getExpresion()))
                                             .importe(BigDecimal.valueOf(dto.getImporte()))
@@ -29,6 +33,11 @@ public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
 
     @Override
     public CondicionDTO pojoToDto(Condicion pojo) {
+
+        if (pojo == null) {
+            return null;
+        }
+
         return CondicionDTO.builder()
                                 .expresion(pojo.getExpresion().toString())
                                 .importe(pojo.getImporte().doubleValue())

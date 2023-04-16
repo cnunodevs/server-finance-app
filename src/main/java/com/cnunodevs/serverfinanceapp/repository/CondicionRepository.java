@@ -8,5 +8,5 @@ import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 
 
 public interface CondicionRepository extends JpaRepository<Condicion, UUID> {
-    
+
 }
