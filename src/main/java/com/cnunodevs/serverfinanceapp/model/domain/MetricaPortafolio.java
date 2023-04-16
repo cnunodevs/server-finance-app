@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 public class MetricaPortafolio {
 
+        private Boolean mostraMetricas;
         private UUID idPortafolio;
         private Double valorTotal;
         private Double rentabilidadPromedio;
@@ -23,6 +24,9 @@ public class MetricaPortafolio {
         private Map<String, Long> sectores;
 
         public MetricaPortafolio(Set<Inversion> inversiones) {
+                this.mostraMetricas = false;
+                if (!inversiones.isEmpty()) {
+                mostraMetricas = true;
                 this.valorTotal = valorTotalOperation(inversiones);
                 this.rentabilidadPromedio = rentabilidadPromedioOperation(inversiones);
                 this.nivelRiesgo = nivelRiesgoOperation(inversiones);
@@ -30,6 +34,7 @@ public class MetricaPortafolio {
                 this.gananciaEsperada = gananciaEsperadaOperation(inversiones);
                 this.sectores = sectoresOperation(inversiones);
                 this.idPortafolio = idPortafolioOperation(inversiones);
+                }
         }
 
         private UUID idPortafolioOperation(Set<Inversion> inversiones) {

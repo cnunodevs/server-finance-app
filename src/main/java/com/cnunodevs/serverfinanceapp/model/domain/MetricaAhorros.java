@@ -7,16 +7,21 @@ import lombok.Data;
 @Data
 public class MetricaAhorros {
     
+    private Boolean mostraMetricas;
     private Double ahorroTotal;
     private String ahorroAutomatico;
     private Double promedioAhorro;
     private Double nivelCumplimientoPromedio;
 
     public MetricaAhorros(Set<Ahorro> ahorros) {
-        this.ahorroTotal = getAhorroTotalOperation(ahorros);
-        this.ahorroAutomatico = getAhorroAutomaticoOperation(ahorros);
-        this.promedioAhorro = getPromedioAhorroOperation(ahorros);
-        this.nivelCumplimientoPromedio = getNivelCumplimientoPromedioOperation(ahorros); 
+        this.mostraMetricas = false;
+        if (!ahorros.isEmpty()) {
+            this.mostraMetricas = true;
+            this.ahorroTotal = getAhorroTotalOperation(ahorros);
+            this.ahorroAutomatico = getAhorroAutomaticoOperation(ahorros);
+            this.promedioAhorro = getPromedioAhorroOperation(ahorros);
+            this.nivelCumplimientoPromedio = getNivelCumplimientoPromedioOperation(ahorros);     
+        }
     }
 
     private Double getAhorroTotalOperation(Set<Ahorro> ahorros) {

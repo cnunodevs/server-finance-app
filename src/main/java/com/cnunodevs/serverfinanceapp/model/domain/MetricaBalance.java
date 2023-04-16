@@ -15,17 +15,20 @@ import lombok.Data;
 public class MetricaBalance {
 
     private Double monto;
+    private Boolean mostraMetricas;
     private HashMap<String, Double> proporcionPorTipo;
     private HashMap<String, HashMap<String, ImporteConcepto>> detalleImporteConceptoPorTipo;
 
     public static MetricaBalance getMetricaBalance(Double montoBalance, Set<Movimiento> movimientos) {
         MetricaBalance metricaBalance = new MetricaBalance();
-
-        metricaBalance.setMonto(montoBalance);
-        metricaBalance.setProporcionPorTipo(null);
-        metricaBalance
-                .setDetalleImporteConceptoPorTipo(detalleImporteConceptoPorTipoOperation(montoBalance, movimientos));
-
+        metricaBalance.setMostraMetricas(false);
+        if (!movimientos.isEmpty()) {
+            metricaBalance.setMostraMetricas(true);
+            metricaBalance.setMonto(montoBalance);
+            metricaBalance.setProporcionPorTipo(null);
+            metricaBalance
+                    .setDetalleImporteConceptoPorTipo(detalleImporteConceptoPorTipoOperation(montoBalance, movimientos));
+        }
         return metricaBalance;
     }
 
