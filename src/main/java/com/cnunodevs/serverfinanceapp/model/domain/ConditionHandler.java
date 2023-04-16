@@ -6,10 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
-import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.Expresion;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoImporte;
-import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ConditionHandler {
     
-    private final AhorrosService ahorrosService;
-
     public BigDecimal buildConditionBasedOn(BigDecimal importe, Ahorro ahorro) {
                                         //cambiar nombre metodo
         Condicion condicion = ahorro.getCondicion();
