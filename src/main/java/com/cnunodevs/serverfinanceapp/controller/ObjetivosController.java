@@ -72,4 +72,11 @@ public class ObjetivosController {
                                                             .map(objetivoMapper::pojoToDto)
                                                             .toList());
     }
+
+    @GetMapping("/verificar-borrado")
+    public ResponseEntity<Boolean> objetivoCanBeDeleted(@RequestParam UUID idUsuario) {
+        return ResponseEntity.status(HttpStatus.OK).body(objetivoService.isObjetivoOfUserDeletable(idUsuario));
+    }
+
+
 }

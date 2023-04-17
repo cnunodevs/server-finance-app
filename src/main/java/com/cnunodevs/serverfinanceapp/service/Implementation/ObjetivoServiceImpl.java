@@ -54,5 +54,11 @@ public class ObjetivoServiceImpl implements ObjetivoService {
                                                                 .build());
         return objetivoRepository.findOne(exampleObjetivos).isPresent();
     }
+
+    @Override
+    public Boolean isObjetivoOfUserDeletable(UUID usuarioId) {
+        return objetivoRepository.findObjetivosInAhorrosOfUser(usuarioId).isEmpty() 
+                && objetivoRepository.findObjetivosInPortafoslioOfUser(usuarioId).isEmpty();
+    }
     
 }
