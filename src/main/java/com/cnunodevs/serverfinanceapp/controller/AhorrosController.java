@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,12 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cnunodevs.serverfinanceapp.exception.AhorroNotDeletableException;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 import com.cnunodevs.serverfinanceapp.service.CondicionesService;
+import com.cnunodevs.serverfinanceapp.service.Implementation.AhorroServiceImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -119,6 +122,20 @@ public class AhorrosController {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.hasCondition(idAhorro));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteAhorro(@RequestParam UUID idAhorro) throws AhorroNotDeletableException {
+        if(!ahorrosService.ahorroExist(idAhorro)) {
+            throw new EntityNotFoundException("Inversion do not exist. UUID: " + idAhorro);
+        }
+        if(ahorrosService.findAhorroById(idAhorro).get().getImporte().longValue() != 0) {
+            throw new AhorroNotDeletableException("el ahorro tiene dinero, no se puede borrar");
+        }
+
+        ahorrosService.deleteBolsilloAhorro(idAhorro);
+        return ResponseEntity.status(HttpStatus.OK).build();
+        
     }
 
     @InitBinder

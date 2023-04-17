@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.cnunodevs.serverfinanceapp.exception.AhorroNotDeletableException;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(IllegalCallerException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public void illegalCallerExceptionHandler(BindException exception){
+        logger.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(AhorroNotDeletableException.class)
+    @ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
+    public void ahorroNotDeletableExceptionHandler(BindException exception){
         logger.error(exception.getMessage());
     }
 
