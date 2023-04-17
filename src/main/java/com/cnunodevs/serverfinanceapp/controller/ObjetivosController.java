@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 import com.cnunodevs.serverfinanceapp.model.mapper.ObjetivoMapper;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -78,5 +80,22 @@ public class ObjetivosController {
         return ResponseEntity.status(HttpStatus.OK).body(objetivoService.isObjetivoOfUserDeletable(idUsuario));
     }
 
+    @PutMapping
+    public ResponseEntity<HttpStatus> updateObjetivo(@RequestBody ObjetivoDTO objetivoDTO) {
+        if(!objetivoService.objetivoExist(objetivoDTO.getId())) {
+            throw new EntityNotFoundException("el objetivo al que quiere acceder no existe");
+        }
+        Objetivo objetivo = objetivoMapper.dtoToPojo(objetivoDTO);
+        objetivoService.saveObjetivo(objetivo);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
+    @GetMapping("/{idObjetivo}")
+    public ResponseEntity<ObjetivoDTO> getObjetivo(@PathVariable UUID idObjetivo) {
+        if(!objetivoService.objetivoExist(idObjetivo)) {
+            throw new EntityNotFoundException("el objetivo al que quiere acceder no existe");
+        }
+        ObjetivoDTO objetivoDTO = objetivoMapper.pojoToDto(objetivoService.getObjetivoById(idObjetivo));
+        return ResponseEntity.status(HttpStatus.OK).body(objetivoDTO);
+    }
 }

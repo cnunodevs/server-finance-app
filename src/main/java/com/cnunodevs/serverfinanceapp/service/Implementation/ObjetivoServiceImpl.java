@@ -60,5 +60,10 @@ public class ObjetivoServiceImpl implements ObjetivoService {
         return objetivoRepository.findObjetivosInAhorrosOfUser(usuarioId).isEmpty() 
                 && objetivoRepository.findObjetivosInPortafoslioOfUser(usuarioId).isEmpty();
     }
+
+    @Override
+    public Boolean objetivoExist(UUID objetivoId) {
+        return objetivoRepository.existsById(objetivoId);
+    }
     
 }
