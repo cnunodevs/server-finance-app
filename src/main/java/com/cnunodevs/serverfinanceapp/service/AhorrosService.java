@@ -21,7 +21,7 @@ public interface AhorrosService {
     void deleteBolsilloAhorro(UUID ahorroID);
     Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
-    MetricaAhorros getMetricaAhorro(Set<Ahorro> ahorros);
+    MetricaAhorros getMetricaAhorro(long minMonto, long maxMonto);
     Optional<Ahorro> findAhorroById(UUID ahorroID);
     void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
     void transferDisponibleToAhorro(Ahorro ahorro, BigDecimal ImporteToTransfer);

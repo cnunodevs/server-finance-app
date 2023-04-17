@@ -2,7 +2,9 @@ package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -52,8 +54,28 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public MetricaAhorros getMetricaAhorro(Set<Ahorro> ahorros) {
-        return new MetricaAhorros(ahorros);
+    public MetricaAhorros getMetricaAhorro(long minMonto, long maxMonto) {
+        List<Ahorro> allAhorros = ahorroRepository.findAll();
+        List<Ahorro> ahorroFiltred = new ArrayList<>();
+        if(allAhorros.isEmpty()) {
+            return new MetricaAhorros(Set.copyOf(allAhorros));
+        }
+        if (maxMonto == 0) {
+            long mostExpensiveAhorro = allAhorros.stream()
+                                                .mapToLong(ahorro -> ahorro.getImporte().longValue())
+                                                .max()
+                                                .getAsLong();
+            ahorroFiltred = allAhorros.stream()
+                                      .filter(ahorro -> ahorro.getImporte().longValue() >= minMonto
+                                                 && ahorro.getImporte().longValue() <= mostExpensiveAhorro)
+                                      .toList();
+        } else {
+            ahorroFiltred = allAhorros.stream()
+                                      .filter(ahorro -> ahorro.getImporte().longValue() >= minMonto
+                                                 && ahorro.getImporte().longValue() <= maxMonto)
+                                      .toList();
+        }
+        return new MetricaAhorros(Set.copyOf(ahorroFiltred));
     }
 
     @Override
