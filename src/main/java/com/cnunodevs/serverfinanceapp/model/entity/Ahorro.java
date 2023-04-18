@@ -41,7 +41,7 @@ public class Ahorro {
 
     private boolean automatico;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "objetivo_fk")
     private Objetivo objetivo;
 
