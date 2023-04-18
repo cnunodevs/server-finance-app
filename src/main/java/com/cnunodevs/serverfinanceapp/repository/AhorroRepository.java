@@ -10,7 +10,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 
 public interface AhorroRepository extends JpaRepository<Ahorro, UUID> {
     
-    @Query(value = "select * from ahorros a where a.usuario_fk = :usuarioId and a.automatico",
+    @Query(value = "select * from ahorros a where a.usuario_fk = :idUsuario and a.automatico",
              nativeQuery = true)
-    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID usuarioId);
+    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idUsuario);
 }

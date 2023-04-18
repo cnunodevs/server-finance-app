@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id", "nombre", "descripcion", "fechaEstimada", "monto", "usuarioId"})
+@JsonPropertyOrder({"id", "nombre", "descripcion", "fechaEstimada", "monto", "idUsuario"})
 public class ObjetivoDTO {
 
     private UUID id;
@@ -25,5 +25,5 @@ public class ObjetivoDTO {
     @NotEmpty
     private Double monto;
     @NotEmpty
-    private UUID usuarioID;
+    private UUID idUsuario;
 }

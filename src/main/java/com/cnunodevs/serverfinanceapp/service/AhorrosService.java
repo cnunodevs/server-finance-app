@@ -13,19 +13,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
 public interface AhorrosService {
-    boolean ahorroExistById(UUID ahorroID);
+    boolean ahorroExistById(UUID idAhorro);
     boolean ahorroExistByNameAndUser(String name, UUID idUser);
-    boolean hasCondition(UUID ahorroID);
+    boolean hasCondition(UUID idAhorro);
     void createBolsilloAhorro(Ahorro ahorro);
     Set<Ahorro> getAllAhorros();
     Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser);
     void updateBolsilloAhorro(Ahorro ahorro);
-    void deleteBolsilloAhorro(UUID ahorroID);
-    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID);
-    Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
+    void deleteBolsilloAhorro(UUID idAhorro);
+    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro);
+    Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro);
     MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto);
     MetricaAhorro getMetricaAhorro(UUID idAhorro);
-    Optional<Ahorro> findAhorroById(UUID ahorroID);
+    Optional<Ahorro> findAhorroById(UUID idAhorro);
     void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
     void transferDisponibleToAhorro(Ahorro ahorro, BigDecimal ImporteToTransfer);
 }

@@ -23,5 +23,5 @@ public class CondicionDTO {
     @NotEmpty
     private Boolean enabled;
     @NotEmpty
-    private UUID ahorroId;
+    private UUID idAhorro;
 }

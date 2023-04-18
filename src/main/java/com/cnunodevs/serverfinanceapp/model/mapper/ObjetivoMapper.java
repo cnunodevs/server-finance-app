@@ -31,7 +31,7 @@ public class ObjetivoMapper implements GenericMapper<Objetivo, ObjetivoDTO> {
                     .descripcion(pojo.getDescripcion())
                     .fechaEstimada(pojo.getFechaEstimada())
                     .monto(pojo.getMonto().doubleValue())
-                    .usuarioID(pojo.getUsuario().getId())
+                    .idUsuario(pojo.getUsuario().getId())
                     .build();
         
     }

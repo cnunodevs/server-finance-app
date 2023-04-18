@@ -8,11 +8,11 @@ import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 public interface ObjetivoService {
     
     Objetivo saveObjetivo(Objetivo objetivo);
-    Objetivo getObjetivoById(UUID objetivoId);
-    Boolean objetivoExist(UUID objetivoId);
-    Boolean isObjetivoOfUserDeletable(UUID usuarioId, UUID idObjetivo);
-    void deleteObjetivoById(UUID objetivoId);
+    Objetivo getObjetivoById(UUID idObjetivo);
+    Boolean objetivoExist(UUID idObjetivo);
+    Boolean isObjetivoOfUserDeletable(UUID idUsuario, UUID idObjetivo);
+    void deleteObjetivoById(UUID idObjetivo);
     void updateObjetivo(Objetivo objetivo);
     List<Objetivo> findObjetivosBasedOnUserId(UUID id);
-    Boolean similarObjetivoExist(String name, UUID usuarioId);
+    Boolean similarObjetivoExist(String name, UUID idUsuario);
 }

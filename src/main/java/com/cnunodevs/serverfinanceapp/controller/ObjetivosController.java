@@ -48,7 +48,7 @@ public class ObjetivosController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createObjetivo(@RequestBody ObjetivoDTO objetivoDTO) {
-        if(objetivoService.similarObjetivoExist(objetivoDTO.getNombre(), objetivoDTO.getUsuarioID())) {
+        if(objetivoService.similarObjetivoExist(objetivoDTO.getNombre(), objetivoDTO.getIdUsuario())) {
             throw new IllegalStateException("Similar objetivo already exist");
         }
         Objetivo objetivo = objetivoMapper.dtoToPojo(objetivoDTO);
@@ -59,9 +59,9 @@ public class ObjetivosController {
     @GetMapping
     public ResponseEntity<Page<ObjetivoDTO>> getAllObjetivosOfUser(@RequestParam(defaultValue = "0") int page,
                                                                 @RequestParam(defaultValue = "7") int size,
-                                                                @RequestParam UUID usuarioId) {
+                                                                @RequestParam UUID idUsuario) {
         Pageable paging = PageRequest.of(page, size);
-        List<Objetivo> objetivos = objetivoService.findObjetivosBasedOnUserId(usuarioId);
+        List<Objetivo> objetivos = objetivoService.findObjetivosBasedOnUserId(idUsuario);
         Page<ObjetivoDTO> objetivosDTO = new PageImpl<ObjetivoDTO>(objetivos.stream()
                                                                             .map(objetivoMapper::pojoToDto)
                                                                             .toList(),

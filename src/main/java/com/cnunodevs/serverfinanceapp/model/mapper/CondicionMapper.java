@@ -22,7 +22,7 @@ public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
                                             .importe(BigDecimal.valueOf(dto.getImporte()))
                                             .tipoImporte(TipoImporte.valueOf(dto.getTipoImporte()))
                                             .enabled(dto.getEnabled())
-                                            .ahorro(Ahorro.builder().id(dto.getAhorroId()).build())
+                                            .ahorro(Ahorro.builder().id(dto.getIdAhorro()).build())
                                         .build();
         if(dto.getId() != null) {
             condicion.setId(dto.getId());
@@ -43,7 +43,7 @@ public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
                                 .importe(pojo.getImporte().doubleValue())
                                 .tipoImporte(pojo.getTipoImporte().toString())
                                 .enabled(pojo.getEnabled())
-                                .ahorroId(pojo.getAhorro().getId())
+                                .idAhorro(pojo.getAhorro().getId())
                             .build();
     }
     

@@ -25,13 +25,13 @@ public class ObjetivoServiceImpl implements ObjetivoService {
     }
 
     @Override
-    public Objetivo getObjetivoById(UUID objetivoId) {
-        return objetivoRepository.getReferenceById(objetivoId);
+    public Objetivo getObjetivoById(UUID idObjetivo) {
+        return objetivoRepository.getReferenceById(idObjetivo);
     }
 
     @Override
-    public void deleteObjetivoById(UUID objetivoId) {
-        objetivoRepository.deleteById(objetivoId);
+    public void deleteObjetivoById(UUID idObjetivo) {
+        objetivoRepository.deleteById(idObjetivo);
     }
 
     @Override
@@ -40,30 +40,30 @@ public class ObjetivoServiceImpl implements ObjetivoService {
     }
 
     @Override
-    public List<Objetivo> findObjetivosBasedOnUserId(UUID usuarioId) {
-        return objetivoRepository.findByUsuarioId(usuarioId);
+    public List<Objetivo> findObjetivosBasedOnUserId(UUID idUsuario) {
+        return objetivoRepository.findByUsuarioId(idUsuario);
     }
 
     @Override
-    public Boolean similarObjetivoExist(String name, UUID usuarioId) {
+    public Boolean similarObjetivoExist(String name, UUID idUsuario) {
         Example<Objetivo> exampleObjetivos = Example.of(Objetivo.builder()
                                                                 .nombre(name)
                                                                 .usuario(Usuario.builder()
-                                                                                .id(usuarioId)
+                                                                                .id(idUsuario)
                                                                                 .build())
                                                                 .build());
         return objetivoRepository.findOne(exampleObjetivos).isPresent();
     }
 
     @Override
-    public Boolean isObjetivoOfUserDeletable(UUID usuarioId, UUID idObjetivo) {
-        return objetivoRepository.findObjetivoOfUserInAhorros(usuarioId, idObjetivo).isEmpty() 
-                && objetivoRepository.findObjetivosInPortafoslioOfUser(usuarioId, idObjetivo).isEmpty();
+    public Boolean isObjetivoOfUserDeletable(UUID idUsuario, UUID idObjetivo) {
+        return objetivoRepository.findObjetivoOfUserInAhorros(idUsuario, idObjetivo).isEmpty() 
+                && objetivoRepository.findObjetivosInPortafoslioOfUser(idUsuario, idObjetivo).isEmpty();
     }
 
     @Override
-    public Boolean objetivoExist(UUID objetivoId) {
-        return objetivoRepository.existsById(objetivoId);
+    public Boolean objetivoExist(UUID idObjetivo) {
+        return objetivoRepository.existsById(idObjetivo);
     }
     
 }

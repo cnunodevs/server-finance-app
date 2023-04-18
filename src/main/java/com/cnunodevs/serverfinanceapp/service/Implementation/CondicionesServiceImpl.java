@@ -48,8 +48,8 @@ public class CondicionesServiceImpl implements CondicionesService {
     }
 
     @Override
-    public Movimiento applyCondicionToSpecificAhorro(Movimiento movimiento, UUID ahorroID) {
-        Ahorro ahorro = ahorroService.findAhorroById(ahorroID).get();
+    public Movimiento applyCondicionToSpecificAhorro(Movimiento movimiento, UUID idAhorro) {
+        Ahorro ahorro = ahorroService.findAhorroById(idAhorro).get();
         if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
                  ahorro.getCondicion())) 
         {
@@ -61,10 +61,10 @@ public class CondicionesServiceImpl implements CondicionesService {
     }
 
     @Override
-    public void deleteCondicion(UUID ahorroID) {
+    public void deleteCondicion(UUID idAhorro) {
         Example<Condicion> exampleCondicion = Example.of(Condicion.builder()
                                                                   .ahorro(Ahorro.builder()
-                                                                                .id(ahorroID)
+                                                                                .id(idAhorro)
                                                                                 .build())
                                                                   .build());
         conditionRepository.delete(conditionRepository.findOne(exampleCondicion).get());
