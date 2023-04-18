@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cnunodevs.serverfinanceapp.exception.NotDeletableException;
 import com.cnunodevs.serverfinanceapp.model.dto.ObjetivoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 import com.cnunodevs.serverfinanceapp.model.mapper.ObjetivoMapper;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -75,9 +78,14 @@ public class ObjetivosController {
                                                             .toList());
     }
 
-    @GetMapping("/verificar-borrado")
-    public ResponseEntity<Boolean> objetivoCanBeDeleted(@RequestParam UUID idUsuario) {
-        return ResponseEntity.status(HttpStatus.OK).body(objetivoService.isObjetivoOfUserDeletable(idUsuario));
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> objetivoCanBeDeleted(@RequestParam UUID idUsuario, @RequestParam UUID idObjetivo)
+     throws NotDeletableException {
+        if(!objetivoService.isObjetivoOfUserDeletable(idUsuario, idObjetivo)) {
+            throw new NotDeletableException("el objetivo no es borrable debido a que se esta usando en otros lugares");
+        }
+        objetivoService.deleteObjetivoById(idObjetivo);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping
