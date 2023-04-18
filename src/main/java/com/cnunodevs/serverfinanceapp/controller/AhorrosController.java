@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cnunodevs.serverfinanceapp.exception.NotDeletableException;
+import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
@@ -50,14 +51,24 @@ public class AhorrosController {
 
     @GetMapping
     public ResponseEntity<Page<AhorroDTO>> getAllAhorrosPaginated(
+        @RequestParam UUID idUser,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "9") int size) {
             Pageable pageable = PageRequest.of(page, size);
-            Page<Ahorro> pages = ahorrosService.getAllAhorrosPaginated(pageable);
+            Page<Ahorro> pages = ahorrosService.getAllAhorrosOfUserPaginated(pageable, idUser);
             Page<AhorroDTO> pagesDTO = new PageImpl<>(
                 pages.stream().map(ahorroMapper::pojoToDto).toList()
                 );
             return ResponseEntity.status(HttpStatus.OK).body(pagesDTO);
+    }
+
+    @GetMapping("/{idAhorro}")
+    public ResponseEntity<AhorroDTO> getAhorroById(@PathVariable UUID idAhorro) {
+        if(!ahorrosService.ahorroExist(idAhorro)) {
+            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
+        }
+        AhorroDTO ahorroDTO = ahorroMapper.pojoToDto(ahorrosService.findAhorroById(idAhorro).get());
+        return ResponseEntity.status(HttpStatus.OK).body(ahorroDTO);
     }
 
     @GetMapping("/metricas")
@@ -65,8 +76,19 @@ public class AhorrosController {
         if((minMonto < 0 || maxMonto < 0) || minMonto > maxMonto) {
             throw new IllegalStateException("mal uso de monto maximo y minimo");
         }
-        MetricaAhorros metricas = ahorrosService.getMetricaAhorro(minMonto, maxMonto);
+        MetricaAhorros metricas = ahorrosService.getMetricaAhorros(minMonto, maxMonto);
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
+    }
+
+    @GetMapping("/metricas/{idAhorro}")
+    public ResponseEntity<MetricaAhorro> getMetricaOf(@PathVariable UUID idAhorro) {
+        if(!ahorrosService.ahorroExist(idAhorro)) {
+            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
+        }
+
+        MetricaAhorro metricaAhorro = ahorrosService.getMetricaAhorro(idAhorro);
+        return ResponseEntity.status(HttpStatus.OK).body(metricaAhorro);
+
     }
 
     @PutMapping("/transferencia-hacia-disponible")

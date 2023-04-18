@@ -1,5 +1,6 @@
 package com.cnunodevs.serverfinanceapp.service;
 
+import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 
@@ -16,12 +17,13 @@ public interface AhorrosService {
     boolean hasCondition(UUID ahorroID);
     void createBolsilloAhorro(Ahorro ahorro);
     Set<Ahorro> getAllAhorros();
-    Page<Ahorro> getAllAhorrosPaginated(Pageable pageable);
+    Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser);
     void updateBolsilloAhorro(Ahorro ahorro);
     void deleteBolsilloAhorro(UUID ahorroID);
     Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID ahorroID);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID ahorroID);
-    MetricaAhorros getMetricaAhorro(long minMonto, long maxMonto);
+    MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto);
+    MetricaAhorro getMetricaAhorro(UUID idAhorro);
     Optional<Ahorro> findAhorroById(UUID ahorroID);
     void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
     void transferDisponibleToAhorro(Ahorro ahorro, BigDecimal ImporteToTransfer);

@@ -11,8 +11,10 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
+import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
@@ -54,7 +56,7 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public MetricaAhorros getMetricaAhorro(long minMonto, long maxMonto) {
+    public MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto) {
         List<Ahorro> allAhorros = ahorroRepository.findAll();
         List<Ahorro> ahorroFiltred = new ArrayList<>();
         if(allAhorros.isEmpty()) {
@@ -79,8 +81,11 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public Page<Ahorro> getAllAhorrosPaginated(Pageable pageable) {
-        return ahorroRepository.findAll(pageable);
+    public Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser) {
+        Page<Ahorro> page = new PageImpl<Ahorro>(ahorroRepository.findAll(pageable).stream()
+                                                                                   .filter(ahorro -> ahorro.getUsuario().getId().equals(idUser))
+                                                                                   .toList());
+        return page;
     }
 
     @Override
@@ -119,6 +124,11 @@ public class AhorroServiceImpl implements AhorrosService {
     public boolean hasCondition(UUID ahorroID) {
         Ahorro ahorro = ahorroRepository.findById(ahorroID).get();
         return ahorro.getCondicion() != null;
+    }
+
+    @Override
+    public MetricaAhorro getMetricaAhorro(UUID idAhorro) {
+        return new MetricaAhorro(ahorroRepository.getReferenceById(idAhorro));
     }
     
 }
