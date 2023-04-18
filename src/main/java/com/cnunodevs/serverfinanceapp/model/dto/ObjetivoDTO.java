@@ -14,7 +14,7 @@ import lombok.Data;
 @Builder
 @JsonPropertyOrder({"id", "nombre", "descripcion", "fechaEstimada", "monto", "usuarioId"})
 public class ObjetivoDTO {
-    @NotEmpty
+
     private UUID id;
     @NotEmpty
     private String nombre;

@@ -13,7 +13,6 @@ import lombok.Data;
 @JsonPropertyOrder({"id", "expresion", "importe", "tipoImporte", "enabled"})
 public class CondicionDTO {
     
-    @NotEmpty
     private UUID id;
     @NotEmpty
     private String expresion;
