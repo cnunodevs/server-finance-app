@@ -61,18 +61,5 @@ public class Usuario {
 
     @UpdateTimestamp
     private LocalDateTime ultimaActualizacion;
-   
-
-    /*
-     * propuestas:
-     * @OneToMany
-     * @JoinColumn(name = "user_fk")
-     * private List<Presupuesto> presupuestos;
-     * razon: debido a que al menos como yo lo entiendo debe tomarse
-     * los presupuestos que tiene el usuario para mostrarlos.
-     * asi mismo podria ocurrir exactamente con los balances,
-     * los objetivos, los movimientos y los portafolios
-     * 
-     */
     
 }
