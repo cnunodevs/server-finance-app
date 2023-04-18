@@ -28,7 +28,6 @@ import com.cnunodevs.serverfinanceapp.model.mapper.ObjetivoMapper;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
