@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 import com.cnunodevs.serverfinanceapp.service.MovimientosService;
@@ -51,7 +53,7 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public boolean ahorroExist(UUID ahorroID) {
+    public boolean ahorroExistById(UUID ahorroID) {
         return ahorroRepository.existsById(ahorroID);
     }
 
@@ -120,6 +122,8 @@ public class AhorroServiceImpl implements AhorrosService {
         movimientosService.crearMovimientoDesdeDisponibleParaAhorrro(ImporteToTransfer, ahorro.getUsuario().getId());
     }
 
+     
+
     @Override
     public boolean hasCondition(UUID ahorroID) {
         Ahorro ahorro = ahorroRepository.findById(ahorroID).get();
@@ -129,6 +133,15 @@ public class AhorroServiceImpl implements AhorrosService {
     @Override
     public MetricaAhorro getMetricaAhorro(UUID idAhorro) {
         return new MetricaAhorro(ahorroRepository.getReferenceById(idAhorro));
+    }
+
+    @Override
+    public boolean ahorroExistByNameAndUser(String name, UUID idUser) {
+        Example<Ahorro> example = Example.of(Ahorro.builder()
+                                                   .nombre(name)
+                                                   .usuario(Usuario.builder().id(idUser).build())
+                                                   .build());
+        return ahorroRepository.findOne(example).isPresent();
     }
     
 }

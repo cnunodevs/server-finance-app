@@ -10,11 +10,16 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonPropertyOrder({"id", "tipo", "importe", "automatico", "idObjetivo", "idCondicion"})
+@JsonPropertyOrder({"id", "nombre", "descripcion", "tipo", "importe", "automatico", "idObjetivo", "idCondicion"})
 public class AhorroDTO {
     
-    @NotEmpty
     private UUID id;
+
+    @NotEmpty
+    private String nombre;
+
+    @NotEmpty
+    private String descripcion;
     
     @NotEmpty
     private String tipo;
@@ -27,6 +32,9 @@ public class AhorroDTO {
 
     @NotEmpty
     private UUID idObjetivo;
+
+    @NotEmpty
+    private UUID idUsuario;
 
     private CondicionDTO condicionDTO;
 

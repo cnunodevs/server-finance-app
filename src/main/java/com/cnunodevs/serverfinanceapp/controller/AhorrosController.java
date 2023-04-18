@@ -64,7 +64,7 @@ public class AhorrosController {
 
     @GetMapping("/{idAhorro}")
     public ResponseEntity<AhorroDTO> getAhorroById(@PathVariable UUID idAhorro) {
-        if(!ahorrosService.ahorroExist(idAhorro)) {
+        if(!ahorrosService.ahorroExistById(idAhorro)) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         AhorroDTO ahorroDTO = ahorroMapper.pojoToDto(ahorrosService.findAhorroById(idAhorro).get());
@@ -82,7 +82,7 @@ public class AhorrosController {
 
     @GetMapping("/metricas/{idAhorro}")
     public ResponseEntity<MetricaAhorro> getMetricaOf(@PathVariable UUID idAhorro) {
-        if(!ahorrosService.ahorroExist(idAhorro)) {
+        if(!ahorrosService.ahorroExistById(idAhorro)) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
 
@@ -93,7 +93,7 @@ public class AhorrosController {
 
     @PutMapping("/transferencia-hacia-disponible")
     public ResponseEntity<HttpStatus> transferToDisponible(@RequestBody AhorroDTO ahorroDTO, @RequestParam Double importeToTransfer) {
-        if(!ahorrosService.ahorroExist(ahorroDTO.getId())) {
+        if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
@@ -103,7 +103,7 @@ public class AhorrosController {
 
     @PutMapping("/transferencia-desde-disponible")
     public ResponseEntity<HttpStatus> transferFromDisponible(@RequestBody AhorroDTO ahorroDTO, @RequestParam Double importeToTransfer) {
-        if(!ahorrosService.ahorroExist(ahorroDTO.getId())) {
+        if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
@@ -113,6 +113,9 @@ public class AhorrosController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createAhorro(@RequestBody AhorroDTO ahorroDTO) throws IllegalStateException {
+        if(ahorrosService.ahorroExistByNameAndUser(ahorroDTO.getNombre(), ahorroDTO.getIdUsuario())) {
+            throw new IllegalStateException("Similar ahorro already exist");
+        }
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
         ahorrosService.createBolsilloAhorro(ahorro);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -130,7 +133,7 @@ public class AhorrosController {
 
     @PatchMapping("/delete-condicion")
     public ResponseEntity<HttpStatus> deleteCondicion(@RequestBody AhorroDTO ahorroDTO) {
-        if(!ahorrosService.ahorroExist(ahorroDTO.getId())) {
+        if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         condicionesService.deleteCondicion(ahorroDTO.getId());
@@ -140,7 +143,7 @@ public class AhorrosController {
 
     @GetMapping("/{idAhorro}")
     public ResponseEntity<Boolean> hasCondicion(@PathVariable UUID idAhorro){
-        if(!ahorrosService.ahorroExist(idAhorro)) {
+        if(!ahorrosService.ahorroExistById(idAhorro)) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
         }
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.hasCondition(idAhorro));
@@ -148,7 +151,7 @@ public class AhorrosController {
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAhorro(@RequestParam UUID idAhorro) throws NotDeletableException {
-        if(!ahorrosService.ahorroExist(idAhorro)) {
+        if(!ahorrosService.ahorroExistById(idAhorro)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idAhorro);
         }
         if(ahorrosService.findAhorroById(idAhorro).get().getImporte().longValue() != 0) {

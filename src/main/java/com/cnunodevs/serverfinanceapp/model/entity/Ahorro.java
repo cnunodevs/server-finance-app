@@ -32,7 +32,11 @@ public class Ahorro {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
+    private String nombre;
+
+    private String descripcion;
+
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private TipoAhorro tipo;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
                             .importe(BigDecimal.valueOf(dto.getImporte()))
                             .automatico(dto.isAutomatico())
                             .objetivo(Objetivo.builder().id(dto.getIdObjetivo()).build())
+                            .usuario(Usuario.builder().id(dto.getIdUsuario()).build())
                             .condicion(condicionMapper.dtoToPojo(dto.getCondicionDTO()))
                             .build();
 
@@ -41,6 +43,7 @@ public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
                             .importe(pojo.getImporte().doubleValue())
                             .automatico(pojo.isAutomatico())
                             .idObjetivo(pojo.getObjetivo().getId())
+                            .idUsuario(pojo.getUsuario().getId())
                             .condicionDTO(condicionMapper.pojoToDto(pojo.getCondicion()))
                             .build();
         return ahorroDTO;
