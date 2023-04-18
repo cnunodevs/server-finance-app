@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.cnunodevs.serverfinanceapp.exception.AhorroNotDeletableException;
+import com.cnunodevs.serverfinanceapp.exception.NotDeletableException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -50,7 +50,7 @@ public class ApiExceptionHandler {
         logger.error(exception.getMessage());
     }
 
-    @ExceptionHandler(AhorroNotDeletableException.class)
+    @ExceptionHandler(NotDeletableException.class)
     @ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
     public void ahorroNotDeletableExceptionHandler(BindException exception){
         logger.error(exception.getMessage());

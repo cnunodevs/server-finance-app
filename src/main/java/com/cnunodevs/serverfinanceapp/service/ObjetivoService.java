@@ -10,7 +10,7 @@ public interface ObjetivoService {
     Objetivo saveObjetivo(Objetivo objetivo);
     Objetivo getObjetivoById(UUID objetivoId);
     Boolean objetivoExist(UUID objetivoId);
-    Boolean isObjetivoOfUserDeletable(UUID usuarioId);
+    Boolean isObjetivoOfUserDeletable(UUID usuarioId, UUID idObjetivo);
     void deleteObjetivoById(UUID objetivoId);
     void updateObjetivo(Objetivo objetivo);
     List<Objetivo> findObjetivosBasedOnUserId(UUID id);

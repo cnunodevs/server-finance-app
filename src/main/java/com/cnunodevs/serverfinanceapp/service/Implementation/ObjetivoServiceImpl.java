@@ -56,9 +56,9 @@ public class ObjetivoServiceImpl implements ObjetivoService {
     }
 
     @Override
-    public Boolean isObjetivoOfUserDeletable(UUID usuarioId) {
-        return objetivoRepository.findObjetivosInAhorrosOfUser(usuarioId).isEmpty() 
-                && objetivoRepository.findObjetivosInPortafoslioOfUser(usuarioId).isEmpty();
+    public Boolean isObjetivoOfUserDeletable(UUID usuarioId, UUID idObjetivo) {
+        return objetivoRepository.findObjetivoOfUserInAhorros(usuarioId, idObjetivo).isEmpty() 
+                && objetivoRepository.findObjetivosInPortafoslioOfUser(usuarioId, idObjetivo).isEmpty();
     }
 
     @Override

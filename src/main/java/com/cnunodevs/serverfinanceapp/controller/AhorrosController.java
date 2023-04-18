@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cnunodevs.serverfinanceapp.exception.AhorroNotDeletableException;
+import com.cnunodevs.serverfinanceapp.exception.NotDeletableException;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
@@ -125,12 +125,12 @@ public class AhorrosController {
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteAhorro(@RequestParam UUID idAhorro) throws AhorroNotDeletableException {
+    public ResponseEntity<HttpStatus> deleteAhorro(@RequestParam UUID idAhorro) throws NotDeletableException {
         if(!ahorrosService.ahorroExist(idAhorro)) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + idAhorro);
         }
         if(ahorrosService.findAhorroById(idAhorro).get().getImporte().longValue() != 0) {
-            throw new AhorroNotDeletableException("el ahorro tiene dinero, no se puede borrar");
+            throw new NotDeletableException("el ahorro tiene dinero, no se puede borrar");
         }
 
         ahorrosService.deleteBolsilloAhorro(idAhorro);
