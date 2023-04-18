@@ -40,22 +40,6 @@ public class ObjetivosController {
     private final ObjetivoService objetivoService;
     private final ObjetivoMapper objetivoMapper;
 
-    @GetMapping("/has-objetivo/{idUsuario}")
-    public ResponseEntity<Boolean> userHasObjetivo(@PathVariable UUID idUsuario) {
-        List<Objetivo> objetivos = objetivoService.findObjetivosBasedOnUserId(idUsuario);
-        return ResponseEntity.status(HttpStatus.OK).body(objetivos.isEmpty());
-    }
-
-    @PostMapping
-    public ResponseEntity<HttpStatus> createObjetivo(@RequestBody ObjetivoDTO objetivoDTO) {
-        if(objetivoService.similarObjetivoExist(objetivoDTO.getNombre(), objetivoDTO.getIdUsuario())) {
-            throw new IllegalStateException("Similar objetivo already exist");
-        }
-        Objetivo objetivo = objetivoMapper.dtoToPojo(objetivoDTO);
-        objetivoService.saveObjetivo(objetivo);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @GetMapping
     public ResponseEntity<Page<ObjetivoDTO>> getAllObjetivosOfUser(@RequestParam(defaultValue = "0") int page,
                                                                 @RequestParam(defaultValue = "7") int size,
@@ -78,15 +62,30 @@ public class ObjetivosController {
                                                             .toList());
     }
 
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> objetivoCanBeDeleted(@RequestParam UUID idUsuario, @RequestParam UUID idObjetivo)
-     throws NotDeletableException {
-        if(!objetivoService.isObjetivoOfUserDeletable(idUsuario, idObjetivo)) {
-            throw new NotDeletableException("el objetivo no es borrable debido a que se esta usando en otros lugares");
-        }
-        objetivoService.deleteObjetivoById(idObjetivo);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @GetMapping("/has-objetivo/{idUsuario}")
+    public ResponseEntity<Boolean> userHasObjetivo(@PathVariable UUID idUsuario) {
+        List<Objetivo> objetivos = objetivoService.findObjetivosBasedOnUserId(idUsuario);
+        return ResponseEntity.status(HttpStatus.OK).body(objetivos.isEmpty());
     }
+
+    @GetMapping("/{idObjetivo}")
+    public ResponseEntity<ObjetivoDTO> getObjetivo(@PathVariable UUID idObjetivo) {
+        if(!objetivoService.objetivoExist(idObjetivo)) {
+            throw new EntityNotFoundException("el objetivo al que quiere acceder no existe");
+        }
+        ObjetivoDTO objetivoDTO = objetivoMapper.pojoToDto(objetivoService.getObjetivoById(idObjetivo));
+        return ResponseEntity.status(HttpStatus.OK).body(objetivoDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<HttpStatus> createObjetivo(@RequestBody ObjetivoDTO objetivoDTO) {
+        if(objetivoService.similarObjetivoExist(objetivoDTO.getNombre(), objetivoDTO.getIdUsuario())) {
+            throw new IllegalStateException("Similar objetivo already exist");
+        }
+        Objetivo objetivo = objetivoMapper.dtoToPojo(objetivoDTO);
+        objetivoService.saveObjetivo(objetivo);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }    
 
     @PutMapping
     public ResponseEntity<HttpStatus> updateObjetivo(@RequestBody ObjetivoDTO objetivoDTO) {
@@ -98,12 +97,14 @@ public class ObjetivosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{idObjetivo}")
-    public ResponseEntity<ObjetivoDTO> getObjetivo(@PathVariable UUID idObjetivo) {
-        if(!objetivoService.objetivoExist(idObjetivo)) {
-            throw new EntityNotFoundException("el objetivo al que quiere acceder no existe");
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> objetivoCanBeDeleted(@RequestParam UUID idUsuario, @RequestParam UUID idObjetivo)
+     throws NotDeletableException {
+        if(!objetivoService.isObjetivoOfUserDeletable(idUsuario, idObjetivo)) {
+            throw new NotDeletableException("el objetivo no es borrable debido a que se esta usando en otros lugares");
         }
-        ObjetivoDTO objetivoDTO = objetivoMapper.pojoToDto(objetivoService.getObjetivoById(idObjetivo));
-        return ResponseEntity.status(HttpStatus.OK).body(objetivoDTO);
+        objetivoService.deleteObjetivoById(idObjetivo);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
+    
 }

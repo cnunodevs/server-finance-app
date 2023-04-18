@@ -91,6 +91,36 @@ public class AhorrosController {
 
     }
 
+    @GetMapping("/ahorros-automaticos")
+    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam UUID idUsuario) {
+        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(idUsuario);
+        Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
+                                                      .map(ahorroMapper::pojoToDto)
+                                                      .filter(ahorro -> ahorro.isAutomatico())
+                                                      .toList());
+        return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
+    }
+
+    @GetMapping("/{idAhorro}")
+    public ResponseEntity<Boolean> hasCondicion(@PathVariable UUID idAhorro){
+        if(!ahorrosService.ahorroExistById(idAhorro)) {
+            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.hasCondition(idAhorro));
+    }
+
+    @PostMapping
+    public ResponseEntity<HttpStatus> createAhorro(@RequestBody AhorroDTO ahorroDTO) throws IllegalStateException {
+        if(ahorrosService.ahorroExistByNameAndUser(ahorroDTO.getNombre(), ahorroDTO.getIdUsuario())) {
+            throw new IllegalStateException("Similar ahorro already exist");
+        }
+        Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
+        ahorrosService.createBolsilloAhorro(ahorro);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    
+    
+
     @PutMapping("/transferencia-hacia-disponible")
     public ResponseEntity<HttpStatus> transferToDisponible(@RequestBody AhorroDTO ahorroDTO, @RequestParam Double importeToTransfer) {
         if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
@@ -111,26 +141,6 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping
-    public ResponseEntity<HttpStatus> createAhorro(@RequestBody AhorroDTO ahorroDTO) throws IllegalStateException {
-        if(ahorrosService.ahorroExistByNameAndUser(ahorroDTO.getNombre(), ahorroDTO.getIdUsuario())) {
-            throw new IllegalStateException("Similar ahorro already exist");
-        }
-        Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
-        ahorrosService.createBolsilloAhorro(ahorro);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-    
-    @GetMapping("/ahorros-automaticos")
-    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam UUID idUsuario) {
-        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(idUsuario);
-        Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
-                                                      .map(ahorroMapper::pojoToDto)
-                                                      .filter(ahorro -> ahorro.isAutomatico())
-                                                      .toList());
-        return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
-    }
-
     @PatchMapping("/delete-condicion")
     public ResponseEntity<HttpStatus> deleteCondicion(@RequestBody AhorroDTO ahorroDTO) {
         if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
@@ -141,13 +151,7 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{idAhorro}")
-    public ResponseEntity<Boolean> hasCondicion(@PathVariable UUID idAhorro){
-        if(!ahorrosService.ahorroExistById(idAhorro)) {
-            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.hasCondition(idAhorro));
-    }
+    
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAhorro(@RequestParam UUID idAhorro) throws NotDeletableException {
