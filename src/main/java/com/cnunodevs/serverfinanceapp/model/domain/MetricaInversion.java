@@ -9,6 +9,9 @@ import lombok.Data;
 @Data
 public class MetricaInversion {
 
+    //Agregar datos de inversion: Nombre - Descripcion - sector
+    private String nombre;
+    private String sector;
     private UUID idInversion;
     private Double gananciaEsperada;
     private Double valorTotal;
@@ -17,6 +20,8 @@ public class MetricaInversion {
 
     public MetricaInversion(Inversion inversion) {
 
+        this.nombre = inversion.getNombre();
+        this.sector = inversion.getSector().toString();
         this.idInversion = idInversion(inversion);
         this.valorTotal = valorTotal(inversion);
         this.gananciaEsperada = gananciaEsperada(inversion);
