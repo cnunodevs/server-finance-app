@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -49,7 +50,7 @@ public class Ahorro {
     @JoinColumn(name = "objetivo_fk")
     private Objetivo objetivo;
 
-    @OneToOne(mappedBy = "ahorro_fk")
+    @OneToOne(mappedBy = "ahorro", cascade = CascadeType.REMOVE)
     private Condicion condicion;
     
     @ManyToOne
