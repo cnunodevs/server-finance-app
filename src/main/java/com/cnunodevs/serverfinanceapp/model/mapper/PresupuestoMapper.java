@@ -24,8 +24,12 @@ public class PresupuestoMapper implements GenericMapper<Presupuesto, Presupuesto
 
     @Override
     public PresupuestoDTO pojoToDto(Presupuesto pojo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pojoToDto'");
+        PresupuestoDTO presupuestoDTO = PresupuestoDTO.builder()
+                                                    .nombre(pojo.getNombre())
+                                                    .descripcion(pojo.getDescripcion())
+                                                    .periodo(pojo.getPeriodo().toString())
+                                                    .build();
+        return presupuestoDTO;
     }
     
 }
