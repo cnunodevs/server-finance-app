@@ -17,7 +17,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,7 +32,6 @@ import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
-import com.cnunodevs.serverfinanceapp.service.CondicionesService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +43,6 @@ import lombok.RequiredArgsConstructor;
 public class AhorrosController {
     
     private final AhorrosService ahorrosService;
-    private final CondicionesService condicionesService;
     private final AhorroMapper ahorroMapper;
 
     @GetMapping
@@ -138,17 +135,7 @@ public class AhorrosController {
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
         ahorrosService.transferDisponibleToAhorro(ahorro, BigDecimal.valueOf(importeToTransfer));
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @PatchMapping("/delete-condicion")
-    public ResponseEntity<HttpStatus> deleteCondicion(@RequestBody AhorroDTO ahorroDTO) {
-        if(!ahorrosService.ahorroExistById(ahorroDTO.getId())) {
-            throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");
-        }
-        condicionesService.deleteCondicion(ahorroDTO.getId());
-        ahorrosService.createBolsilloAhorro(ahorroMapper.dtoToPojo(ahorroDTO));
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+    } 
 
     
 
