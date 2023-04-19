@@ -66,7 +66,7 @@ public class CondicionesServiceImpl implements CondicionesService {
                                                                   .ahorro(Ahorro.builder()
                                                                                 .id(idAhorro)
                                                                                 .build())
-                                                                  .build());
+                                                                  .build());                                                                                                                                    
         conditionRepository.delete(conditionRepository.findOne(exampleCondicion).get());
     }
 

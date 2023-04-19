@@ -143,5 +143,13 @@ public class AhorroServiceImpl implements AhorrosService {
                                                    .build());
         return ahorroRepository.findOne(example).isPresent();
     }
+
+    @Override
+    public void unableCondicion(UUID idAhorro) {
+        Ahorro ahorro = ahorroRepository.findById(idAhorro).get();
+        ahorro.setAutomatico(false);
+        ahorro.setCondicion(null);
+        ahorroRepository.save(ahorro);
+    }
     
 }
