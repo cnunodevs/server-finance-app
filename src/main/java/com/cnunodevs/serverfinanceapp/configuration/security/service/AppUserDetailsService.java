@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.mapper.UserDetailsMapper;
-import com.cnunodevs.serverfinanceapp.service.UsuariosService;
+import com.cnunodevs.serverfinanceapp.repository.UsuariosRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,12 +19,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
 
-    private final UsuariosService usuariosService;
+    private final UsuariosRepository usuariosRepository;
     private final UserDetailsMapper userDetailsMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuario = usuariosService.findByUsername(username);
+        
+        Optional<Usuario> usuario = usuariosRepository.findFirstByUsername(username);
         if (!usuario.isPresent()) {
             throw new UsernameNotFoundException("User details not found: " + username);
         }
@@ -32,7 +33,7 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     public Usuario loadUsuarioByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> customerOptional = usuariosService.findByUsername(username);
+        Optional<Usuario> customerOptional = usuariosRepository.findFirstByUsername(username);
         if (!customerOptional.isPresent()) {
             throw new UsernameNotFoundException("User details not found: " + username);
         }

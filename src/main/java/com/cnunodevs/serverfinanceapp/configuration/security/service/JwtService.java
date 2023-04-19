@@ -16,14 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.configuration.security.constant.SecurityConstants;
-import com.cnunodevs.serverfinanceapp.service.UsuariosService;
 
 
 @Service
 @RequiredArgsConstructor
 public class JwtService {
 
-  private final UsuariosService usuariosService;
   private static final String SECRET_KEY = SecurityConstants.JWT_KEY;
 
   public String extractUsername(String token) {
@@ -44,7 +42,6 @@ public class JwtService {
       UserDetails userDetails) {
     Map<String, Object> rolesClaim = new HashMap<>();
     rolesClaim.put("role", userDetails.getAuthorities().stream().findFirst().get().getAuthority());
-    rolesClaim.put("uuid", usuariosService.findByUsername(userDetails.getUsername()).get().getId());
     return Jwts
         .builder()
         .setClaims(extraClaims)

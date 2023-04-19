@@ -43,15 +43,15 @@ public class Portafolio {
     @Column(length = 255)
     private String descripcion;
 
-    @OneToMany(mappedBy="portafolio_fk", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="portafolio", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Inversion> inversiones;
 
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_fk")
+    @JoinColumn(name = "usuario")
     private Usuario usuario;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "objetivo_fk")
+    @JoinColumn(name = "objetivo")
     private Objetivo objetivo;
 
     

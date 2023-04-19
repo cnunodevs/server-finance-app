@@ -50,11 +50,11 @@ public class Movimiento {
     private String logoConcepto;
 
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_fk", nullable = true)
+    @JoinColumn(name = "usuario", nullable = true)
     private Usuario usuario;
 
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "presupuesto_fk", nullable = true)
+    @JoinColumn(name = "presupuesto", nullable = true)
     private Presupuesto presupuesto;
 
     @Column(nullable = false)

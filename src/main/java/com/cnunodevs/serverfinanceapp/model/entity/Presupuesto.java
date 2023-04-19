@@ -52,10 +52,10 @@ public class Presupuesto {
     private PeriodoPresupuesto periodo;
     
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_fk")
+    @JoinColumn(name = "usuario")
     private Usuario usuario;
     
-    @OneToMany(mappedBy="presupuesto_fk", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="presupuesto", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Movimiento> movimientos;
     
     @CreationTimestamp

@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="inversiones", indexes = @Index(name="inversion_unique", columnList = "nombre, portafolio_fk", unique = true))
+@Table(name="inversiones", indexes = @Index(name="inversion_unique", columnList = "nombre, portafolio", unique = true))
 public class Inversion {
     
     @Id
@@ -43,7 +43,7 @@ public class Inversion {
     private UUID id;
     
     @ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "portafolio_fk")
+    @JoinColumn(name = "portafolio")
     private Portafolio portafolio;
 
     @Column(length = 50, nullable = false)
