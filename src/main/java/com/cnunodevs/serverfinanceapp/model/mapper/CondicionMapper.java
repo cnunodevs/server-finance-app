@@ -2,12 +2,15 @@ package com.cnunodevs.serverfinanceapp.model.mapper;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import com.cnunodevs.serverfinanceapp.model.dto.CondicionDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.Expresion;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoImporte;
 
+@Service
 public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
 
     @Override

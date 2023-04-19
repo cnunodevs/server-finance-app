@@ -2,10 +2,13 @@ package com.cnunodevs.serverfinanceapp.model.mapper;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import com.cnunodevs.serverfinanceapp.model.dto.ObjetivoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 
+@Service
 public class ObjetivoMapper implements GenericMapper<Objetivo, ObjetivoDTO> {
 
     @Override
