@@ -29,7 +29,7 @@ public class SecurityConfiguration {
     private final LogoutHandler logoutHandler;
     
     @Value("${client.origin.allowedOrigins}")
-    private final String allowedOrigins;
+    private String allowedOrigins;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
