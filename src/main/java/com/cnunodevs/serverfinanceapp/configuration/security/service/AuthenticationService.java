@@ -23,7 +23,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     public void registerNewUserToken(Usuario usuario) {
-
         String jwtToken = jwtService.generateToken(userDetailsMapper.pojoToDto(usuario));
         saveUserToken(usuario, jwtToken);
     }
