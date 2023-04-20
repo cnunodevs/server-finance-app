@@ -67,11 +67,11 @@ public class MovimientosController {
     @return Un objeto ResponseEntity con la página de movimientos y un código de estado HTTP que indica el resultado
     de la operación.
     */
-    @GetMapping("/{idUsuario}")
+    @GetMapping("/by-usuario")
     public ResponseEntity<Page<MovimientoDTO>> handleGetMovimientosByUsuario(
             @RequestParam(defaultValue = "0") final Integer page,
             @RequestParam(defaultValue = "9") final Integer size,
-            @PathVariable final UUID idUsuario) {
+            @RequestParam final UUID idUsuario) {
         final Pageable paging = PageRequest.of(page, size);
         final Example<Movimiento> example = Example
                 .of(Movimiento.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
