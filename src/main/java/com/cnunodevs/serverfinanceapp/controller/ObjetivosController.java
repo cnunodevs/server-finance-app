@@ -30,10 +30,10 @@ import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequestMapping("api/v1/objetivos")
-@RequiredArgsConstructor
 @Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/v1/objetivos")
 public class ObjetivosController {
     
     private final ObjetivoService objetivoService;
@@ -53,7 +53,7 @@ public class ObjetivosController {
         return ResponseEntity.status(HttpStatus.OK).body(objetivosDTO);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ObjetivoDTO>> getListObjetivosOfUser(@RequestParam UUID idUsuario) {
         return ResponseEntity.status(HttpStatus.OK).body(objetivoService.findObjetivosBasedOnUserId(idUsuario)
                                                             .stream()

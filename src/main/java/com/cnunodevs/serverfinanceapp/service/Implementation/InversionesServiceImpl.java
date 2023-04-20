@@ -18,7 +18,6 @@ import com.cnunodevs.serverfinanceapp.model.entity.Portafolio;
 import com.cnunodevs.serverfinanceapp.repository.InversionesRepository;
 import com.cnunodevs.serverfinanceapp.service.InversionesService;
 import com.cnunodevs.serverfinanceapp.service.MovimientosService;
-import com.cnunodevs.serverfinanceapp.service.PortafoliosService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class InversionesServiceImpl implements InversionesService {
 
     private final InversionesRepository inversionesRepository;
     private final MovimientosService movimientosService;
-    private final PortafoliosService portafoliosService;
 
     @Override
     public List<Inversion> findInversionesByPortafolioId(UUID idPortafolio) {
@@ -93,7 +91,7 @@ public class InversionesServiceImpl implements InversionesService {
     }
 
     @Override
-    public void liquidarInversion(Inversion inversion) {
+    public void liquidarInversion(Inversion inversion, UUID idUsuario) {
         //Logica para liquidar inversion
         //Si es simulada no se registra cambio en el disponible
         if (inversion.getSimulada().equals(true)){
@@ -101,7 +99,6 @@ public class InversionesServiceImpl implements InversionesService {
         }
         double valorTotalInversion = inversion.getPrecio().doubleValue() * inversion.getCantidad();
         double gananciaTotal = MetricaInversion.calcularGananciaEsperada(inversion.getRentabilidadEsperada().doubleValue(), valorTotalInversion);
-        UUID idUsuario = portafoliosService.getPortafolioById(inversion.getPortafolio().getId()).get().getUsuario().getId();
         movimientosService.crearMovimientoHaciaDisponible(BigDecimal.valueOf(gananciaTotal), idUsuario, "inversion", "logo_inversion");
         deleteInversionById(inversion.getId());
 

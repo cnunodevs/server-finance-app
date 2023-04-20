@@ -87,7 +87,7 @@ public class PresupuestosController {
     @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación y una lista de objetos PresupuestoDTO.
     @throws NoSuchElementException si no existe ningún usuario con el nombre de usuario especificado.
     */
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<PresupuestoDTO>> handleGetListPresupuestos(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
         final List<Presupuesto> presupuestos = presupuestosService.getPresupuestosByUsuario(usuario);

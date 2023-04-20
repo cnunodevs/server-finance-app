@@ -25,7 +25,7 @@ public interface InversionesService {
     Page<Inversion> getInversionesPaginateByPortafolio(Pageable paging, Example<Inversion> example);
     void updateInversion(Inversion inversion);
     void createInversion(Inversion inversion);
-    void liquidarInversion(Inversion inversion);
+    void liquidarInversion(Inversion inversion, UUID idUsuario);
     Boolean portafolioHasAnyInversion(UUID idPortafolio);
     
 }

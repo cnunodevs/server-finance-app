@@ -36,9 +36,10 @@ public class UsuariosServiceImpl implements UsuariosService {
     }
 
     @Override
-    public void createUsuario(Usuario usuario) {
+    public Usuario createUsuario(Usuario usuario) {
         Usuario usuarioSaved = usuariosRepository.save(usuario);
         authenticationService.registerNewUserToken(usuarioSaved);
+        return usuarioSaved;
     }
     
 }

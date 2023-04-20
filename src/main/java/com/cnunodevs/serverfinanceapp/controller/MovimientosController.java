@@ -190,7 +190,7 @@ public class MovimientosController {
     @return Un objeto ResponseEntity con un código de estado HTTP que indica el resultado de la operación.
     @throws IllegalCallerException si alguno de los movimientos es contabilizable y no se puede eliminar.
     */
-    @DeleteMapping
+    @DeleteMapping("/all-by-id")
     public ResponseEntity<HttpStatus> handleDeleteListOfMovimientosByIds(
             @RequestBody final List<MovimientoDTO> movimientosDTO) throws IllegalCallerException {
         final List<Movimiento> movimientos = movimientosDTO.stream().map(movimientoMapper::dtoToPojo).toList();

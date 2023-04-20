@@ -8,7 +8,7 @@ public interface UsuariosService {
 
     Optional<Usuario> findByUsername(String username);
     Boolean usernameAlreadyExist(String username);
-    void createUsuario(Usuario usuario);
+    Usuario createUsuario(Usuario usuario);
     
     
 }

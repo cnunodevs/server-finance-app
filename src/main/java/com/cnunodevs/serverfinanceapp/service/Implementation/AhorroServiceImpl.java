@@ -33,8 +33,8 @@ public class AhorroServiceImpl implements AhorrosService {
     private final MovimientosService movimientosService;
 
     @Override
-    public void createBolsilloAhorro(Ahorro ahorro) {
-        ahorroRepository.save(ahorro);
+    public Ahorro createBolsilloAhorro(Ahorro ahorro) {
+        return ahorroRepository.save(ahorro);
     }
 
     @Override

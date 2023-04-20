@@ -97,7 +97,7 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
     }
 
-    @GetMapping("/{idAhorro}")
+    @GetMapping("/has-condicion/{idAhorro}")
     public ResponseEntity<Boolean> hasCondicion(@PathVariable UUID idAhorro){
         if(!ahorrosService.ahorroExistById(idAhorro)) {
             throw new EntityNotFoundException("la cuenta de ahorro a la que hace referencia no existe");

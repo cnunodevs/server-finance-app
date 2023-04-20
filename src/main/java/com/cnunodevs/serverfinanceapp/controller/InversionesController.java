@@ -152,13 +152,13 @@ public class InversionesController {
      * @throws EntityNotFoundException Si la inversion especificada no existe.
      */
     @PatchMapping("/liquidar-inversion")
-    public ResponseEntity<HttpStatus> handleDeleteInversionById(@RequestBody final InversionDTO inversionDTO)
+    public ResponseEntity<HttpStatus> handleDeleteInversionById(@RequestBody final InversionDTO inversionDTO, @RequestParam final UUID idUsuario)
             throws EntityNotFoundException {
         if (!inversionesService.inversionAlreadyExist(inversionDTO.getId())) {
             throw new EntityNotFoundException("Inversion do not exist. UUID: " + inversionDTO.getId());
         }
         final Inversion inversion = inversionMapper.dtoToPojo(inversionDTO);
-        inversionesService.liquidarInversion(inversion);
+        inversionesService.liquidarInversion(inversion, idUsuario);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

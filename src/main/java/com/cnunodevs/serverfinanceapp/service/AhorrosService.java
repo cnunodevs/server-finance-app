@@ -16,7 +16,7 @@ public interface AhorrosService {
     boolean ahorroExistById(UUID idAhorro);
     boolean ahorroExistByNameAndUser(String name, UUID idUser);
     boolean hasCondition(UUID idAhorro);
-    void createBolsilloAhorro(Ahorro ahorro);
+    Ahorro createBolsilloAhorro(Ahorro ahorro);
     void unableCondicion(UUID idAhorro);
     Set<Ahorro> getAllAhorros();
     Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser);

@@ -85,7 +85,7 @@ public class PortafoliosController {
     @param username El nombre de usuario del usuario propietario de los portafolios.
     @return Un objeto ResponseEntity que contiene una lista de objetos PortafolioDTO y un código de estado HTTP que indica el resultado de la operación.
     */
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<PortafolioDTO>> handleGetListPortafolios(@RequestParam final String username) {
         final Usuario usuario = usuariosService.findByUsername(username).get();
         final List<Portafolio> portafolios = portafoliosService.getPortafoliosByUsuario(usuario);
