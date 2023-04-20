@@ -2,6 +2,7 @@ package com.cnunodevs.serverfinanceapp.configuration.security;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,9 +27,13 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final LogoutHandler logoutHandler;
+    
+    @Value("${client.origin.allowedOrigins}")
+    private final String allowedOrigins;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
 
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
@@ -37,18 +42,23 @@ public class SecurityConfiguration {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration corsConfiguration = new CorsConfiguration();
                         corsConfiguration.setAllowedOrigins(List.of("*"));
-                        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PATCH", "OPTIONS", "DELETE", "PUT"));
+                        corsConfiguration
+                                .setAllowedMethods(List.of("GET", "POST", "PATCH", "OPTIONS", "DELETE", "PUT"));
                         corsConfiguration.setAllowedHeaders(List.of("*"));
                         corsConfiguration.setAllowCredentials(true);
                         corsConfiguration.setMaxAge(3600L);
                         return corsConfiguration;
-                    }})
+                    }
+                })
                 .and()
                 .csrf().disable()
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("").hasRole("USUARIO") //Define secure endpoints
-                .requestMatchers("api/v1/auth**").permitAll() //Public endpoints
+                .requestMatchers("api/v1/usuarios/", "api/v1/presupuestos**", "api/v1/balance**", "api/v1/ahorros**",
+                        "api/v1/chat**", "api/v1/condiciones**", "api/v1/inversiones**", "api/v1/movimientos**",
+                        "api/v1/objetivos**", "api/v1/portafolios**", "api/v1/presupuestos**")
+                .hasRole("USUARIO")
+                .requestMatchers("api/v1/auth**", "api/v1/usuarios/new-user", "api/v1/usuarios/").permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/auth/logout").permitAll()
