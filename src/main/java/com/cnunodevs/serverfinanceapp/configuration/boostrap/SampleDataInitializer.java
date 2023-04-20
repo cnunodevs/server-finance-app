@@ -58,9 +58,9 @@ public class SampleDataInitializer implements CommandLineRunner {
         
         Usuario usuario = loadAdminData();
         Objetivo objetivo = loadObjetivoData(usuario);
-        Ahorro ahorro = loadAhorroData(usuario, objetivo);
-        Presupuesto presupuesto = loadPresupuestoData(usuario);
-        Portafolio portafolio = loadPortafolio(usuario, objetivo);
+        loadAhorroData(usuario, objetivo);
+        loadPresupuestoData(usuario);
+        loadPortafolio(usuario, objetivo);
     }
 
     private Usuario loadAdminData(){
