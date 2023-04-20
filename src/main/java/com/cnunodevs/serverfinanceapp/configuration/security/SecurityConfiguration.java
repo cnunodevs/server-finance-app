@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration corsConfiguration = new CorsConfiguration();
-                        corsConfiguration.setAllowedOrigins(List.of("*"));
+                        corsConfiguration.setAllowedOrigins(List.of(allowedOrigins));
                         corsConfiguration
                                 .setAllowedMethods(List.of("GET", "POST", "PATCH", "OPTIONS", "DELETE", "PUT"));
                         corsConfiguration.setAllowedHeaders(List.of("*"));
