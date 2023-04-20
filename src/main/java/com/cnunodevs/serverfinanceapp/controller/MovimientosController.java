@@ -56,6 +56,12 @@ public class MovimientosController {
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
+    @GetMapping("/has-any-movimiento/by-usuario")
+    public ResponseEntity<Boolean> handleHasAnyMovimiento(@RequestParam final UUID idUsuario) {
+        final Boolean hasAnyMovimiento = movimientosService.hasAnyMovimientoByUsuario(idUsuario);
+        return ResponseEntity.status(HttpStatus.OK).body(hasAnyMovimiento);
+    }
+
 
     /**
     Obtiene una página de los movimientos registrados para un usuario especificado por su ID. La página incluirá una
@@ -119,6 +125,8 @@ public class MovimientosController {
         final MovimientoDTO movimientoDTO = movimientoMapper.pojoToDto(movimiento);
         return ResponseEntity.status(HttpStatus.OK).body(movimientoDTO);
     }
+
+
 
     /**
     Crea un nuevo movimiento asociado a un presupuesto. El movimiento debe ser no contabilizable y debe tener

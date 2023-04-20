@@ -159,5 +159,11 @@ public class MovimientosServiceImpl implements MovimientosService {
     public void crearMovimientoDesdeDisponibleParaAhorrro(BigDecimal importe, UUID idUsuario) {
        crearMovimientoDesdeDisponible(importe, idUsuario, "ahorro", "logo_ahorro");
     }
+
+    @Override
+    public Boolean hasAnyMovimientoByUsuario(UUID idUsuario) {
+        Example<Movimiento> example = Example.of(Movimiento.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        return !movimientosRepository.findAll(example).isEmpty();
+    }
     
 }

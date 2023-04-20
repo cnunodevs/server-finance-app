@@ -29,5 +29,6 @@ public interface MovimientosService {
     void crearMovimientoDesdeDisponibleParaAhorrro(BigDecimal importe, UUID idUsuario);
     void createMovimientoDescuentoACuentaEspecifica(Movimiento movimiento, UUID idCuentaAhorroEspecifica);
     void createMovimientoOfPresupuesto(Movimiento movimiento);
+    Boolean hasAnyMovimientoByUsuario(UUID idUsuario);
     
 }
