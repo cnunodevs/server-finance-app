@@ -54,9 +54,9 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("api/v1/presupuestos**", "api/v1/balance**", "api/v1/ahorros**",
-                        "api/v1/chat**", "api/v1/condiciones**", "api/v1/inversiones**", "api/v1/movimientos**",
-                        "api/v1/objetivos**", "api/v1/portafolios**", "api/v1/presupuestos**")
+                .requestMatchers("api/v1/presupuestos/**", "api/v1/balance/**", "api/v1/ahorros/**",
+                        "api/v1/chat/**", "api/v1/condiciones/**", "api/v1/inversiones/**", "api/v1/movimientos/**",
+                        "api/v1/objetivos/**", "api/v1/portafolios/**", "api/v1/presupuestos/**")
                 .hasRole("USUARIO")
                 .requestMatchers("api/v1/auth**", "api/v1/usuarios/new-user**", "api/v1/usuarios**").permitAll()
                 .and()
