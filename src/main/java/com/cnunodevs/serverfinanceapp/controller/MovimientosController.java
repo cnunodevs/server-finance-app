@@ -16,7 +16,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +50,8 @@ public class MovimientosController {
     @return Un objeto ResponseEntity con la métrica de balance del usuario y un código de estado HTTP que indica el
     resultado de la operación.
     */
-    @GetMapping("/metrica/{idUsuario}")
-    public ResponseEntity<MetricaBalance> handleGetMetricasBalance(@PathVariable final UUID idUsuario) {
+    @GetMapping("/metrica/by-usuario")
+    public ResponseEntity<MetricaBalance> handleGetMetricasBalance(@RequestParam final UUID idUsuario) {
         final MetricaBalance metrica = movimientosService.getMetricaBalanceByUsuario(idUsuario);
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
@@ -90,11 +89,11 @@ public class MovimientosController {
     @return Un objeto ResponseEntity con una página de los movimientos asociados al presupuesto especificado y un código
     de estado HTTP que indica el resultado de la operación.
     */
-    @GetMapping("/{idPresupuesto}")
+    @GetMapping("/by-presupuesto")
     public ResponseEntity<Page<MovimientoDTO>> handleGetMovimientosByPresupuesto(
             @RequestParam(defaultValue = "0") final Integer page,
             @RequestParam(defaultValue = "9") final Integer size,
-            @PathVariable final UUID idPresupuesto) {
+            @RequestParam final UUID idPresupuesto) {
         final Pageable paging = PageRequest.of(page, size);
         final Example<Movimiento> example = Example
                 .of(Movimiento.builder().presupuesto(Presupuesto.builder().id(idPresupuesto).build()).build());
@@ -111,8 +110,8 @@ public class MovimientosController {
     resultado de la operación.
     @throws EntityNotFoundException Si el movimiento con el ID especificado no existe.
     */
-    @GetMapping("/{idMovimiento}")
-    public ResponseEntity<MovimientoDTO> handleGetMovimientoById(@PathVariable final UUID idMovimiento) {
+    @GetMapping("/by-movimiento")
+    public ResponseEntity<MovimientoDTO> handleGetMovimientoById(@RequestParam final UUID idMovimiento) {
         if (!movimientosService.movimientoAlreadyExist(idMovimiento)) {
             throw new EntityNotFoundException("Movimiento do not exist. UUID: " + idMovimiento);
         }
