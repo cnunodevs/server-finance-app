@@ -28,6 +28,8 @@ import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoImporte;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
+import com.cnunodevs.serverfinanceapp.service.PortafoliosService;
+import com.cnunodevs.serverfinanceapp.service.PresupuestosService;
 import com.cnunodevs.serverfinanceapp.service.UsuariosService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,8 @@ public class SampleDataInitializer implements CommandLineRunner {
     private final UsuariosService usuariosService;
     private final ObjetivoService objetivoService;
     private final AhorrosService ahorrosService;
+    private final PresupuestosService presupuestosService;
+    private final PortafoliosService portafolioService;
 
 
     private final PasswordEncoder passwordEncoder;
@@ -54,49 +58,9 @@ public class SampleDataInitializer implements CommandLineRunner {
         
         Usuario usuario = loadAdminData();
         Objetivo objetivo = loadObjetivoData(usuario);
-        loadAhorroData(usuario, objetivo);
-        
-        
-        Presupuesto presupuesto = Presupuesto.builder()
-                                    .nombre("Mi presupuesto")
-                                    .descripcion("Descripción de mi presupuesto")
-                                    .periodo(PeriodoPresupuesto.MENSUAL)
-                                    .usuario(usuario)
-                                    .build();
-
-        Movimiento movimiento1 = Movimiento.builder()
-                                    .importe(new BigDecimal("100.50"))
-                                    .tipo(TipoMovimiento.INGRESO)
-                                    .concepto("Pago mensual")
-                                    .logoConcepto("")
-                                    .usuario(usuario)
-                                    .presupuesto(presupuesto)
-                                    .contabilizable(true)
-                                    .build();
-
-        presupuesto.setMovimientos(Set.of(movimiento1));
-
-        Portafolio portafolio = Portafolio.builder()
-                        .nombre("Mi Portafolio")
-                        .descripcion("Descripción de mi portafolio")
-                        .usuario(usuario)
-                        .objetivo(objetivo)
-                        .build();
-
-        Inversion inversion = Inversion.builder()
-                        .nombre("nombre de la inversion")
-                        .descripcion("descripcion de la inversion")
-                        .precio(new BigDecimal("100.00"))
-                        .cantidad(10.0)
-                        .plazo(PlazoInversion.LARGO)
-                        .perfilRiesgo(PerfilRiesgo.BAJO)
-                        .tipo(TipoActivo.ACCIONES)
-                        .sector(SectorActivo.TECNOLOGICO)
-                        .rentabilidadEsperada(new BigDecimal("8.00"))
-                        .simulada(false)
-                        .build();
-
-        portafolio.setInversiones(Set.of(inversion));
+        Ahorro ahorro = loadAhorroData(usuario, objetivo);
+        Presupuesto presupuesto = loadPresupuestoData(usuario);
+        Portafolio portafolio = loadPortafolio(usuario, objetivo);
     }
 
     private Usuario loadAdminData(){
@@ -145,6 +109,118 @@ public class SampleDataInitializer implements CommandLineRunner {
         ahorro.setCondicion(condicion);
         return ahorrosService.createBolsilloAhorro(ahorro);
         
+    }
+
+    private Presupuesto loadPresupuestoData(Usuario usuario) {
+        Presupuesto presupuesto = Presupuesto.builder()
+                                            .nombre("Mi presupuesto")
+                                            .descripcion("Descripción de mi presupuesto")
+                                            .periodo(PeriodoPresupuesto.MENSUAL)
+                                            .usuario(usuario)
+                                            .build();
+
+        
+        presupuesto.setMovimientos(Set.of(
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.INGRESO)
+                            .concepto("Transporte")
+                            .logoConcepto("assets/svg/logo-concepto/transporte.svg")
+                            .usuario(usuario)
+                            .presupuesto(null)
+                            .contabilizable(true)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.INGRESO)
+                            .concepto("Rutina")
+                            .logoConcepto("assets/svg/logo-concepto/rutina.svg")
+                            .usuario(usuario)
+                            .presupuesto(presupuesto)
+                            .contabilizable(false)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.INGRESO)
+                            .concepto("Familia")
+                            .logoConcepto("assets/svg/logo-concepto/familia.svg")
+                            .usuario(usuario)
+                            .presupuesto(null)
+                            .contabilizable(true)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.INGRESO)
+                            .concepto("Alimentacion")
+                            .logoConcepto("assets/svg/logo-concepto/alimentacion.svg")
+                            .usuario(usuario)
+                            .presupuesto(presupuesto)
+                            .contabilizable(false)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.INGRESO)
+                            .concepto("Regalo")
+                            .logoConcepto("assets/svg/logo-concepto/regalo.svg")
+                            .usuario(usuario)
+                            .presupuesto(null)
+                            .contabilizable(true)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.EGRESO)
+                            .concepto("Intereses")
+                            .logoConcepto("assets/svg/logo-concepto/intereses.svg")
+                            .usuario(usuario)
+                            .presupuesto(presupuesto)
+                            .contabilizable(false)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.EGRESO)
+                            .concepto("Salario")
+                            .logoConcepto("assets/svg/logo-concepto/salario.svg")
+                            .usuario(usuario)
+                            .presupuesto(null)
+                            .contabilizable(true)
+                            .build(),
+            Movimiento.builder()
+                            .importe(new BigDecimal("100.50"))
+                            .tipo(TipoMovimiento.EGRESO)
+                            .concepto("Otros")
+                            .logoConcepto("assets/svg/logo-concepto/otros.svg")
+                            .usuario(usuario)
+                            .presupuesto(presupuesto)
+                            .contabilizable(false)
+                            .build()
+        ));
+        
+        return presupuestosService.createPresupuesto(presupuesto);
+    }
+
+    private Portafolio loadPortafolio(Usuario usuario, Objetivo objetivo) {
+        Portafolio portafolio = Portafolio.builder()
+                        .nombre("Mi Portafolio")
+                        .descripcion("Descripción de mi portafolio")
+                        .usuario(usuario)
+                        .objetivo(objetivo)
+                        .build();
+
+        Inversion inversion = Inversion.builder()
+                        .nombre("nombre de la inversion")
+                        .descripcion("descripcion de la inversion")
+                        .precio(new BigDecimal("100.00"))
+                        .cantidad(10.0)
+                        .plazo(PlazoInversion.LARGO)
+                        .perfilRiesgo(PerfilRiesgo.BAJO)
+                        .tipo(TipoActivo.ACCIONES)
+                        .sector(SectorActivo.TECNOLOGICO)
+                        .rentabilidadEsperada(new BigDecimal("8.00"))
+                        .simulada(false)
+                        .build();
+
+        portafolio.setInversiones(Set.of(inversion));
+        return portafolioService.createPortafolio(portafolio);
     }
 
 }

@@ -18,7 +18,7 @@ public interface PortafoliosService {
     MetricaPortafolio getMetricaPortafolioByInversiones(Set<Inversion> inversiones);
     List<MetricaPortafolio> getMetricasPortafolios(Set<Portafolio> portafolios);
     Optional<Portafolio> getPortafolioById(UUID idPortafolio);
-    void createPortafolio(Portafolio portafolio);
+    Portafolio createPortafolio(Portafolio portafolio);
     void deletePortafolioById(UUID idPortafolio);
     void updatePortafolio(Portafolio portafolio);
     Boolean similarAlreadyExist(String nombrePortafolio, UUID idUsuario);

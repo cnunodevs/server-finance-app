@@ -57,8 +57,8 @@ public class PresupuestosServiceImpl implements PresupuestosService {
     }
 
     @Override
-    public void createPresupuesto(Presupuesto presupuesto) {
-        presupuestosRepository.save(presupuesto);
+    public Presupuesto createPresupuesto(Presupuesto presupuesto) {
+        return presupuestosRepository.save(presupuesto);
     }
 
     @Override

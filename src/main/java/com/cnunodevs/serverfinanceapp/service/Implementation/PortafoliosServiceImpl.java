@@ -42,8 +42,8 @@ public class PortafoliosServiceImpl implements PortafoliosService {
     }
 
     @Override
-    public void createPortafolio(Portafolio portafolio) {
-        portafoliosRepository.save(portafolio);
+    public Portafolio createPortafolio(Portafolio portafolio) {
+        return portafoliosRepository.save(portafolio);
     }
 
     @Override

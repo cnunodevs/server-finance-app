@@ -50,7 +50,7 @@ public class Ahorro {
     @JoinColumn(name = "objetivo_fk")
     private Objetivo objetivo;
 
-    @OneToOne(mappedBy = "ahorro", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "ahorro", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Condicion condicion;
     
     @ManyToOne

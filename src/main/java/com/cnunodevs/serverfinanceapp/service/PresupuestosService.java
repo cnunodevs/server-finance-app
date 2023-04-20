@@ -27,7 +27,7 @@ public interface PresupuestosService {
 
     Optional<Presupuesto> getPresupuestoById(UUID idPresupuesto);
 
-    void createPresupuesto(Presupuesto presupuesto);
+    Presupuesto createPresupuesto(Presupuesto presupuesto);
 
     boolean similarAlreadyExist(String nombre, UUID idUsuario);
 
