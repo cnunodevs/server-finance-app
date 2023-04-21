@@ -30,6 +30,7 @@ import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 import com.cnunodevs.serverfinanceapp.service.UsuariosService;
@@ -96,7 +97,8 @@ public class AhorrosController {
 
     @GetMapping("/ahorros-automaticos")
     public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam String username) {
-        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuariosService.findByUsername(username).get().getId());
+        Usuario usuario = usuariosService.findByUsername(username).get();
+        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuario.getId());
         Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
                                                       .map(ahorroMapper::pojoToDto)
                                                       .filter(ahorro -> ahorro.isAutomatico())
