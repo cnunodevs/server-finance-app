@@ -50,11 +50,11 @@ public class AhorrosController {
 
     @GetMapping
     public ResponseEntity<Page<Ahorro>> getAllAhorrosPaginated(
-        @RequestParam UUID idUser,
+        @RequestParam UUID idUsuario,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "9") int size) {
             Pageable pageable = PageRequest.of(page, size);
-            Page<Ahorro> pages = ahorrosService.getAllAhorrosOfUserPaginated(pageable, idUser);
+            Page<Ahorro> pages = ahorrosService.getAllAhorrosOfUserPaginated(pageable, idUsuario);
             Page<AhorroDTO> pagesDTO = new PageImpl<>(
                 pages.stream().map(ahorroMapper::pojoToDto).toList()
                 );
