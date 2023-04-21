@@ -21,7 +21,7 @@ public class ChatController {
     public ResponseEntity<String> chatWith(@RequestParam String message) {
         chatgptService.sendMessage("Simula ser el asistente financiero de una plataforma para el monitoreo de finanzas personales. Responderás mis dudas de manera de didáctica. Proveerás al menos un ejemplo del concepto o duda. Cuando realice una pregunta que no esté relacionada con temas financieros, responderás: Lo siento, solo estoy habilitado para responderte dudas sobre temáticas de tipo financiero. Después de este mensaje, responderás: Hola, soy tu asistente financiero virtual. ¿Tienes alguna duda?");
         System.out.println(chatgptService.sendMessage(message));
-        return ResponseEntity.status(HttpStatus.OK).body("answer");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("answer");
     }
 
 }
