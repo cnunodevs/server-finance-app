@@ -44,5 +44,11 @@ public class BalanceServiceImpl implements BalanceService {
         balance.setBalance(saldoActualizado);
         balanceRepository.save(balance);
     }
+
+    @Override
+    public void crearBalanceByUsuario(Usuario usuario) {
+        Balance balance = Balance.builder().balance(BigDecimal.valueOf(0.0)).usuario(usuario).build();
+        balanceRepository.save(balance);
+    }
     
 }

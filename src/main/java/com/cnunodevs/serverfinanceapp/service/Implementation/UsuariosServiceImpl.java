@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cnunodevs.serverfinanceapp.configuration.security.service.AuthenticationService;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.UsuariosRepository;
+import com.cnunodevs.serverfinanceapp.service.BalanceService;
 import com.cnunodevs.serverfinanceapp.service.UsuariosService;
 
 import jakarta.transaction.Transactional;
@@ -22,6 +23,7 @@ public class UsuariosServiceImpl implements UsuariosService {
 
 
     private final UsuariosRepository usuariosRepository;
+    private final BalanceService balanceService;
     private final AuthenticationService authenticationService;
 
     @Override
