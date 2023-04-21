@@ -27,7 +27,6 @@ import com.cnunodevs.serverfinanceapp.model.dto.MovimientoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
 import com.cnunodevs.serverfinanceapp.model.entity.Presupuesto;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
-import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 import com.cnunodevs.serverfinanceapp.model.mapper.MovimientoMapper;
 import com.cnunodevs.serverfinanceapp.service.MovimientosService;
 
@@ -168,7 +167,7 @@ public class MovimientosController {
             @RequestParam final Boolean aplicaDescuentoEspecifico,
             @RequestParam(required = false) final UUID idCuentaAhorroEspecifica) {
         final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
-        if (aplicaDescuentoEspecifico && movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
+        if (aplicaDescuentoEspecifico) {
             movimientosService.createMovimientoDescuentoACuentaEspecifica(movimiento, idCuentaAhorroEspecifica);
         } else {
             movimientosService.createMovimiento(movimiento);
