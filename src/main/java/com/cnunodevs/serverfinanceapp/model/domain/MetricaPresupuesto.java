@@ -2,6 +2,7 @@ package com.cnunodevs.serverfinanceapp.model.domain;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
@@ -14,6 +15,7 @@ import lombok.Data;
 @Data
 public class MetricaPresupuesto {
 
+    private UUID idPresupuesto;
     private Boolean mostraMetricas;
     private double ingresoNecesarioMinimo;
     private double ingresoDisponible;
@@ -21,8 +23,9 @@ public class MetricaPresupuesto {
     private Map<String, Long> conceptos;
     private Map<String, Long> relacionTipoMovimiento;
 
-    public MetricaPresupuesto(Set<Movimiento> movimientos) {
+    public MetricaPresupuesto(Set<Movimiento> movimientos, UUID idPresupuesto) {
         this.mostraMetricas = false;
+        this.idPresupuesto = idPresupuesto;
         if (!movimientos.isEmpty()) {
             mostraMetricas = true;
             this.ingresoDisponible = ingresoDisponible(movimientos);

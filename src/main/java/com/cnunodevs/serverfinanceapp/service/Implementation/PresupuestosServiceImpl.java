@@ -31,8 +31,8 @@ public class PresupuestosServiceImpl implements PresupuestosService {
     }
 
     @Override
-    public MetricaPresupuesto getMetricaPresupuestoByMovimientos(Set<Movimiento> movimientos) {
-        return new MetricaPresupuesto(movimientos);
+    public MetricaPresupuesto getMetricaPresupuestoByMovimientos(Set<Movimiento> movimientos, UUID idPresupuesto) {
+        return new MetricaPresupuesto(movimientos, idPresupuesto);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PresupuestosServiceImpl implements PresupuestosService {
 
     @Override
     public List<MetricaPresupuesto> getMetricasPresupuestos(Set<Presupuesto> presupuestos) {
-        return presupuestos.stream().map(p -> new MetricaPresupuesto(p.getMovimientos())).toList();
+        return presupuestos.stream().map(p -> new MetricaPresupuesto(p.getMovimientos(), p.getId())).toList();
     }
 
     @Override

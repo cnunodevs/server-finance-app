@@ -17,7 +17,7 @@ public interface PresupuestosService {
 
     boolean presupuestoAlreadyExist(UUID idPresupuesto);
 
-    MetricaPresupuesto getMetricaPresupuestoByMovimientos(Set<Movimiento> movimientos);
+    MetricaPresupuesto getMetricaPresupuestoByMovimientos(Set<Movimiento> movimientos,  UUID idPresupuesto);
 
     List<Presupuesto> getPresupuestosByUsuario(Usuario usuario);
 

@@ -62,7 +62,7 @@ public class PresupuestosController {
         }
         final List<Movimiento> movimientos = movimientosService.findMovimientosByPresupuestoId(idPresupuesto);
         final MetricaPresupuesto metrica = presupuestosService
-                .getMetricaPresupuestoByMovimientos(new HashSet<Movimiento>(movimientos));
+                .getMetricaPresupuestoByMovimientos(new HashSet<Movimiento>(movimientos), idPresupuesto);
         return ResponseEntity.status(HttpStatus.OK).body(metrica);
     }
 
