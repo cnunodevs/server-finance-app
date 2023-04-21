@@ -32,6 +32,7 @@ import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
+import com.cnunodevs.serverfinanceapp.service.UsuariosService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 public class AhorrosController {
     
     private final AhorrosService ahorrosService;
+    private final UsuariosService usuariosService;
     private final AhorroMapper ahorroMapper;
 
     @GetMapping
@@ -93,8 +95,8 @@ public class AhorrosController {
     }
 
     @GetMapping("/ahorros-automaticos")
-    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam UUID idUsuario) {
-        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(idUsuario);
+    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam String username) {
+        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuariosService.findByUsername(username).get().getId());
         Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
                                                       .map(ahorroMapper::pojoToDto)
                                                       .filter(ahorro -> ahorro.isAutomatico())
