@@ -49,10 +49,10 @@ public class AhorrosController {
     private final AhorroMapper ahorroMapper;
 
     @GetMapping
-    public ResponseEntity<Page<Ahorro>> getAllAhorrosPaginated(
-        @RequestParam UUID idUsuario,
+    public ResponseEntity<Page<Ahorro>> getAllAhorrosPaginated(        
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "9") int size) {
+        @RequestParam(defaultValue = "9") int size,
+        @RequestParam UUID idUsuario) {
             Pageable pageable = PageRequest.of(page, size);
             Page<Ahorro> pages = ahorrosService.getAllAhorrosOfUserPaginated(pageable, idUsuario);
             Page<AhorroDTO> pagesDTO = new PageImpl<>(
