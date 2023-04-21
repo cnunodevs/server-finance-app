@@ -162,7 +162,13 @@ public class MovimientosServiceImpl implements MovimientosService {
 
     @Override
     public Boolean hasAnyMovimientoByUsuario(UUID idUsuario) {
-        Example<Movimiento> example = Example.of(Movimiento.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        Example<Movimiento> example = Example.of(Movimiento.builder().contabilizable(true).usuario(Usuario.builder().id(idUsuario).build()).build());
+        return !movimientosRepository.findAll(example).isEmpty();
+    }
+
+    @Override
+    public Boolean hasAnyMovimientoByPresupuesto(UUID idPresupuesto) {
+        Example<Movimiento> example = Example.of(Movimiento.builder().contabilizable(false).presupuesto(Presupuesto.builder().id(idPresupuesto).build()).build());
         return !movimientosRepository.findAll(example).isEmpty();
     }
     

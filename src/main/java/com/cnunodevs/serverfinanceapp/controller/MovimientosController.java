@@ -57,11 +57,16 @@ public class MovimientosController {
     }
 
     @GetMapping("/has-any-movimiento/by-usuario")
-    public ResponseEntity<Boolean> handleHasAnyMovimiento(@RequestParam final UUID idUsuario) {
+    public ResponseEntity<Boolean> handleHasAnyMovimientoByUsuario(@RequestParam final UUID idUsuario) {
         final Boolean hasAnyMovimiento = movimientosService.hasAnyMovimientoByUsuario(idUsuario);
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyMovimiento);
     }
 
+    @GetMapping("/has-any-movimiento/by-usuario")
+    public ResponseEntity<Boolean> handleHasAnyMovimientoByPresupuesto(@RequestParam final UUID idPresupuesto) {
+        final Boolean hasAnyMovimiento = movimientosService.hasAnyMovimientoByPresupuesto(idPresupuesto);
+        return ResponseEntity.status(HttpStatus.OK).body(hasAnyMovimiento);
+    }
 
     /**
     Obtiene una página de los movimientos registrados para un usuario especificado por su ID. La página incluirá una

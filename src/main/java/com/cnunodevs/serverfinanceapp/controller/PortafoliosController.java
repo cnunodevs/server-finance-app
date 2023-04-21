@@ -177,6 +177,12 @@ public class PortafoliosController {
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyInversion);
     }
 
+    @GetMapping("/has-any-portafolio/{idUsuario}")
+    public ResponseEntity<Boolean> handleHasAnyPortafolioByUsuario(@PathVariable final UUID idUsuario) {
+        final Boolean hasAnyPortafolio = portafoliosService.hasAnyPortafolio(idUsuario);
+        return ResponseEntity.status(HttpStatus.OK).body(hasAnyPortafolio);
+    }
+
     /**
     Elimina un Portafolio según su ID.
     @param portafolioDTO El objeto PortafolioDTO que contiene el UUID del Portafolio a eliminar.

@@ -27,5 +27,6 @@ public interface InversionesService {
     void createInversion(Inversion inversion);
     void liquidarInversion(Inversion inversion, UUID idUsuario);
     Boolean portafolioHasAnyInversion(UUID idPortafolio);
+    Boolean hasPortafolioAnyInversion(UUID idPortafolio);
     
 }

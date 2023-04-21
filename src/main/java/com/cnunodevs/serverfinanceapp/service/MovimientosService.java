@@ -30,5 +30,6 @@ public interface MovimientosService {
     void createMovimientoDescuentoACuentaEspecifica(Movimiento movimiento, UUID idCuentaAhorroEspecifica);
     void createMovimientoOfPresupuesto(Movimiento movimiento);
     Boolean hasAnyMovimientoByUsuario(UUID idUsuario);
+    Boolean hasAnyMovimientoByPresupuesto(UUID idPresupuesto);
     
 }

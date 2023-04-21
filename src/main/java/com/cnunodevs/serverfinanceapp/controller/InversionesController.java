@@ -95,6 +95,13 @@ public class InversionesController {
         return ResponseEntity.status(HttpStatus.OK).body(pageInversionesDTO);
     }
 
+    @GetMapping("/metricas/{idPortafolio}")
+    public ResponseEntity<Boolean> handleHasPortafolioAnyInversion(@PathVariable final UUID idPortafolio)
+            throws EntityNotFoundException {
+        final Boolean hasPortafolioAnyInversion = inversionesService.hasPortafolioAnyInversion(idPortafolio);
+        return ResponseEntity.status(HttpStatus.OK).body(hasPortafolioAnyInversion);
+    }
+
     /**
     Obtiene una inversión específica a partir de su ID.
     @param idInversion El ID de la inversión que se desea obtener.

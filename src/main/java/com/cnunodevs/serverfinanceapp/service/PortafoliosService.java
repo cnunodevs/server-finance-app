@@ -26,5 +26,6 @@ public interface PortafoliosService {
     List<Portafolio> getPortafoliosByUsuario(Usuario usuario);
     Page<Portafolio> getPortafoliosPaginate(Pageable paging);
     boolean hasAnyInversion(UUID id);
+    Boolean hasAnyPortafolio(UUID idUsuario);
 
 }

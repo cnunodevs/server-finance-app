@@ -111,4 +111,10 @@ public class InversionesServiceImpl implements InversionesService {
         return inversionesRepository.findOne(example).isPresent();
     }
 
+    @Override
+    public Boolean hasPortafolioAnyInversion(UUID idPortafolio) {
+        Example<Inversion> example = Example.of(Inversion.builder().portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+        return !inversionesRepository.findAll(example).isEmpty();
+    }
+
 }

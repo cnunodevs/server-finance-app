@@ -87,5 +87,11 @@ public class PortafoliosServiceImpl implements PortafoliosService {
     public boolean hasAnyInversion(UUID id) {
         return inversionesService.portafolioHasAnyInversion(id);
     }
+
+    @Override
+    public Boolean hasAnyPortafolio(UUID idUsuario) {
+        Example<Portafolio> example = Example.of(Portafolio.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        return portafoliosRepository.findOne(example).isPresent();
+    }
     
 }
