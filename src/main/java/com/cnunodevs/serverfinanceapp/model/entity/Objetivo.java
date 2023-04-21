@@ -49,7 +49,7 @@ public class Objetivo {
     @UpdateTimestamp
     private LocalDateTime ultimaActualizacion;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "usuario_fk")
     private Usuario usuario;
 
