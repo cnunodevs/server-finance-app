@@ -18,7 +18,7 @@ public class ObjetivoMapper implements GenericMapper<Objetivo, ObjetivoDTO> {
                                 .descripcion(dto.getDescripcion())
                                 .fechaEstimada(dto.getFechaEstimada())
                                 .monto(BigDecimal.valueOf(dto.getMonto()))
-                                .usuario(Usuario.builder().id(dto.getId()).build())
+                                .usuario(Usuario.builder().id(dto.getIdUsuario()).build())
                                 .build();
         if(dto.getId() != null) {
             objetivo.setId(dto.getId());
