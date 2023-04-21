@@ -92,7 +92,10 @@ public class AhorroServiceImpl implements AhorrosService {
 
     @Override
     public Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro) {
-        return ahorroRepository.findAhorrosAutomaticosByUsuarioId(idAhorro);
+        return Set.copyOf(ahorroRepository.findAll()
+                                          .stream()
+                                          .filter(ahorro -> ahorro.getUsuario().getId().equals(idAhorro))
+                                          .toList());
     }
 
     @Override
