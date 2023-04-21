@@ -3,7 +3,7 @@ package com.cnunodevs.serverfinanceapp.controller;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -96,13 +96,11 @@ public class AhorrosController {
     }
 
     @GetMapping("/ahorros-automaticos")
-    public ResponseEntity<Set<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam String username) {
+    public ResponseEntity<List<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam String username) {
         Usuario usuario = usuariosService.findByUsername(username).get();
-        Set<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuario.getId());
-        Set<AhorroDTO> ahorrosDTO = Set.copyOf(ahorros.stream()
-                                                      .map(ahorroMapper::pojoToDto)
-                                                      .filter(ahorro -> ahorro.isAutomatico())
-                                                      .toList());
+        List<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuario.getId());
+        List<AhorroDTO> ahorrosDTO = ahorros.stream().map(ahorroMapper::pojoToDto)
+                                                      .toList();
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
     }
 

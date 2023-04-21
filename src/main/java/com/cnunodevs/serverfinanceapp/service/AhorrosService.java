@@ -6,6 +6,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public interface AhorrosService {
     Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser);
     void updateBolsilloAhorro(Ahorro ahorro);
     void deleteBolsilloAhorro(UUID idAhorro);
-    Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro);
+    List<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idUsuario);
     Set<Ahorro> findAhorrosByUsuarioId(UUID idAhorro);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro);
     MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto);

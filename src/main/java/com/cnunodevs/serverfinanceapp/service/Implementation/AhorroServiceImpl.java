@@ -88,9 +88,9 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro) {
-        Example<Ahorro> example = Example.of(Ahorro.builder().automatico(true).usuario(Usuario.builder().id(idAhorro).build()).build());
-        return Set.copyOf(ahorroRepository.findAll(example));
+    public List<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idUsuario) {
+        Example<Ahorro> example = Example.of(Ahorro.builder().automatico(true).usuario(Usuario.builder().id(idUsuario).build()).build());
+        return ahorroRepository.findAll(example);
     }
 
     @Override
