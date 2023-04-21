@@ -3,10 +3,8 @@ package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -37,8 +35,8 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public Set<Ahorro> getAllAhorros() {
-        return new HashSet<Ahorro>(ahorroRepository.findAll());
+    public List<Ahorro> getAllAhorros() {
+        return new ArrayList<Ahorro>(ahorroRepository.findAll());
     }
 
     @Override
@@ -57,28 +55,22 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto) {
-        List<Ahorro> allAhorros = ahorroRepository.findAll();
+    public MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto, UUID idUsuario) {
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        List<Ahorro> allAhorros = ahorroRepository.findAll(example);
         List<Ahorro> ahorroFiltred = new ArrayList<>();
         if(allAhorros.isEmpty()) {
-            return new MetricaAhorros(Set.copyOf(allAhorros));
+            return new MetricaAhorros(allAhorros);
         }
         if (maxMonto == 0) {
-            long mostExpensiveAhorro = allAhorros.stream()
-                                                .mapToLong(ahorro -> ahorro.getImporte().longValue())
-                                                .max()
-                                                .getAsLong();
-            ahorroFiltred = allAhorros.stream()
-                                      .filter(ahorro -> ahorro.getImporte().longValue() >= minMonto
-                                                 && ahorro.getImporte().longValue() <= mostExpensiveAhorro)
-                                      .toList();
+            ahorroFiltred = allAhorros;
         } else {
             ahorroFiltred = allAhorros.stream()
                                       .filter(ahorro -> ahorro.getImporte().longValue() >= minMonto
                                                  && ahorro.getImporte().longValue() <= maxMonto)
                                       .toList();
         }
-        return new MetricaAhorros(Set.copyOf(ahorroFiltred));
+        return new MetricaAhorros(ahorroFiltred);
     }
 
     @Override
@@ -94,11 +86,9 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro) {
-        return ahorroRepository.findAhorrosAutomaticosByUsuarioId(idAhorro)
-                    .stream()
-                    .findFirst()
-                    .get();
+    public Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idUsuario) {
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        return ahorroRepository.findOne(example).get();
     }
 
     @Override
@@ -151,13 +141,9 @@ public class AhorroServiceImpl implements AhorrosService {
     }
 
     @Override
-    public Set<Ahorro> findAhorrosByUsuarioId(UUID idAhorro) {
-        return Set.copyOf(ahorroRepository.findAll()
-                                        .stream()
-                                        .filter(ahorro -> ahorro.getUsuario()
-                                                                .getId()
-                                                                .equals(idAhorro))
-                                        .toList());
+    public List<Ahorro> findAhorrosByUsuarioId(UUID idUsuario) {
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        return ahorroRepository.findAll(example);
     }
     
 }

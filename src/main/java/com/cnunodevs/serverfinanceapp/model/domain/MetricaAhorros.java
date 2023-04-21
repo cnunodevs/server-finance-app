@@ -1,5 +1,5 @@
 package com.cnunodevs.serverfinanceapp.model.domain;
-import java.util.Set;
+import java.util.List;
 
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class MetricaAhorros {
     private Double promedioAhorro;
     private Double nivelCumplimientoPromedio;
 
-    public MetricaAhorros(Set<Ahorro> ahorros) {
+    public MetricaAhorros(List<Ahorro> ahorros) {
         this.mostraMetricas = false;
         if (!ahorros.isEmpty()) {
             this.mostraMetricas = true;
@@ -24,14 +24,14 @@ public class MetricaAhorros {
         }
     }
 
-    private Double getAhorroTotalOperation(Set<Ahorro> ahorros) {
+    private Double getAhorroTotalOperation(List<Ahorro> ahorros) {
         return ahorros
                     .stream()
                     .mapToDouble(ahorro -> ahorro.getImporte().doubleValue())
                     .sum();
     }
 
-    private String getAhorroAutomaticoOperation(Set<Ahorro> ahorros) {
+    private String getAhorroAutomaticoOperation(List<Ahorro> ahorros) {
         StringBuilder ahorroAutomatico = new StringBuilder();
         ahorroAutomatico.append(String.valueOf(ahorros.stream()
                                                     .filter(ahorro -> ahorro.isAutomatico() == true)
@@ -42,13 +42,13 @@ public class MetricaAhorros {
         return ahorroAutomatico.toString();
     }
 
-    private Double getPromedioAhorroOperation(Set<Ahorro> ahorros) {
+    private Double getPromedioAhorroOperation(List<Ahorro> ahorros) {
         return ahorros.stream()
                     .mapToDouble(ahorro -> ahorro.getImporte().doubleValue())
                     .sum() / ahorros.size();
     }
 
-    private Double getNivelCumplimientoPromedioOperation(Set<Ahorro> ahorros) {
+    private Double getNivelCumplimientoPromedioOperation(List<Ahorro> ahorros) {
         return ahorros
                 .stream()
                 .mapToDouble(ahorro -> ahorro.getImporte().doubleValue() / ahorro.getObjetivo().getMonto().doubleValue())

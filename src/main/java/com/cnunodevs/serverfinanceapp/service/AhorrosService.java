@@ -7,7 +7,6 @@ import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -19,14 +18,14 @@ public interface AhorrosService {
     boolean hasCondition(UUID idAhorro);
     Ahorro createBolsilloAhorro(Ahorro ahorro);
     void unableCondicion(UUID idAhorro);
-    Set<Ahorro> getAllAhorros();
+    List<Ahorro> getAllAhorros();
     Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser);
     void updateBolsilloAhorro(Ahorro ahorro);
     void deleteBolsilloAhorro(UUID idAhorro);
     List<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idUsuario);
-    Set<Ahorro> findAhorrosByUsuarioId(UUID idAhorro);
+    List<Ahorro> findAhorrosByUsuarioId(UUID idUsuario);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro);
-    MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto);
+    MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto, UUID idUsuario);
     MetricaAhorro getMetricaAhorro(UUID idAhorro);
     Optional<Ahorro> findAhorroById(UUID idAhorro);
     void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
