@@ -64,7 +64,7 @@ public class ObjetivosController {
     @GetMapping("/has-objetivo/{idUsuario}")
     public ResponseEntity<Boolean> userHasObjetivo(@PathVariable UUID idUsuario) {
         List<Objetivo> objetivos = objetivoService.findObjetivosBasedOnUserId(idUsuario);
-        return ResponseEntity.status(HttpStatus.OK).body(objetivos.isEmpty());
+        return ResponseEntity.status(HttpStatus.OK).body(!objetivos.isEmpty());
     }
 
     @GetMapping("/{idObjetivo}")
