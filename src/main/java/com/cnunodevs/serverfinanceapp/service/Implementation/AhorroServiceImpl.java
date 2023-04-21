@@ -77,7 +77,11 @@ public class AhorroServiceImpl implements AhorrosService {
     @Override
     public Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("automatico");
-        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUser).build()).build(), exampleMatcher);
+        Ahorro ahorro = new Ahorro();
+        Usuario usuario = new Usuario();
+        usuario.setId(idUser);
+        ahorro.setUsuario(usuario);
+        Example<Ahorro> example = Example.of(ahorro, exampleMatcher);
         return ahorroRepository.findAll(example, pageable);
     }
 
