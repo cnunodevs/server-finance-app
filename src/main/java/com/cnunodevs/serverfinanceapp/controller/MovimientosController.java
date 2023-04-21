@@ -62,7 +62,7 @@ public class MovimientosController {
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyMovimiento);
     }
 
-    @GetMapping("/has-any-movimiento/by-usuario")
+    @GetMapping("/has-any-movimiento/by-presupuesto")
     public ResponseEntity<Boolean> handleHasAnyMovimientoByPresupuesto(@RequestParam final UUID idPresupuesto) {
         final Boolean hasAnyMovimiento = movimientosService.hasAnyMovimientoByPresupuesto(idPresupuesto);
         return ResponseEntity.status(HttpStatus.OK).body(hasAnyMovimiento);
