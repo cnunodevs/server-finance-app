@@ -99,8 +99,7 @@ public class AhorrosController {
     public ResponseEntity<List<AhorroDTO>> getSetOfAhorrosAutomaticos(@RequestParam String username) {
         Usuario usuario = usuariosService.findByUsername(username).get();
         List<Ahorro> ahorros = ahorrosService.findAhorrosAutomaticosByUsuarioId(usuario.getId());
-        List<AhorroDTO> ahorrosDTO = ahorros.stream().map(ahorroMapper::pojoToDto)
-                                                      .toList();
+        List<AhorroDTO> ahorrosDTO = ahorros.stream().map(ahorroMapper::pojoToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosDTO);
     }
 
