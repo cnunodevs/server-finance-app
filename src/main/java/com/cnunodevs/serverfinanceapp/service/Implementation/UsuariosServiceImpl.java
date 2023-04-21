@@ -41,6 +41,7 @@ public class UsuariosServiceImpl implements UsuariosService {
     public Usuario createUsuario(Usuario usuario) {
         Usuario usuarioSaved = usuariosRepository.save(usuario);
         authenticationService.registerNewUserToken(usuarioSaved);
+        balanceService.crearBalanceByUsuario(usuarioSaved);
         return usuarioSaved;
     }
     
