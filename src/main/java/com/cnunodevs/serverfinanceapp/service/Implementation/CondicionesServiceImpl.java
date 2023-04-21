@@ -72,8 +72,5 @@ public class CondicionesServiceImpl implements CondicionesService {
                                                                   .build());                                                                                                                                    
         conditionRepository.delete(conditionRepository.findOne(exampleCondicion).get());
     }
-
-    
-    
     
 }
