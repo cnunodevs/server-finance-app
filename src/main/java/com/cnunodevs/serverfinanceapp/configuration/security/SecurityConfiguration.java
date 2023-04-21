@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                 .requestMatchers("api/v1/presupuestos", "api/v1/presupuestos/metricas**", "api/v1/presupuestos/all**", 
                         "api/v1/movimientos", "api/v1/movimientos/**",
                         "api/v1/balance/**",
-                        "api/v1/ahorros", "api/v1/ahorros/metricas", "api/v1/ahorros/metricas/**",
+                        "api/v1/ahorros", "api/v1/ahorros/metricas", "api/v1/ahorros/metricas/**", "api/v1/ahorros/ahorros-automaticos**",
                         "api/v1/chat/**", "api/v1/condiciones/**", "api/v1/inversiones/**",
                         "api/v1/objetivos/**", "api/v1/portafolios/**", "api/v1/presupuestos/**")
                 .hasRole("USUARIO")

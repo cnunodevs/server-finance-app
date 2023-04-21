@@ -115,7 +115,7 @@ public class AhorrosController {
         if(ahorrosService.ahorroExistByNameAndUser(ahorroDTO.getNombre(), ahorroDTO.getIdUsuario())) {
             throw new IllegalStateException("Similar ahorro already exist");
         }
-        ahorroDTO.setAutomatico(ahorroDTO.isAutomatico() != null);
+        ahorroDTO.setAutomatico(ahorroDTO.isAutomatico());
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
         ahorrosService.createBolsilloAhorro(ahorro);
         return ResponseEntity.status(HttpStatus.CREATED).build();
