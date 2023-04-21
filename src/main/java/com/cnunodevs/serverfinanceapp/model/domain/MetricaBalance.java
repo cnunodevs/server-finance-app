@@ -37,19 +37,16 @@ public class MetricaBalance {
             Set<Movimiento> movimientos) {
 
         HashMap<String, HashMap<String, ImporteConcepto>> detalleImporteConceptoPorTipo = new HashMap<String, HashMap<String, ImporteConcepto>>();
-
-        Stream<Movimiento> ingresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO));
-        Stream<Movimiento> egresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO));
-
+        
         Double totalIngresos = 0.0;
         Double totalEgresos = 0.0;
 
-        totalIngresos = ingresos.mapToDouble(m -> m.getImporte().doubleValue()).sum();
+        totalIngresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO)).mapToDouble(m -> m.getImporte().doubleValue()).sum();
 
-        totalEgresos = egresos.mapToDouble(m -> m.getImporte().doubleValue()).sum();
+        totalEgresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO)).mapToDouble(m -> m.getImporte().doubleValue()).sum();
 
-        detalleImporteConceptoPorTipo.put("egresos", importePorConcepto(totalEgresos, egresos));
-        detalleImporteConceptoPorTipo.put("ingresos", importePorConcepto(totalIngresos, ingresos));
+        detalleImporteConceptoPorTipo.put("egresos", importePorConcepto(totalEgresos, movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO))));
+        detalleImporteConceptoPorTipo.put("ingresos", importePorConcepto(totalIngresos, movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO))));
 
         return detalleImporteConceptoPorTipo;
     }
