@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +76,8 @@ public class AhorroServiceImpl implements AhorrosService {
 
     @Override
     public Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser) {
-        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUser).build()).build());
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("automatico");
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUser).build()).build(), exampleMatcher);
         return ahorroRepository.findAll(example, pageable);
     }
 
