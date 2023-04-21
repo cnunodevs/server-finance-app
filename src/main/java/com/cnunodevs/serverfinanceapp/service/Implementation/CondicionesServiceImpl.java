@@ -1,6 +1,7 @@
 package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Example;
@@ -10,6 +11,7 @@ import com.cnunodevs.serverfinanceapp.model.domain.ConditionHandler;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.Movimiento;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
 import com.cnunodevs.serverfinanceapp.repository.CondicionRepository;
 import com.cnunodevs.serverfinanceapp.service.CondicionesService;
@@ -32,23 +34,18 @@ public class CondicionesServiceImpl implements CondicionesService {
 
     @Override
     public Movimiento applyCondicionIfExist(Movimiento movimiento) {
-        if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
-            ahorroRepository
-                    .findAhorrosAutomaticosByUsuarioId(movimiento
-                                                                .getUsuario()
-                                                                .getId())
-                                                                .stream()
-                                                                .findFirst()
-                                                                .get()
-                    .getCondicion()))
-        {
-            movimiento.setImporte(BigDecimal.valueOf(0.0));
-        }else{
-            movimiento.setImporte(conditionHandler.buildConditionBasedOn(movimiento.getImporte(),
-            ahorroRepository.findAhorrosAutomaticosByUsuarioId(movimiento.getUsuario().getId())
-                                                                                        .stream()
-                                                                                        .findFirst()
-                                                                                        .get()));
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(movimiento.getUsuario().getId()).build()).build());
+        Optional<Ahorro> optional = ahorroRepository.findOne(example);
+        if (optional.isPresent()) { 
+            Condicion condicion = optional.get().getCondicion();
+            if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
+                condicion))
+            {
+                movimiento.setImporte(BigDecimal.valueOf(0.0));
+            }else{
+                movimiento.setImporte(conditionHandler.buildConditionBasedOn(movimiento.getImporte(),
+                optional.get()));
+            }
         }
         return movimiento;
     }
