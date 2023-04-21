@@ -151,5 +151,15 @@ public class AhorroServiceImpl implements AhorrosService {
         ahorro.setCondicion(null);
         ahorroRepository.save(ahorro);
     }
+
+    @Override
+    public Set<Ahorro> findAhorrosByUsuarioId(UUID idAhorro) {
+        return Set.copyOf(ahorroRepository.findAll()
+                                        .stream()
+                                        .filter(ahorro -> ahorro.getUsuario()
+                                                                .getId()
+                                                                .equals(idAhorro))
+                                        .toList());
+    }
     
 }

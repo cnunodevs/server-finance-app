@@ -23,6 +23,7 @@ public interface AhorrosService {
     void updateBolsilloAhorro(Ahorro ahorro);
     void deleteBolsilloAhorro(UUID idAhorro);
     Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro);
+    Set<Ahorro> findAhorrosByUsuarioId(UUID idAhorro);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro);
     MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto);
     MetricaAhorro getMetricaAhorro(UUID idAhorro);

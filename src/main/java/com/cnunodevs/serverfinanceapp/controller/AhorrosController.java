@@ -67,6 +67,11 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.OK).body(ahorroDTO);
     }
 
+    @GetMapping("/can-show-metricas")
+    public ResponseEntity<Boolean> canShowMetricas(@RequestParam UUID idUser) {
+        return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.findAhorrosByUsuarioId(idUser).isEmpty());
+    }
+
     @GetMapping("/metricas")
     public ResponseEntity<MetricaAhorros> getMetricas(@RequestParam(defaultValue = "0") long minMonto, @RequestParam(defaultValue = "0") long maxMonto) {
         if((minMonto < 0 || maxMonto < 0) || minMonto > maxMonto) {
