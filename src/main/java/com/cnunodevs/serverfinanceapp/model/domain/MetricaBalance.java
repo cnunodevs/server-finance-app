@@ -44,8 +44,8 @@ public class MetricaBalance {
         Double totalIngresos = 0.0;
         Double totalEgresos = 0.0;
 
-        Stream<Movimiento> ingresosChecker = ingresos;
-        Stream<Movimiento> egresosChecker = egresos;
+        Stream<Movimiento> ingresosChecker = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO));
+        Stream<Movimiento> egresosChecker = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO));
 
         if (!ingresosChecker.toList().isEmpty()) {
             totalIngresos = ingresos.mapToDouble(m -> m.getImporte().doubleValue()).sum();
