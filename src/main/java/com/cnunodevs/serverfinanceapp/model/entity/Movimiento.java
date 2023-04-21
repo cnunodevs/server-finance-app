@@ -39,7 +39,7 @@ public class Movimiento {
     @Column(nullable = false, updatable = false)
     private UUID id;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, precision=30, scale=2)
     private BigDecimal importe;
 
     @Column(length = 50, nullable = false)

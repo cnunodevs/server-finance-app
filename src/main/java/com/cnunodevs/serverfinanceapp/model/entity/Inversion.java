@@ -52,7 +52,7 @@ public class Inversion {
     @Column(length = 255)
     private String descripcion;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, precision=30, scale=2)
     private BigDecimal precio;
 
     @Column(nullable = false)
@@ -71,7 +71,7 @@ public class Inversion {
     @Column(length = 50, nullable = false)
     private SectorActivo sector;
     
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, precision=30, scale=2)
     private BigDecimal rentabilidadEsperada;
 
     @Column(nullable = false)

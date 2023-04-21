@@ -42,6 +42,7 @@ public class Ahorro {
     @Enumerated(EnumType.STRING)
     private TipoAhorro tipo;
 
+    @Column(nullable = false, precision=30, scale=2)
     private BigDecimal importe;
 
     private boolean automatico;

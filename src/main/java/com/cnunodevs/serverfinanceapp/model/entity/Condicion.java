@@ -34,6 +34,7 @@ public class Condicion {
     @Column(length = 50)
     private Expresion expresion;
 
+    @Column(nullable = false, precision=30, scale=2)
     private BigDecimal importe;
 
     private Long cantidadDescontar;
