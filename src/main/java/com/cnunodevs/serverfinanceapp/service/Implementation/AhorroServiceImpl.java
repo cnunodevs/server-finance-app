@@ -12,7 +12,6 @@ import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
@@ -84,18 +83,14 @@ public class AhorroServiceImpl implements AhorrosService {
 
     @Override
     public Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser) {
-        Page<Ahorro> page = new PageImpl<Ahorro>(ahorroRepository.findAll(pageable).stream()
-                                                                                   .filter(ahorro -> ahorro.getUsuario().getId().equals(idUser))
-                                                                                   .toList());
-        return page;
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUser).build()).build());
+        return ahorroRepository.findAll(example, pageable);
     }
 
     @Override
     public Set<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idAhorro) {
-        return Set.copyOf(ahorroRepository.findAll()
-                                          .stream()
-                                          .filter(ahorro -> ahorro.getUsuario().getId().equals(idAhorro))
-                                          .toList());
+        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idAhorro).build()).build());
+        return Set.copyOf(ahorroRepository.findAll(example));
     }
 
     @Override
