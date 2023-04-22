@@ -8,6 +8,8 @@ import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoImporte;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +34,7 @@ public class Condicion {
     private UUID id;
 
     @Column(length = 50)
+    @Enumerated(EnumType.STRING)
     private Expresion expresion;
 
     @Column(nullable = false, precision=30, scale=2)
