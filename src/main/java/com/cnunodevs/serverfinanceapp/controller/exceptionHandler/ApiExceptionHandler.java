@@ -23,44 +23,59 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public void constraintViolationHandler(ConstraintViolationException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
+
     }
 
     @ExceptionHandler(BindException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public void bindExceptionHandler(BindException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(value=HttpStatus.NOT_FOUND)
     public void entityNotFoundExceptionHandler(EntityNotFoundException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
 
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(value=HttpStatus.CONFLICT)
     public void entityAlreadyOnStateExceptionHandler(IllegalStateException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
 
     @ExceptionHandler(IllegalCallerException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public void illegalCallerExceptionHandler(BindException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
 
     @ExceptionHandler(NotDeletableException.class)
     @ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
     public void ahorroNotDeletableExceptionHandler(BindException exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
 
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
     public void principalExceptionHandler(Exception exception){
-        logger.error(exception.getMessage());
+        logger.error("Exception message" + exception.getMessage());
+        logger.error("Cause: " + exception.getCause());
+        exception.fillInStackTrace();
     }
     
 }

@@ -147,7 +147,7 @@ public class MovimientosController {
         final Movimiento movimiento = movimientoMapper.dtoToPojo(movimientoDTO);
         if (movimientoDTO.getContabilizable().equals(true) || movimientoDTO.getIdPresupuesto() == null) {
             throw new IllegalStateException(
-                    "Can not save this movimiento. UUID: " + movimientoDTO.getId() + " must not be contabilizable");
+                    "Can not save this movimiento. Must not be contabilizable");
         }
         movimientosService.createMovimientoOfPresupuesto(movimiento);
         return ResponseEntity.status(HttpStatus.CREATED).build();
