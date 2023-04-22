@@ -49,7 +49,7 @@ public class AhorrosController {
     private final AhorroMapper ahorroMapper;
 
     @GetMapping
-    public ResponseEntity<Page<Ahorro>> getAllAhorrosPaginated(        
+    public ResponseEntity<Page<AhorroDTO>> getAllAhorrosPaginated(        
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "9") int size,
         @RequestParam UUID idUsuario) {
@@ -58,7 +58,7 @@ public class AhorrosController {
             Page<AhorroDTO> pagesDTO = new PageImpl<>(
                 pages.stream().map(ahorroMapper::pojoToDto).toList()
                 );
-            return ResponseEntity.status(HttpStatus.OK).body(pages);
+            return ResponseEntity.status(HttpStatus.OK).body(pagesDTO);
     }
 
     @GetMapping("/{idAhorro}")
