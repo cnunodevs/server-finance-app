@@ -138,9 +138,8 @@ public class MovimientosServiceImpl implements MovimientosService {
                                         .presupuesto(null)
                                         .contabilizable(true)
                                         .build();
-        balanceService.disminuirBalanceByUsuario(importe, idUsuario);
         movimientosRepository.save(movimiento);
-        balanceService.aumentarBalanceByUsuario(movimiento.getImporte(), movimiento.getUsuario().getId());
+        balanceService.disminuirBalanceByUsuario(importe, idUsuario);
     }
 
     @Override
