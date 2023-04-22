@@ -27,6 +27,7 @@ import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoAhorro;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoImporte;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.TipoMovimiento;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
+import com.cnunodevs.serverfinanceapp.service.CondicionesService;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 import com.cnunodevs.serverfinanceapp.service.PortafoliosService;
 import com.cnunodevs.serverfinanceapp.service.PresupuestosService;
@@ -40,6 +41,7 @@ public class SampleDataInitializer implements CommandLineRunner {
 
     private final UsuariosService usuariosService;
     private final ObjetivoService objetivoService;
+    private final CondicionesService condicionesService;
     private final AhorrosService ahorrosService;
     private final PresupuestosService presupuestosService;
     private final PortafoliosService portafolioService;
@@ -98,16 +100,17 @@ public class SampleDataInitializer implements CommandLineRunner {
                                 .objetivo(objetivo)
                                 .usuario(usuario)
                                 .build();
+        Ahorro ahorroSaved = ahorrosService.createBolsilloAhorro(ahorro);
         Condicion condicion = Condicion.builder()
                                 .expresion(Expresion.DESCONTAR_MAYOR_IGUAL_A)
                                 .importe(new BigDecimal("250"))
                                 .cantidadDescontar(8L)
                                 .tipoImporte(TipoImporte.EFECTIVO)
                                 .enabled(true)
-                                .ahorro(ahorro)
+                                .ahorro(ahorroSaved)
                                 .build();
-        ahorro.setCondicion(condicion);
-        return ahorrosService.createBolsilloAhorro(ahorro);
+        ahorrosService.saveCondicion(condicion);
+        return ahorroSaved;
         
     }
 
