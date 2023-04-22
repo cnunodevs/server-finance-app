@@ -59,19 +59,7 @@ public class AhorroServiceImpl implements AhorrosService {
     public MetricaAhorros getMetricaAhorros(UUID idUsuario) {
         Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
         List<Ahorro> allAhorros = ahorroRepository.findAll(example);
-        List<Ahorro> ahorroFiltred = new ArrayList<>();
-        if(!allAhorros.isEmpty()) {
-            return new MetricaAhorros(allAhorros);
-        }
-        // if (maxMonto == 0) {
-        //     ahorroFiltred = allAhorros;
-        // } else {
-        //     ahorroFiltred = allAhorros.stream()
-        //                               .filter(ahorro -> ahorro.getImporte().longValue() >= minMonto
-        //                                          && ahorro.getImporte().longValue() <= maxMonto)
-        //                               .toList();
-        // }
-        return new MetricaAhorros(ahorroFiltred);
+        return new MetricaAhorros(allAhorros);
     }
 
     @Override
