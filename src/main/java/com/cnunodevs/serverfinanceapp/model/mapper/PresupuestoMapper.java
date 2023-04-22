@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.cnunodevs.serverfinanceapp.model.dto.PresupuestoDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Presupuesto;
+import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.entity.enums.PeriodoPresupuesto;
 
 @Service
@@ -14,6 +15,7 @@ public class PresupuestoMapper implements GenericMapper<Presupuesto, Presupuesto
         Presupuesto presupuesto = Presupuesto.builder()
                                             .nombre(dto.getNombre())
                                             .descripcion(dto.getDescripcion())
+                                            .usuario(Usuario.builder().id(dto.getIdUsuario()).build())
                                             .periodo(PeriodoPresupuesto.valueOf(dto.getPeriodo()))
                                             .build();
         if (dto.getId() != null) {
@@ -27,6 +29,7 @@ public class PresupuestoMapper implements GenericMapper<Presupuesto, Presupuesto
         PresupuestoDTO presupuestoDTO = PresupuestoDTO.builder()
                                                     .nombre(pojo.getNombre())
                                                     .descripcion(pojo.getDescripcion())
+                                                    .idUsuario(pojo.getUsuario().getId())
                                                     .periodo(pojo.getPeriodo().toString())
                                                     .build();
         return presupuestoDTO;
