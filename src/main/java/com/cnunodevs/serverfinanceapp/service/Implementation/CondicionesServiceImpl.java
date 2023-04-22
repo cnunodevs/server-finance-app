@@ -1,7 +1,7 @@
 package com.cnunodevs.serverfinanceapp.service.Implementation;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Example;
@@ -35,16 +35,17 @@ public class CondicionesServiceImpl implements CondicionesService {
     @Override
     public Movimiento applyCondicionIfExist(Movimiento movimiento) {
         Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(movimiento.getUsuario().getId()).build()).build());
-        Optional<Ahorro> optional = ahorroRepository.findOne(example);
-        if (optional.isPresent()) { 
-            Condicion condicion = optional.get().getCondicion();
+        List<Ahorro> ahorros = ahorroRepository.findAll(example);
+        if (!ahorros.isEmpty()) {
+            Ahorro ahorro = ahorros.stream().findFirst().get();
+            Condicion condicion = ahorro.getCondicion();
             if(!conditionHandler.fullfitCondition(movimiento.getImporte(),
                 condicion))
             {
                 movimiento.setImporte(BigDecimal.valueOf(0.0));
             }else{
                 movimiento.setImporte(conditionHandler.buildConditionBasedOn(movimiento.getImporte(),
-                optional.get()));
+                ahorro));
             }
         }
         return movimiento;
