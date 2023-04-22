@@ -22,6 +22,5 @@ public class CondicionDTO {
     private String tipoImporte;
     @NotEmpty
     private Boolean enabled;
-    @NotEmpty
     private UUID idAhorro;
 }

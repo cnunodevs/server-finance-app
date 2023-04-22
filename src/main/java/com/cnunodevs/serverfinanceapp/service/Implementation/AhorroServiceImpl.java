@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
+import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
+import com.cnunodevs.serverfinanceapp.repository.CondicionRepository;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
 import com.cnunodevs.serverfinanceapp.service.MovimientosService;
 
@@ -29,6 +31,7 @@ public class AhorroServiceImpl implements AhorrosService {
     
     private final AhorroRepository ahorroRepository;
     private final MovimientosService movimientosService;
+    private final CondicionRepository condicionRepository;
 
     @Override
     public Ahorro createBolsilloAhorro(Ahorro ahorro) {
@@ -137,6 +140,11 @@ public class AhorroServiceImpl implements AhorrosService {
     public List<Ahorro> findAhorrosByUsuarioId(UUID idUsuario) {
         Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
         return ahorroRepository.findAll(example);
+    }
+
+    @Override
+    public void saveCondicion(Condicion condicion) {
+        condicionRepository.save(condicion);
     }
     
 }

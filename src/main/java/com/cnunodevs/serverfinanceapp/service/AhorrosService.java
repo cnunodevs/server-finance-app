@@ -3,6 +3,7 @@ package com.cnunodevs.serverfinanceapp.service;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
+import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public interface AhorrosService {
     boolean ahorroExistById(UUID idAhorro);
     boolean ahorroExistByNameAndUser(String name, UUID idUser);
     boolean hasCondition(UUID idAhorro);
+    void saveCondicion(Condicion condicion);
     Ahorro createBolsilloAhorro(Ahorro ahorro);
     void unableCondicion(UUID idAhorro);
     List<Ahorro> getAllAhorros();

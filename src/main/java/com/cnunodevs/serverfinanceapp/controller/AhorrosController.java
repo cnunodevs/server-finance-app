@@ -30,6 +30,7 @@ import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorro;
 import com.cnunodevs.serverfinanceapp.model.domain.MetricaAhorros;
 import com.cnunodevs.serverfinanceapp.model.dto.AhorroDTO;
 import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
+import com.cnunodevs.serverfinanceapp.model.entity.Condicion;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
 import com.cnunodevs.serverfinanceapp.model.mapper.AhorroMapper;
 import com.cnunodevs.serverfinanceapp.service.AhorrosService;
@@ -113,9 +114,11 @@ public class AhorrosController {
         if(ahorrosService.ahorroExistByNameAndUser(ahorroDTO.getNombre(), ahorroDTO.getIdUsuario())) {
             throw new IllegalStateException("Similar ahorro already exist");
         }
-        ahorroDTO.setAutomatico(ahorroDTO.isAutomatico());
         Ahorro ahorro = ahorroMapper.dtoToPojo(ahorroDTO);
-        ahorrosService.createBolsilloAhorro(ahorro);
+        Condicion condicion = ahorro.getCondicion();
+        Ahorro ahorroSaved = ahorrosService.createBolsilloAhorro(ahorro);
+        condicion.setAhorro(ahorroSaved);
+        ahorrosService.saveCondicion(condicion);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     

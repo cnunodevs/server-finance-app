@@ -21,15 +21,16 @@ public class CondicionMapper implements GenericMapper<Condicion, CondicionDTO> {
         }
 
         Condicion condicion = Condicion.builder()
+                                            .id(dto.getId())
                                             .expresion(Expresion.valueOf(dto.getExpresion()))
                                             .importe(BigDecimal.valueOf(dto.getImporte()))
                                             .tipoImporte(TipoImporte.valueOf(dto.getTipoImporte()))
                                             .enabled(dto.getEnabled())
                                             .ahorro(Ahorro.builder().id(dto.getIdAhorro()).build())
                                         .build();
-        if(dto.getId() != null) {
-            condicion.setId(dto.getId());
-        }
+        // if(dto.getId() != null) {
+        //     condicion.setId(dto.getId());
+        // }
 
         return condicion;
     }
