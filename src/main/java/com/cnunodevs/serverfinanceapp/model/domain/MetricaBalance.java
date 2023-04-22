@@ -55,11 +55,27 @@ public class MetricaBalance {
 
     private static HashMap<String, ImporteConcepto> importePorConcepto(Double montoTotalTipo,
             Stream<Movimiento> movimientosTipo) {
-        Map<String, Double> importePorTipo = movimientosTipo
-                .collect(Collectors.toMap(m -> m.getConcepto(), m -> m.getImporte().doubleValue()));
+
+        Map<String, Double> importePorTipo = new HashMap<String, Double>();
+        
+        //TO DO: Separar en listas diferentes para comparar si existe, si existe computar valor y no agregar clave diferente
+        //movimientosTipo.collect(Collectors.toMap(m -> m.getConcepto(), m -> m.getImporte().doubleValue()));
+        movimientosTipo.forEach((movimiento) -> {
+            String concepto = movimiento.getConcepto();
+            if(importePorTipo.containsKey(concepto)){
+                Double valorActual = importePorTipo.get(concepto);
+                Double valorNuevo = valorActual + movimiento.getImporte().doubleValue();
+                importePorTipo.replace(concepto, valorNuevo);
+            } else {
+                importePorTipo.put(concepto, movimiento.getImporte().doubleValue());
+            }
+        });
+        
+
         HashMap<String, ImporteConcepto> metricaConcepto = new HashMap<String, ImporteConcepto>();
         importePorTipo.entrySet()
                 .forEach(m -> metricaConcepto.put(m.getKey(), new ImporteConcepto(montoTotalTipo, m.getValue())));
+
         return metricaConcepto;
     }
 
