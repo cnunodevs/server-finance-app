@@ -21,6 +21,8 @@ public class AhorroMapper implements GenericMapper<Ahorro, AhorroDTO>{
     @Override
     public Ahorro dtoToPojo(AhorroDTO dto) {
         Ahorro ahorro = Ahorro.builder()
+                            .nombre(dto.getNombre())
+                            .descripcion(dto.getDescripcion())
                             .tipo(TipoAhorro.valueOf(dto.getTipo()))
                             .importe(BigDecimal.valueOf(dto.getImporte()))
                             .automatico(dto.isAutomatico())
