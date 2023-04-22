@@ -96,9 +96,14 @@ public class MovimientosServiceImpl implements MovimientosService {
             importeDescuento = movimiento.getImporte().doubleValue() - movimientoConDescuento.getImporte().doubleValue();
         } 
         movimientosRepository.save(movimiento);
-
+        if (movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
+            balanceService.aumentarBalanceByUsuario(movimiento.getImporte(), movimiento.getUsuario().getId());
+        } else {
+            balanceService.disminuirBalanceByUsuario(movimiento.getImporte(), movimiento.getUsuario().getId());
+        }
         if (importeDescuento != 0.0) {
             crearMovimientoDesdeDisponible(BigDecimal.valueOf(importeDescuento), movimiento.getUsuario().getId(), "ahorro", "logo_ahorro");
+            balanceService.disminuirBalanceByUsuario(BigDecimal.valueOf(importeDescuento), movimiento.getUsuario().getId());
         }         
         
     }
@@ -135,6 +140,7 @@ public class MovimientosServiceImpl implements MovimientosService {
                                         .build();
         balanceService.disminuirBalanceByUsuario(importe, idUsuario);
         movimientosRepository.save(movimiento);
+        balanceService.aumentarBalanceByUsuario(movimiento.getImporte(), movimiento.getUsuario().getId());
     }
 
     @Override
@@ -143,6 +149,7 @@ public class MovimientosServiceImpl implements MovimientosService {
         Movimiento movimientoConDescuento = condicionesService.applyCondicionToSpecificAhorro(movimiento, idCuentaAhorroEspecifica);
         double importeDescuento = movimiento.getImporte().doubleValue() - movimientoConDescuento.getImporte().doubleValue();
         crearMovimientoDesdeDisponible(BigDecimal.valueOf(importeDescuento), movimiento.getUsuario().getId(), "ahorro", "logo_ahorro");
+        balanceService.disminuirBalanceByUsuario(movimiento.getImporte(), movimiento.getUsuario().getId());
     }
 
     @Override
