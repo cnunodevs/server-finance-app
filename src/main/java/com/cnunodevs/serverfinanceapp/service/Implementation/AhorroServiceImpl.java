@@ -57,7 +57,9 @@ public class AhorroServiceImpl implements AhorrosService {
 
     @Override
     public MetricaAhorros getMetricaAhorros(UUID idUsuario) {
-        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("automatico");
+        Ahorro ahorro = Ahorro.builder().usuario(Usuario.builder().id(idUsuario).build()).build();
+        Example<Ahorro> example = Example.of(ahorro, exampleMatcher);
         List<Ahorro> allAhorros = ahorroRepository.findAll(example);
         return new MetricaAhorros(allAhorros);
     }
@@ -65,10 +67,7 @@ public class AhorroServiceImpl implements AhorrosService {
     @Override
     public Page<Ahorro> getAllAhorrosOfUserPaginated(Pageable pageable, UUID idUser) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("automatico");
-        Ahorro ahorro = new Ahorro();
-        Usuario usuario = new Usuario();
-        usuario.setId(idUser);
-        ahorro.setUsuario(usuario);
+        Ahorro ahorro = Ahorro.builder().usuario(Usuario.builder().id(idUser).build()).build();
         Example<Ahorro> example = Example.of(ahorro, exampleMatcher);
         return ahorroRepository.findAll(example, pageable);
     }
