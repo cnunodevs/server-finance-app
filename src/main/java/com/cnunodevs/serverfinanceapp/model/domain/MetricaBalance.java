@@ -41,10 +41,8 @@ public class MetricaBalance {
         Double totalIngresos = 0.0;
         Double totalEgresos = 0.0;
 
-        //totalIngresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO)).mapToDouble(m -> m.getImporte().doubleValue()).sum();
         totalIngresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.INGRESO)).collect(Collectors.summingDouble(m -> m.getImporte().doubleValue()));
 
-        //totalEgresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO)).mapToDouble(m -> m.getImporte().doubleValue()).sum();
         totalEgresos = movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO)).collect(Collectors.summingDouble(m -> m.getImporte().doubleValue()));
 
         detalleImporteConceptoPorTipo.put("egresos", importePorConcepto(totalEgresos, movimientos.stream().filter(m -> m.getTipo().equals(TipoMovimiento.EGRESO))));
@@ -57,9 +55,7 @@ public class MetricaBalance {
             Stream<Movimiento> movimientosTipo) {
 
         Map<String, Double> importePorTipo = new HashMap<String, Double>();
-        
-        //TO DO: Separar en listas diferentes para comparar si existe, si existe computar valor y no agregar clave diferente
-        //movimientosTipo.collect(Collectors.toMap(m -> m.getConcepto(), m -> m.getImporte().doubleValue()));
+
         movimientosTipo.forEach((movimiento) -> {
             String concepto = movimiento.getConcepto();
             if(importePorTipo.containsKey(concepto)){
@@ -70,7 +66,6 @@ public class MetricaBalance {
                 importePorTipo.put(concepto, movimiento.getImporte().doubleValue());
             }
         });
-        
 
         HashMap<String, ImporteConcepto> metricaConcepto = new HashMap<String, ImporteConcepto>();
         importePorTipo.entrySet()
