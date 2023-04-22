@@ -34,7 +34,7 @@ public class CondicionesServiceImpl implements CondicionesService {
 
     @Override
     public Movimiento applyCondicionIfExist(Movimiento movimiento) {
-        Example<Ahorro> example = Example.of(Ahorro.builder().usuario(Usuario.builder().id(movimiento.getUsuario().getId()).build()).build());
+        Example<Ahorro> example = Example.of(Ahorro.builder().automatico(true).usuario(Usuario.builder().id(movimiento.getUsuario().getId()).build()).build());
         List<Ahorro> ahorros = ahorroRepository.findAll(example);
         if (!ahorros.isEmpty()) {
             Ahorro ahorro = ahorros.stream().findFirst().get();
