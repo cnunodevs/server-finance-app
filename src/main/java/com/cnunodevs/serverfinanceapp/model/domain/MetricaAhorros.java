@@ -37,8 +37,7 @@ public class MetricaAhorros {
                                                     .filter(ahorro -> ahorro.isAutomatico() == true)
                                                     .count()))
                         .append("/")
-                        .append(String.valueOf(ahorros.size()))
-                        .append(" son ahorros automaticos");
+                        .append(String.valueOf(ahorros.size()));
         return ahorroAutomatico.toString();
     }
 

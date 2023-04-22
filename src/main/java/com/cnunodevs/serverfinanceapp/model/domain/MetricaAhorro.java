@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class MetricaAhorro {
     
+    private Boolean mostrarMetricas;
     private UUID idAhorro;
     private Double totalSaving; 
     private Double differenceWithObjetivo;

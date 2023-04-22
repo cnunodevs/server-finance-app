@@ -75,14 +75,9 @@ public class AhorrosController {
         return ResponseEntity.status(HttpStatus.OK).body(ahorrosService.findAhorrosByUsuarioId(idUser).isEmpty());
     }
 
-    @GetMapping("/metricas")
-    public ResponseEntity<MetricaAhorros> getMetricas(@RequestParam(defaultValue = "0") long minMonto,
-                                                         @RequestParam(defaultValue = "0") long maxMonto,
-                                                          @RequestParam UUID idUsuario) {
-        if((minMonto < 0 || maxMonto < 0) || minMonto > maxMonto) {
-            throw new IllegalStateException("mal uso de monto maximo y minimo");
-        }
-        MetricaAhorros metricas = ahorrosService.getMetricaAhorros(minMonto, maxMonto, idUsuario);
+    @GetMapping("/metricas") //Updated with new params without min and max
+    public ResponseEntity<MetricaAhorros> getMetricas(@RequestParam UUID idUsuario) {
+        MetricaAhorros metricas = ahorrosService.getMetricaAhorros(idUsuario);
         return ResponseEntity.status(HttpStatus.OK).body(metricas);
     }
 

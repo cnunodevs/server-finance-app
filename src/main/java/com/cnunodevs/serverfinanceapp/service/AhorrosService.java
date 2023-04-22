@@ -25,7 +25,7 @@ public interface AhorrosService {
     List<Ahorro> findAhorrosAutomaticosByUsuarioId(UUID idUsuario);
     List<Ahorro> findAhorrosByUsuarioId(UUID idUsuario);
     Ahorro findAhorroAutomaticoDefaultByUsuarioId(UUID idAhorro);
-    MetricaAhorros getMetricaAhorros(long minMonto, long maxMonto, UUID idUsuario);
+    MetricaAhorros getMetricaAhorros(UUID idUsuario);
     MetricaAhorro getMetricaAhorro(UUID idAhorro);
     Optional<Ahorro> findAhorroById(UUID idAhorro);
     void transferAhorroToDisponible(Ahorro ahorro, BigDecimal ImporteToTransfer);
