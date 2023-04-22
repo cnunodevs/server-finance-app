@@ -144,7 +144,9 @@ public class AhorroServiceImpl implements AhorrosService {
 
     @Override
     public void saveCondicion(Condicion condicion) {
-        condicionRepository.save(condicion);
+        Ahorro ahorro = ahorroRepository.findById(condicion.getAhorro().getId()).get();
+        ahorro.setCondicion(condicionRepository.save(condicion));
+        ahorroRepository.save(ahorro);
     }
     
 }
