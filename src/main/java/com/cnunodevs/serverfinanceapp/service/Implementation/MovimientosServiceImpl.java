@@ -110,8 +110,6 @@ public class MovimientosServiceImpl implements MovimientosService {
 
     @Override
     public void crearMovimientoHaciaDisponible(BigDecimal importe, UUID idUsuario, String concepto, String logoConcepto) {
-        //Aumenta el monto en balance
-        //Registra movimiento de transferencia hacia disponible
         Movimiento movimiento = Movimiento.builder()
                                         .importe(importe)
                                         .tipo(TipoMovimiento.TRANSFERENCIA_HACIA_DISPONIBLE)
@@ -121,14 +119,12 @@ public class MovimientosServiceImpl implements MovimientosService {
                                         .presupuesto(null)
                                         .contabilizable(true)
                                         .build();
-        balanceService.aumentarBalanceByUsuario(importe, idUsuario);
         movimientosRepository.save(movimiento);
+        balanceService.aumentarBalanceByUsuario(importe, idUsuario);
     }
 
     @Override
     public void crearMovimientoDesdeDisponible(BigDecimal importe, UUID idUsuario, String concepto, String logoConcepto) {
-        //Disminuye el monto en balance
-        //Registra movimiento de transferencia desde disponible
         Movimiento movimiento = Movimiento.builder()
                                         .importe(importe)
                                         .tipo(TipoMovimiento.TRANSFERENCIA_DESDE_DISPONIBLE)
