@@ -46,7 +46,7 @@ public class MovimientosServiceImpl implements MovimientosService {
     @Override
     public MetricaBalance getMetricaBalanceByUsuario(UUID idUsuario) {
         Example<Movimiento> example = Example
-                .of(Movimiento.builder().usuario(Usuario.builder().id(idUsuario).build()).build());
+                .of(Movimiento.builder().contabilizable(true).usuario(Usuario.builder().id(idUsuario).build()).build());
         List<Movimiento> movimientos = movimientosRepository.findAll(example);
         Balance balance = balanceService.getBalanceByUsuario(idUsuario);
         return MetricaBalance.getMetricaBalance(balance.getBalance().doubleValue(), new HashSet<Movimiento>(movimientos));
