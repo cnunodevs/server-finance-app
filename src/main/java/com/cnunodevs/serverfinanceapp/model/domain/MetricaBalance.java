@@ -25,7 +25,7 @@ public class MetricaBalance {
         if (!movimientos.isEmpty()) {
             metricaBalance.setMostraMetricas(true);
             metricaBalance.setMonto(montoBalance);
-            metricaBalance.setProporcionPorTipo(null);
+            metricaBalance.setProporcionPorTipo(proporcionTipoOperation(montoBalance, movimientos));
             metricaBalance
                     .setDetalleImporteConceptoPorTipo(detalleImporteConceptoPorTipoOperation(montoBalance, movimientos));
         }
@@ -79,7 +79,7 @@ public class MetricaBalance {
         return metricaConcepto;
     }
 
-    public HashMap<String, Double> proporcionTipoOperation(Double montoBalance, Set<Movimiento> movimientos) {
+    private static HashMap<String, Double> proporcionTipoOperation(Double montoBalance, Set<Movimiento> movimientos) {
         HashMap<String, Double> proporcionTipo = new HashMap<String, Double>(movimientos.stream().collect(Collectors
                                                 .groupingBy(m -> m.getTipo().toString(), 
                                                                 Collectors.summingDouble(m -> m.getImporte().doubleValue()))));
