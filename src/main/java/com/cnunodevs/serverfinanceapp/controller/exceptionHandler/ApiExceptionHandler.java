@@ -63,7 +63,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(NotDeletableException.class)
     @ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
-    public void ahorroNotDeletableExceptionHandler(BindException exception){
+    public void ahorroNotDeletableExceptionHandler(Exception exception){
         logger.error("Exception message" + exception.getMessage());
         logger.error("Cause: " + exception.getCause());
         exception.fillInStackTrace();
