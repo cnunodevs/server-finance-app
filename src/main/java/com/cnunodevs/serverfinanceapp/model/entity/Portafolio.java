@@ -53,7 +53,6 @@ public class Portafolio {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "objetivo")
     private Objetivo objetivo;
-
     
     @CreationTimestamp
     @Column(updatable = false)

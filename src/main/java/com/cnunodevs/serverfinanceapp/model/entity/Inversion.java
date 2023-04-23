@@ -76,6 +76,9 @@ public class Inversion {
 
     @Column(nullable = false)
     private Boolean simulada;
+
+    @Column(nullable = false)
+    private Boolean liquidada;
     
     @CreationTimestamp
     private LocalDateTime fechaCreacion;

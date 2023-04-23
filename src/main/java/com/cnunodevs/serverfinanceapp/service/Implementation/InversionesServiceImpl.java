@@ -34,7 +34,7 @@ public class InversionesServiceImpl implements InversionesService {
     @Override
     public List<Inversion> findInversionesByPortafolioId(UUID idPortafolio) {
         Example<Inversion> example = Example
-                .of(Inversion.builder().portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+                .of(Inversion.builder().liquidada(false).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
         return inversionesRepository.findAll(example);
     }
 
@@ -81,7 +81,7 @@ public class InversionesServiceImpl implements InversionesService {
     @Override
     public Boolean alreadyExistOnPortafolio(UUID idPortafolio, String nombre) {
         Example<Inversion> example = Example
-                .of(Inversion.builder().nombre(nombre).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+                .of(Inversion.builder().liquidada(false).nombre(nombre).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
         return inversionesRepository.findOne(example).isPresent();
     }
 
@@ -92,29 +92,32 @@ public class InversionesServiceImpl implements InversionesService {
 
     @Override
     public void liquidarInversion(Inversion inversion, UUID idUsuario) {
-        //Logica para liquidar inversion
-        //Si es simulada no se registra cambio en el disponible
         if (inversion.getSimulada().equals(true)){
-            deleteInversionById(inversion.getId());
+            setInversionAsLiquidada(inversion);
         }
         double valorTotalInversion = inversion.getPrecio().doubleValue() * inversion.getCantidad();
         double gananciaTotal = MetricaInversion.calcularGananciaEsperada(inversion.getRentabilidadEsperada().doubleValue(), valorTotalInversion);
         movimientosService.crearMovimientoHaciaDisponible(BigDecimal.valueOf(gananciaTotal), idUsuario, "inversion", "logo_inversion");
-        deleteInversionById(inversion.getId());
-
+        setInversionAsLiquidada(inversion);
     }
 
     @Override
     public Boolean portafolioHasAnyInversion(UUID idPortafolio) {
         Example<Inversion> example = Example
-                .of(Inversion.builder().portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+                .of(Inversion.builder().liquidada(false).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
         return inversionesRepository.findOne(example).isPresent();
     }
 
     @Override
     public Boolean hasPortafolioAnyInversion(UUID idPortafolio) {
-        Example<Inversion> example = Example.of(Inversion.builder().portafolio(Portafolio.builder().id(idPortafolio).build()).build());
+        Example<Inversion> example = Example.of(Inversion.builder().liquidada(false).portafolio(Portafolio.builder().id(idPortafolio).build()).build());
         return !inversionesRepository.findAll(example).isEmpty();
+    }
+
+    @Override
+    public void setInversionAsLiquidada(Inversion inversion) {
+        inversion.setLiquidada(true);
+        inversionesRepository.save(inversion);
     }
 
 }

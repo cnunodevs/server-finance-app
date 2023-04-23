@@ -28,5 +28,5 @@ public interface InversionesService {
     void liquidarInversion(Inversion inversion, UUID idUsuario);
     Boolean portafolioHasAnyInversion(UUID idPortafolio);
     Boolean hasPortafolioAnyInversion(UUID idPortafolio);
-    
+    void setInversionAsLiquidada(Inversion inversion);
 }
