@@ -6,9 +6,13 @@ import java.util.UUID;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.cnunodevs.serverfinanceapp.model.entity.Ahorro;
 import com.cnunodevs.serverfinanceapp.model.entity.Objetivo;
+import com.cnunodevs.serverfinanceapp.model.entity.Portafolio;
 import com.cnunodevs.serverfinanceapp.model.entity.Usuario;
+import com.cnunodevs.serverfinanceapp.repository.AhorroRepository;
 import com.cnunodevs.serverfinanceapp.repository.ObjetivoRepository;
+import com.cnunodevs.serverfinanceapp.repository.PortafoliosRepository;
 import com.cnunodevs.serverfinanceapp.service.ObjetivoService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class ObjetivoServiceImpl implements ObjetivoService {
 
     private final ObjetivoRepository objetivoRepository;
+    private final AhorroRepository ahorroRepository;
+    private final PortafoliosRepository portafoliosRepository; 
 
     @Override
     public Objetivo saveObjetivo(Objetivo objetivo) {
@@ -57,8 +63,19 @@ public class ObjetivoServiceImpl implements ObjetivoService {
 
     @Override
     public Boolean isObjetivoOfUserDeletable(UUID idUsuario, UUID idObjetivo) {
-        return objetivoRepository.findObjetivoOfUserInAhorros(idUsuario, idObjetivo).isEmpty() 
-                && objetivoRepository.findObjetivosInPortafoslioOfUser(idUsuario, idObjetivo).isEmpty();
+        List<Ahorro> ahorrosWithObjetivo =  ahorroRepository.findAll()
+                                                            .stream()
+                                                            .filter(ahorro -> ahorro.getObjetivo().getId().equals(idObjetivo))
+                                                            .toList();
+        List<Portafolio> portafolioWithObjetivo =  portafoliosRepository.findAll()
+                                                                    .stream()
+                                                                    .filter(ahorro -> ahorro.getObjetivo().getId().equals(idObjetivo))
+                                                                    .toList();
+        
+        return ahorrosWithObjetivo.isEmpty() && portafolioWithObjetivo.isEmpty();
+
+        // return objetivoRepository.findObjetivoOfUserInAhorros(idUsuario, idObjetivo).isEmpty() 
+        //         && objetivoRepository.findObjetivosInPortafoslioOfUser(idUsuario, idObjetivo).isEmpty();
     }
 
     @Override
