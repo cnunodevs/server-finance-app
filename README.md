@@ -1,4 +1,4 @@
-# server-voting-system
+# server-finance-app
 Server app para plataforma para la gestión de finanzas personales
 
 ## Los aspectos técnicos a tener en cuenta:
