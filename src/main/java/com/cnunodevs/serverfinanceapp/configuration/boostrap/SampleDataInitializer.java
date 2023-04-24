@@ -37,7 +37,7 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadSampleData(){
         
         Usuario usuario = loadAdminData();
-        loadObjetivoData(usuario);
+        // loadObjetivoData(usuario);
         // loadAhorroData(usuario, objetivo);
         // loadPresupuestoData(usuario);
         // loadPortafolio(usuario, objetivo);
@@ -57,16 +57,16 @@ public class SampleDataInitializer implements CommandLineRunner {
         return usuariosService.createUsuario(usuario);
     }
     
-    private Objetivo loadObjetivoData(Usuario usuario){
-        Objetivo objetivo = Objetivo.builder()
-                                    .nombre("objetivosample")
-                                    .descripcion("hola")
-                                    .fechaEstimada(LocalDateTime.now())
-                                    .monto(BigDecimal.valueOf(10000000.00))
-                                    .usuario(usuario)
-                                    .build();
-        return objetivoService.saveObjetivo(objetivo);
-    }
+    // private Objetivo loadObjetivoData(Usuario usuario){
+    //     Objetivo objetivo = Objetivo.builder()
+    //                                 .nombre("objetivosample")
+    //                                 .descripcion("hola")
+    //                                 .fechaEstimada(LocalDateTime.now())
+    //                                 .monto(BigDecimal.valueOf(10000000.00))
+    //                                 .usuario(usuario)
+    //                                 .build();
+    //     return objetivoService.saveObjetivo(objetivo);
+    // }
 
     // private Ahorro loadAhorroData(Usuario usuario, Objetivo objetivo){
     //     Ahorro ahorro = Ahorro.builder()
